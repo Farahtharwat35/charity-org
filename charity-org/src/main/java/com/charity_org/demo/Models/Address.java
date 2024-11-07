@@ -1,17 +1,17 @@
 package com.charity_org.demo.Models;
 import lombok.*;
-import jakarta.*;
+import jakarta.persistence.Entity;
 
 @Entity
 @Data
 @AllArgsConstructor
-public class Address extends Entity {
+public class Address {
     private String name;
     private int parentID;
 
-    public updateById(name:String, parentID:int){
+    public void updateById(String name, int parentID) {
         this.name = name;
         this.parentID = parentID;
     }
-
 }
+
