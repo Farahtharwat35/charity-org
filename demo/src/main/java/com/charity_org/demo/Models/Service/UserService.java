@@ -17,6 +17,9 @@ public class UserService {
     public User getUser(int id) {
         return userRepository.getById(id);
     }
+    public long getCount(){
+        return userRepository.count();
+    }
 
 
 }

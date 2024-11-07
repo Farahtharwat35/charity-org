@@ -12,5 +12,6 @@ public abstract class EntityClass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private boolean isDeleted;
+
 //    private DBconnection dbConnection ;
 }

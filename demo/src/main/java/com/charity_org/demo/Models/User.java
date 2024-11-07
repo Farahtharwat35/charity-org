@@ -13,30 +13,16 @@
 
     import java.util.Date;
 
-
     @Entity
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    @Service
     public  class User extends Person {
 
 
         private Date visitDate;
         private int numberOfActionsTaken;
-        @Autowired
-        private static UserRepository userRepository;
 
-        public static long getcount() {
-            return userRepository.count();
-        }
-//        public static void createUser(){
-//            User newUser = new User();
-//            newUser.setEmail("email");
-//            newUser.setPassword("password");
-//            newUser.setName("name");
-//
-//            userRepository.save(newUser);
-//        }
+
     }
