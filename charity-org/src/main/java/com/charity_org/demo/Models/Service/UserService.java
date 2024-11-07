@@ -13,7 +13,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User getUser(int id) {
+    public User getUser(long id) {
         return userRepository.getReferenceById(id);
     }
     public long getCount(){
