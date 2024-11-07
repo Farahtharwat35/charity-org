@@ -3,15 +3,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import jakarta.persistence.Entity;
 
-@jakarta.persistence.Entity
+
+@MappedSuperclass
 @Data
-
-public abstract class EntityClass {
+public abstract class Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private boolean isDeleted;
-
-//    private DBconnection dbConnection ;
+//    private DBconnection dbConnection ; // Will be used
 }

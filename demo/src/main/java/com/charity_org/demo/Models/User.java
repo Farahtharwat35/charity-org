@@ -19,10 +19,6 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public  class User extends Person {
-
-
         private Date visitDate;
         private int numberOfActionsTaken;
-
-
     }
