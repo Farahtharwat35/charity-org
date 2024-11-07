@@ -11,5 +11,5 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE Address a SET a.name = :name WHERE a.id = :id")
-    void updateAddressNameById(@Param("id") Long id, @Param("name") String name);
+    int updateAddressNameById(@Param("id") Long id, @Param("name") String name);
 }

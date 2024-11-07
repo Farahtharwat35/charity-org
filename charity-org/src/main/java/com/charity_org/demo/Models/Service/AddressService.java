@@ -9,7 +9,7 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
-    public void updateAddressName(Long id, String name) {
-        addressRepository.updateAddressNameById(id, name);
+    public boolean updateAddressName(Long id, String name) {
+        return addressRepository.updateAddressNameById(id, name) == 1;
     }
 }
