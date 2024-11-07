@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Entity
 @Data
-public abstract class Person extends EntityClass {
+public abstract class Person extends BaseEntity {
     //private Donnation donnation;
-    private String name;
-    private  int addressId ;
-    private String email;
-    private String password;
-    private int age;
+    protected String name;
+    protected int addressId ;
+    protected String email;
+    protected String password;
+    protected int age;
 }
