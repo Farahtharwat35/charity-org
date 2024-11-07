@@ -5,7 +5,7 @@
 
     @Entity
     @Data
-    public  class User extends Person {
+    public class User extends Person {
         private Date visitDate;
         private int numberOfActionsTaken;
     }
