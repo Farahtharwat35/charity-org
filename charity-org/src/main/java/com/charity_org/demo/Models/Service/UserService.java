@@ -1,5 +1,4 @@
 package com.charity_org.demo.Models.Service;
-
 import com.charity_org.demo.Models.User;
 import com.charity_org.demo.Models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
