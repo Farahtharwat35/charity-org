@@ -1,10 +1,12 @@
 package com.charity_org.demo.Models;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
-import java.util.Map;
-import java.util.HashMap;
+
+import java.util.*;
+
 import com.charity_org.demo.Enums.Roles;
 
 @Entity
@@ -17,6 +19,7 @@ abstract public class Person extends BaseEntity {
     protected String password;
     protected int age;
 
+    @ElementCollection(targetClass = Roles.class)
     @Enumerated(EnumType.STRING)
-    protected Roles role;
+    protected Set<Roles> role = new HashSet<>(Collections.singletonList(Roles.USER));
 }

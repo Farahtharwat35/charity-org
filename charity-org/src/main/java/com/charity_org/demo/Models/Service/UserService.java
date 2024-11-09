@@ -20,5 +20,13 @@ public class UserService {
         return userRepository.count();
     }
 
+    public User getUserByEmail(String email){
+        return userRepository.getUserByEmail(email);
+    }
+
+    public User getUserByPassword(String email, String password){
+        return userRepository.getUserByEmail(password);
+    }
+
 
 }
