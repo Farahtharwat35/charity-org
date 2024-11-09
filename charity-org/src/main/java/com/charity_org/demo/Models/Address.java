@@ -7,6 +7,6 @@ import jakarta.persistence.Entity;
 @Data
 public class Address extends BaseEntity {
     private String name;
-    private int parentID;
+    private long parentID;
 }
 

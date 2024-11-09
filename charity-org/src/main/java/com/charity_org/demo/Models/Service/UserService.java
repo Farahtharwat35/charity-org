@@ -9,8 +9,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     public User getUser(long id) {
@@ -25,8 +25,10 @@ public class UserService {
     }
 
     public User getUserByPassword(String email, String password){
-        return userRepository.getUserByEmail(password);
+        return userRepository.getUserByPassword(password);
     }
 
-
+    public User getUserByEmailAndPassword(String email, String password){
+        return userRepository.getUserByEmailAndPassword(email, password);
+    }
 }

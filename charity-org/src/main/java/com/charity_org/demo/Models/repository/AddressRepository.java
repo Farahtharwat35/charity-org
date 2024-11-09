@@ -1,5 +1,4 @@
 package com.charity_org.demo.Models.repository;
-
 import com.charity_org.demo.Models.Address;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +11,6 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     @Transactional
     @Query("UPDATE Address a SET a.name = :name WHERE a.id = :id")
     int updateAddressNameById(@Param("id") Long id, @Param("name") String name);
+
+
 }
