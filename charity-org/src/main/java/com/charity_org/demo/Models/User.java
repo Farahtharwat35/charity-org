@@ -8,5 +8,6 @@
     public class User extends Person {
         private Date visitDate;
         private int numberOfActionsTaken;
+        private Donation[] donation;
         // private []Event eventsParticipatedIn;
     }

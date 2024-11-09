@@ -1,8 +1,5 @@
 package com.charity_org.demo.Models;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.*;
@@ -13,10 +10,15 @@ import com.charity_org.demo.Enums.Roles;
 @Data
 abstract public class Person extends BaseEntity {
     //private Donnation donnation;
+    @Column(nullable = false)
     protected String name;
-    protected int addressId ;
+    @Column(nullable = false)
+    protected long addressId ;
+    @Column(nullable = false)
     protected String email;
+    @Column(nullable = false)
     protected String password;
+
     protected int age;
 
     @ElementCollection(targetClass = Roles.class)
