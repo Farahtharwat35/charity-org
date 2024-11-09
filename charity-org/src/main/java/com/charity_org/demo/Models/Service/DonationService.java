@@ -4,6 +4,8 @@ import com.charity_org.demo.Models.repository.DonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DonationService {
     @Autowired
@@ -20,7 +22,11 @@ public class DonationService {
         return donationRepository.countDonations();
     }
 
-    public Donation[] getDonationsByUserId(long userId){
+    public List<Donation> getDonationsByUserId(long userId){
         return donationRepository.getDonationsByUserId(userId);
+    }
+
+    public void updateDonationStatus(Long id, String status) {
+        donationRepository.updateDonationStatusById(id, status);
     }
 }

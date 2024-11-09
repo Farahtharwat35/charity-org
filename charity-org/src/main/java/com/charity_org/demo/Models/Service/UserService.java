@@ -28,4 +28,7 @@ public class UserService {
         return userRepository.getUserByPassword(password);
     }
 
+    public User getUserByEmailAndPassword(String email, String password){
+        return userRepository.getUserByEmailAndPassword(email, password);
+    }
 }
