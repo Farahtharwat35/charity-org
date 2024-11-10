@@ -22,17 +22,13 @@ public class AddressService {
 
     public List<Address> findFullAddress(Long addressId) {
         List<Address> addresses = new ArrayList<>();
-        Address address = addressRepository.findById(addressId).orElse(null);
-        addresses.add(address);
-        Long parentId = address.getParent() != null ? address.getParent().getId() : null;
-        while (parentId != null) {
-            Address parent = addressRepository.findById(parentId).orElse(null);
-            if (parent != null) {
-                addresses.add(parent);
-                parentId = parent.getParent() != null ? parent.getParent().getId() : null;
-            } else {
-                break;
-            }
+        Address currentAddress = addressRepository.findById(addressId).orElse(null);
+
+        while (currentAddress != null) {
+            addresses.add(currentAddress);
+            currentAddress = currentAddress.getParent() != null
+                    ? addressRepository.findById(currentAddress.getParent().getId()).orElse(null)
+                    : null;
         }
         return addresses;
     }
