@@ -1,7 +1,9 @@
 package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.DTO.SignUpRequest;
+import com.charity_org.demo.Models.Address;
 import com.charity_org.demo.Models.User;
+import com.charity_org.demo.Models.repository.AddressRepository;
 import com.charity_org.demo.Models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,10 @@ import javax.validation.Valid;
 public class SignUp {
 
     @Autowired
-    private UserRepository userRepository;  // Assume we have a UserRepository to interact with the database
+    private UserRepository userRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;// Assume we have a UserRepository to interact with the database
 
     @PostMapping
     public ResponseEntity<?> signup(@RequestBody @Valid SignUpRequest signupRequest, BindingResult bindingResult) {
@@ -33,7 +38,7 @@ public class SignUp {
         // Create new User entity
         User newUser = new User();
         newUser.setName(signupRequest.getName());
-        newUser.setAddressId(signupRequest.getAddressId());
+        newUser.setAddress(addressRepository.findById(signupRequest.getAddressId()).orElse(null));
         newUser.setEmail(signupRequest.getEmail());
         newUser.setPassword(signupRequest.getPassword());  // In production, remember to encrypt the password
         newUser.setAge(signupRequest.getAge());

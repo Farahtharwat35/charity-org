@@ -9,11 +9,13 @@ import com.charity_org.demo.Enums.Roles;
 @Entity
 @Data
 abstract public class Person extends BaseEntity {
-    //private Donnation donnation;
     @Column(nullable = false)
     protected String name;
-    @Column(nullable = false)
-    protected long addressId ;
+
+    @ManyToOne
+    @JoinColumn(name = "addressId")
+    private Address address;
+
     @Column(nullable = false)
     protected String email;
     @Column(nullable = false)
