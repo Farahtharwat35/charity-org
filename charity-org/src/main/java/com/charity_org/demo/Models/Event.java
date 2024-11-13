@@ -1,12 +1,15 @@
 package com.charity_org.demo.Models;
 
+
 import com.charity_org.demo.Enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
 
+
 @Data
 @Entity
+@NoArgsConstructor
 public class Event extends BaseEntity{
 
     @Column(nullable = false)
@@ -15,25 +18,23 @@ public class Event extends BaseEntity{
     @Column(nullable = false)
     private Date eventDate;
 
-    @Column(nullable = false)
-    private int eventLocationId;
+    @ManyToOne
+    @JoinColumn(name = "event_location_id")
+    private Address eventLocation;
 
     @Column(nullable = false, length = 500)
     private String description;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private EventStatus status;
-
-    public Event(){
-
-    }
-
-    public Event(String eventName, Date eventDate, int eventLocationId, String description, EventStatus status) {
+    public Event(String eventName, Date eventDate, Address eventLocationId, String description, EventStatus status) {
         this.eventName = eventName;
         this.eventDate = eventDate;
-        this.eventLocationId = eventLocationId;
+        this.eventLocation = eventLocationId;
         this.description = description;
         this.status = status;
     }
+
 
 }
