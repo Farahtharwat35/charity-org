@@ -5,14 +5,15 @@ import java.lang.reflect.Field;
 
 @Component
 public class Patcher {
-    public static void userPatcher(Object existingobject, Object incompleteObject) throws IllegalAccessException {
+    public static void objectPatcher(Object existingobject, Object incompleteObject) throws IllegalAccessException {
 
         //GETTING THE COMPILED VERSION OF THE CLASS
         Class<?> ObjectClass= existingobject.getClass();
         Field[] objectFields= ObjectClass.getDeclaredFields();
-        System.out.println(objectFields.length);
         for(Field field : objectFields){
-            System.out.println(field.getName());
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) || java.lang.reflect.Modifier.isFinal(field.getModifiers())) {
+                continue;
+            }
             //CANT ACCESS IF THE FIELD IS PRIVATE
             field.setAccessible(true);
 

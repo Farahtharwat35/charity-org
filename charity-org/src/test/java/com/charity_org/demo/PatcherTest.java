@@ -22,7 +22,7 @@ class PatcherTest {
         incompleteUser.setNumberOfActionsTaken(10); // numberOfActionsTaken should update
 
         // Using the Patcher to update existingUser with incompleteUser's values
-        Patcher.userPatcher(existingUser, incompleteUser);
+        Patcher.objectPatcher(existingUser, incompleteUser);
 
         // Assert: Verifying fields in existingUser are updated as expected
         assertEquals(new Date(1630454400000L), existingUser.getVisitDate()); // visitDate should remain the same
