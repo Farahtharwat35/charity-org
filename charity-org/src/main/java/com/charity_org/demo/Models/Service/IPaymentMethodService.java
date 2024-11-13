@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.Map;
 
 public interface IPaymentMethodService {
-    public boolean processPayment(@RequestBody Map<String, String> jsonMap);
+    public boolean processPayment(@RequestBody Map<String, Object> jsonMap);
 }

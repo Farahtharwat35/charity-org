@@ -20,7 +20,7 @@ public class PaymentController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/save")
-    public String processPayment(@RequestBody Map<String, String> jsonMap) {
+    public String processPayment(@RequestBody Map<String, Object> jsonMap) {
 
         IPaymentMethodService paymentMethod;
         Boolean result;
