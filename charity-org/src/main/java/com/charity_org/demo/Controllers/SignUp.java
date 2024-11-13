@@ -2,10 +2,9 @@ package com.charity_org.demo.Controllers;
 
 
 import com.charity_org.demo.DTO.SignUpRequest;
-import com.charity_org.demo.Models.Address;
 import com.charity_org.demo.Models.User;
 import com.charity_org.demo.Models.repository.AddressRepository;
-import com.charity_org.demo.Models.Service.UserService;
+import com.charity_org.demo.Models.Service.RolesDecorator.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

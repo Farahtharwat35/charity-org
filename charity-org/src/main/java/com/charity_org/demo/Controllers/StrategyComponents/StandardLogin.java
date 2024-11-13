@@ -1,6 +1,6 @@
 package com.charity_org.demo.Controllers.StrategyComponents;
 import com.charity_org.demo.DTO.LoginRequest;
-import com.charity_org.demo.Models.Service.UserService;
+import com.charity_org.demo.Models.Service.RolesDecorator.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,6 @@ public class StandardLogin implements LoginStrategyInterface {
             return false;
 
         }
-        UserService userService = new UserService();
         return userService.getUserByEmailAndPassword(email, password) != null;
     }
 }

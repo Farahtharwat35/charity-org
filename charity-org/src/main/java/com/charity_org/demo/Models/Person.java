@@ -5,9 +5,11 @@ import lombok.Data;
 import java.util.*;
 
 import com.charity_org.demo.Enums.Roles;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Data
+@Component
 abstract public class Person extends BaseEntity {
     @Column(nullable = false)
     protected String name;
@@ -25,5 +27,5 @@ abstract public class Person extends BaseEntity {
 
     @ElementCollection(targetClass = Roles.class)
     @Enumerated(EnumType.STRING)
-    protected Set<Roles> role = new HashSet<>(Collections.singletonList(Roles.USER));
+    protected Set<Roles> role = new HashSet<>();
 }

@@ -12,5 +12,6 @@
         private int numberOfActionsTaken;
         @OneToMany(mappedBy = "user")
         private List<Donation> donations;
-        // private []Event eventsParticipatedIn;
+
+
     }
