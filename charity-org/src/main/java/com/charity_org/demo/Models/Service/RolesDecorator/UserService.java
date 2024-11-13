@@ -1,5 +1,9 @@
 package com.charity_org.demo.Models.Service.RolesDecorator;
 import com.charity_org.demo.Models.Address;
+import com.charity_org.demo.Enums.Roles;
+import com.charity_org.demo.Models.Person;
+package com.charity_org.demo.Models.Service;
+import com.charity_org.demo.DTO.UserDTO;
 import com.charity_org.demo.Models.User;
 import com.charity_org.demo.Models.repository.AddressRepository;
 import com.charity_org.demo.Models.Service.AddressService;
@@ -25,6 +29,9 @@ public class UserService {
          user.applyRoles();
         return user;
 
+    public User save(UserDTO userDTO){
+
+        return userRepository.save(userDTO);
     }
 
     public User getUser(long id) {
@@ -40,5 +47,12 @@ public class UserService {
     }
     public User getUserByEmailAndPassword(String email, String password){
         return userRepository.getUserByEmailAndPassword(email, password);
+    }
+    @Override
+    public void applyRoles(Person person) {
+       person.setRole(Collections.singleton(Roles.USER));
+
+    public boolean deleteUser(long id){
+        return userRepository.deleteUser(id);
     }
 }

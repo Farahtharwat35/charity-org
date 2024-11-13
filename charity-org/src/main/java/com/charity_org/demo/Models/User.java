@@ -32,4 +32,5 @@
             this.role.add(Roles.USER);
         }
 
+//        private []Event eventsParticipatedIn;
     }
