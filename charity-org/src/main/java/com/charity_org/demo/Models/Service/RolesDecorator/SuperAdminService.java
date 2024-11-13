@@ -1,12 +1,10 @@
 package com.charity_org.demo.Models.Service.RolesDecorator;
 import com.charity_org.demo.Enums.Roles;
-import com.charity_org.demo.Models.Address;
 import com.charity_org.demo.Models.Person;
 import com.charity_org.demo.Models.User;
 import com.charity_org.demo.Models.repository.UserRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,15 +26,14 @@ public class SuperAdminService extends RolesDecorator {
         personRef.getRole().add(Roles.SUPERADMIN);
     }
     public User createUserAdmin(User user) {
-        userRepository.save(user);
-        adminService.applyRoles(user);
-        return user;
+       User superAdmin= userRepository.save(user);
+        adminService.applyRoles(superAdmin);
+        return superAdmin;
     }
 
     public User createCourier(User user) {
         userRepository.save(user);
         return user;
-
     }
 
     public boolean deleteAdmin(Long adminId) {

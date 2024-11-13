@@ -7,12 +7,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
 @Service
+@RestController
+@RequestMapping("/api/superadmin")
 public class SuperAdmin {
     @Autowired
     private SuperAdminService superAdminService;
 
-    @PostMapping("/createAdminUser")
+    @PostMapping("/createadminuser")
     public ResponseEntity<User> createAdminUser(@RequestBody User user) {
         User createdUser = superAdminService.createUserAdmin(user);
         return ResponseEntity.ok(createdUser);
@@ -24,7 +29,7 @@ public class SuperAdmin {
         return ResponseEntity.ok(createdCourier);
     }
 
-    @DeleteMapping("/deleteAdmin/{id}")
+    @DeleteMapping("/deleteadmin/{id}")
     public ResponseEntity<String> deleteAdmin(@PathVariable Long id) {
         boolean isDeleted = superAdminService.deleteAdmin(id);
         if (isDeleted) {
