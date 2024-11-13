@@ -10,10 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User,Long> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE User a SET a.name = :name WHERE a.id = :id")
-    int updateUserNameById(@Param("id") Long id, @Param("name") String name);
 
     @Query("SELECT u FROM User u WHERE u.email = :email")
     User getUserByEmail(@Param("email") String email);
@@ -26,8 +22,11 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("UPDATE User a SET a.isDeleted = true WHERE a.id = :id")
     int deleteUser(@Param("id") Long id);
 
-
-
     @Query("SELECT u FROM User u JOIN u.role r WHERE r = :role AND u.isDeleted= false")
     List<User> findUsersByRole(@Param("role") Roles role);
+    @Modifying
+    @Transactional
+    @Query("UPDATE User a SET a = :user WHERE a.id = :id")
+    User updateUserData(@Param("id") Long id, @Param("user") User user);
+
 }

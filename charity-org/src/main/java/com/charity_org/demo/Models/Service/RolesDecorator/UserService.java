@@ -2,8 +2,6 @@ package com.charity_org.demo.Models.Service.RolesDecorator;
 import com.charity_org.demo.Models.Address;
 import com.charity_org.demo.Enums.Roles;
 import com.charity_org.demo.Models.Person;
-package com.charity_org.demo.Models.Service;
-import com.charity_org.demo.DTO.UserDTO;
 import com.charity_org.demo.Models.User;
 import com.charity_org.demo.Models.repository.AddressRepository;
 import com.charity_org.demo.Models.Service.AddressService;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     AddressRepository addressRepository;
 
@@ -38,21 +37,26 @@ public class UserService {
         return userRepository.getReferenceById(id);
     }
 
-    public long getCount(){
-        return userRepository.count();
-    }
-
-    public User getUserByEmail(String email){
+    public User getUserByEmail(String email) {
         return userRepository.getUserByEmail(email);
     }
-    public User getUserByEmailAndPassword(String email, String password){
+
+    public User getUserByEmailAndPassword(String email, String password) {
         return userRepository.getUserByEmailAndPassword(email, password);
     }
+
     @Override
     public void applyRoles(Person person) {
-       person.setRole(Collections.singleton(Roles.USER));
+        person.setRole(Collections.singleton(Roles.USER));
+    }
 
-    public boolean deleteUser(long id){
+    public User updateUserdata(User user) {
+        return userRepository.updateUserData(user.getId(), user);
+    }
+
+    public boolean deleteUser(long id) {
         return userRepository.deleteUser(id);
     }
+
+
 }
