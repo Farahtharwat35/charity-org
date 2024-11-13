@@ -17,7 +17,7 @@ public class PaypalService implements IPaymentMethodService {
 
 
     @Override
-    public boolean processPayment(@RequestBody Map<String, String> jsonMap) {
+    public boolean processPayment(@RequestBody Map<String, Object> jsonMap) {
         if (jsonMap.containsKey("paypal-email")) {
             String email = (String) jsonMap.get("paypal-email");
             if (email.contains("@")) {
