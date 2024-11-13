@@ -10,6 +10,6 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
     protected long id;
-    protected boolean isDeleted;
+    protected boolean isDeleted=false;
 //    private DBconnection dbConnection ; // Will be used
 }
