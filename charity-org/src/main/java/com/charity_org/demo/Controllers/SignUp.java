@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public class SignUp {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private AddressRepository addressRepository;// Assume we have a UserRepository to interact with the database
@@ -25,17 +25,17 @@ public class SignUp {
     @PostMapping
     public ResponseEntity<?> signup(@RequestBody @Valid SignUpRequest signupRequest, BindingResult bindingResult) {
 
-        // Check for validation errors
+        // Checking for validation errors
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
 
-        // Check if user already exists (e.g., by email)
+        // Checking if user already exists (e.g., by email)
         if (userRepository.getUserByEmail(signupRequest.getEmail()) != null) {
             return ResponseEntity.status(409).body("User already exists with this email.");
         }
 
-        // Create new User entity
+        // Creating new User object
         User newUser = new User();
         newUser.setName(signupRequest.getName());
         newUser.setAddress(addressRepository.findById(signupRequest.getAddressId()).orElse(null));
@@ -44,7 +44,7 @@ public class SignUp {
         newUser.setAge(signupRequest.getAge());
 
         // Save to database
-        userRepository.save(newUser);
+        userService.save(newUser);
 
         // Return success response
         return ResponseEntity.ok("User registered successfully.");
