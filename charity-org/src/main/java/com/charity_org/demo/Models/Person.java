@@ -10,17 +10,12 @@ import com.charity_org.demo.Enums.Roles;
 @Data
 abstract public class Person extends BaseEntity {
     @Column(nullable = false)
-    //private Donnation donnation;
-    @Column(nullable = false)
     protected String name;
 
     @ManyToOne
     @JoinColumn(name = "addressId")
     private Address address;
 
-    @Column(nullable = false)
-    @Column(nullable = false)
-    protected long addressId ;
     @Column(nullable = false)
     protected String email;
     @Column(nullable = false)
