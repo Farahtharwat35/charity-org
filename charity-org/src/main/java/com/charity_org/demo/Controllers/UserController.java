@@ -150,6 +150,11 @@ public class UserController {
         donation2.setStatus(DonationStatus.PENDING);
         donation2.setDonationTotalPrice(500.00);
 
+    @GetMapping("/submit-donation")
+    public void showcd(){
+
+
+    }
 
         // Donation 3
         Donation donation3 = new Donation();
