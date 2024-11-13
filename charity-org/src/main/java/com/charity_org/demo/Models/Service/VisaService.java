@@ -3,13 +3,17 @@ package com.charity_org.demo.Models.Service;
 import com.charity_org.demo.Models.Paypal;
 import com.charity_org.demo.Models.VISA;
 import com.charity_org.demo.Models.repository.VisaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 import java.util.Map;
 
+@Service
 public class VisaService implements IPaymentMethodService{
 
+    @Autowired
     private VisaRepository visaRepository;
     @Override
     public boolean processPayment(@RequestBody Map<String, String> jsonMap) {
