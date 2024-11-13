@@ -1,5 +1,8 @@
 package com.charity_org.demo.Models.Service;
+import com.charity_org.demo.Models.Donation;
+import com.charity_org.demo.Models.Paypal;
 import com.charity_org.demo.Models.User;
+import com.charity_org.demo.Models.repository.PaypalRepository;
 import com.charity_org.demo.Models.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +11,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+    PaypalRepository paypalRepository;
+
 
     public User save(User user) {
         return userRepository.save(user);
@@ -31,4 +36,6 @@ public class UserService {
     public User getUserByEmailAndPassword(String email, String password){
         return userRepository.getUserByEmailAndPassword(email, password);
     }
+
+
 }
