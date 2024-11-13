@@ -19,5 +19,6 @@ public class Address extends BaseEntity {
 
     @OneToMany(mappedBy = "parent")
     private List<Address> children;
+    private long parentID;
 }
 

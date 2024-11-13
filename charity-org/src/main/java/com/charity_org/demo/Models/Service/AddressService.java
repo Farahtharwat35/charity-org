@@ -33,4 +33,9 @@ public class AddressService {
         return addresses;
     }
 
+
+    public Address save(Address address) {
+        return addressRepository.save(address);
+    }
+
 }

@@ -21,6 +21,7 @@ public class SignUp {
 
     @Autowired
     private AddressRepository addressRepository;// Assume we have a UserRepository to interact with the database
+    private UserRepository userRepository;  // Assume we have a UserRepository to interact with the database
 
     @PostMapping
     public ResponseEntity<?> signup(@RequestBody @Valid SignUpRequest signupRequest, BindingResult bindingResult) {
@@ -39,6 +40,7 @@ public class SignUp {
         User newUser = new User();
         newUser.setName(signupRequest.getName());
         newUser.setAddress(addressRepository.findById(signupRequest.getAddressId()).orElse(null));
+        newUser.setAddressId(signupRequest.getAddressId());
         newUser.setEmail(signupRequest.getEmail());
         newUser.setPassword(signupRequest.getPassword());  // In production, remember to encrypt the password
         newUser.setAge(signupRequest.getAge());
