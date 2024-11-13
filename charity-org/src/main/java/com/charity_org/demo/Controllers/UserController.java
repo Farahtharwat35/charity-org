@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -65,20 +66,19 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Object> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+    public ResponseEntity<Object> createUser(@Validated @RequestBody UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            // Collect validation errors
+            // Collect validation errors and return a bad request response
             StringBuilder errorMessage = new StringBuilder("Validation failed: ");
             for (ObjectError error : bindingResult.getAllErrors()) {
                 errorMessage.append(error.getDefaultMessage()).append(" ");
             }
-
-            // Create an ErrorResponseDTO with the error message and status code
+            // Return a detailed error message
             ErrorResponseDTO errorResponse = new ErrorResponseDTO(errorMessage.toString().trim(), HttpStatus.BAD_REQUEST.value());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
 
-        // If no validation errors, proceed to save the user
+        // Continue with the normal processing (e.g., saving the user)
         User user = userService.save(userDTO.getName(), userDTO.getEmail(), userDTO.getPassword(), userDTO.getAddressId(), userDTO.getAge());
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }

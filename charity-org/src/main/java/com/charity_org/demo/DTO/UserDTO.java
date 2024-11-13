@@ -1,26 +1,35 @@
 package com.charity_org.demo.DTO;
 
 import lombok.Data;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
 public class UserDTO {
-    @NotNull(message = "Id is required")
-    private Long id;  // Use Long instead of primitive long
 
-    @NotEmpty(message = "Email is required")
+    public interface Create {}
+
+    @NotNull(message = "Id is required", groups = Create.class)
+    private Long id;
+
+    @NotBlank(message = "Email is required", groups = Create.class)
+    @JsonProperty("email")
     private String email;
 
-    @NotEmpty(message = "Password is required")
+    @NotBlank(message = "Password is required", groups = Create.class)
+    @JsonProperty("password")
     private String password;
 
-    @NotNull(message = "Name is required")
+    @NotBlank(message = "Name cannot be blank", groups = Create.class)
+    @JsonProperty("name")
     private String name;
 
-    @NotNull(message = "Age is required")
-    private Integer age;  // Use Integer instead of primitive int
+    @NotNull(message = "Age is required", groups = Create.class)
+    @JsonProperty("age")
+    private Integer age;
 
-    @NotNull(message = "AddressId is required")
-    private Long addressId;  // Use Long instead of primitive long
+    @NotNull(message = "AddressId is required", groups = Create.class)
+    @JsonProperty("addressId")
+    private Long addressId;
 }

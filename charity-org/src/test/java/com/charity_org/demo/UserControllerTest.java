@@ -114,13 +114,12 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isBadRequest()) // Expecting 400 Bad Request
-                .andExpect(jsonPath("$.message").value("Name is required"))
+                .andExpect(jsonPath("$.message").value("Validation failed: Name is required"))
                 .andExpect(jsonPath("$.email").value(userDTO.getEmail()))
                 .andExpect(jsonPath("$.password").value(userDTO.getPassword()))
                 .andExpect(jsonPath("$.age").value(userDTO.getAge()))
                 .andExpect(jsonPath("$.addressId").value(userDTO.getAddressId()));
     }
-
 
     @Test
     void testDeleteUser() throws Exception {
