@@ -2,6 +2,7 @@ package com.charity_org.demo.Models.Service;
 
 import com.charity_org.demo.Enums.EventStatus;
 import com.charity_org.demo.Models.Event;
+import com.charity_org.demo.Models.repository.AddressRepository;
 import com.charity_org.demo.Models.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import java.util.Date;
 public class EventService implements IEventSubject{
     @Autowired
     private EventRepository eventRepository;
+    @Autowired
+    private AddressRepository addressRepository;
     private ArrayList<IEventObserver> observers = new ArrayList<>();
 
-    public boolean createEvent(String eventName, Date eventDate, int eventLocationId, String description, EventStatus status) {
-        eventRepository.save(new Event(eventName, eventDate, eventLocationId, description,status));
+    public boolean createEvent(String eventName, Date eventDate, long eventLocationId, String description, EventStatus status) {
+        eventRepository.save(new Event(eventName, eventDate, addressRepository.getReferenceById(eventLocationId) , description,status));
         return true;
     }
 

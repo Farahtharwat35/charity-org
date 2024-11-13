@@ -17,7 +17,7 @@ public class Login {
     }
 
     @PostMapping
-    public ResponseEntity<?> login(@RequestParam String provider, @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestParam String provider, LoginRequest loginRequest) {
         LoginStrategyInterface loginStrategy = loginStrategies.get(provider.toLowerCase());
 
         if (loginStrategy == null) {

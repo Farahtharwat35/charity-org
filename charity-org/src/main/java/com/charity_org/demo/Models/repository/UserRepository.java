@@ -24,4 +24,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     @Query("SELECT u FROM User u WHERE u.email = :email AND u.password = :password")
     User getUserByEmailAndPassword(String email, String password);
+
+    @Modifying
+    @Query("UPDATE User a SET a.isDeleted = true WHERE a.id = :id")
+    boolean deleteUser(@Param("id") Long id);
 }
