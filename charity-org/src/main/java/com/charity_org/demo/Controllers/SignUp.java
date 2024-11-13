@@ -1,10 +1,11 @@
 package com.charity_org.demo.Controllers;
 
+
 import com.charity_org.demo.DTO.SignUpRequest;
 import com.charity_org.demo.Models.Address;
 import com.charity_org.demo.Models.User;
 import com.charity_org.demo.Models.repository.AddressRepository;
-import com.charity_org.demo.Models.repository.UserRepository;
+import com.charity_org.demo.Models.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -31,7 +32,7 @@ public class SignUp {
         }
 
         // Checking if user already exists (e.g., by email)
-        if (userRepository.getUserByEmail(signupRequest.getEmail()) != null) {
+        if (userService.getUserByEmail(signupRequest.getEmail()) != null) {
             return ResponseEntity.status(409).body("User already exists with this email.");
         }
 
