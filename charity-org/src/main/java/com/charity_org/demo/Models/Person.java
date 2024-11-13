@@ -16,7 +16,7 @@ abstract public class Person extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "addressId")
-    private Address address;
+    protected Address address;
 
     @Column(nullable = false)
     protected String email;

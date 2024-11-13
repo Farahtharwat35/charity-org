@@ -35,16 +35,14 @@ public class SignUp {
             return ResponseEntity.status(409).body("User already exists with this email.");
         }
 
-        // Creating new User object
-        User newUser = new User();
-        newUser.setName(signupRequest.getName());
-        newUser.setAddress(addressRepository.findById(signupRequest.getAddressId()).orElse(null));
-        newUser.setEmail(signupRequest.getEmail());
-        newUser.setPassword(signupRequest.getPassword());  // In production, remember to encrypt the password
-        newUser.setAge(signupRequest.getAge());
-
         // Save to database
-        userService.save(newUser);
+        userService.save(
+                signupRequest.getName(),
+                signupRequest.getEmail(),
+                signupRequest.getPassword(),
+                signupRequest.getAddressId(),
+                signupRequest.getAge()
+        );
 
         // Return success response
         return ResponseEntity.ok("User registered successfully.");
