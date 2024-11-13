@@ -4,6 +4,9 @@ import com.charity_org.demo.Models.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class AddressService {
     @Autowired
@@ -15,6 +18,19 @@ public class AddressService {
 
     public Address save(Address address) {
         return addressRepository.save(address);
+    }
+
+    public List<Address> findFullAddress(Long addressId) {
+        List<Address> addresses = new ArrayList<>();
+        Address currentAddress = addressRepository.findById(addressId).orElse(null);
+
+        while (currentAddress != null) {
+            addresses.add(currentAddress);
+            currentAddress = currentAddress.getParent() != null
+                    ? addressRepository.findById(currentAddress.getParent().getId()).orElse(null)
+                    : null;
+        }
+        return addresses;
     }
 
 }
