@@ -1,32 +1,24 @@
 package com.charity_org.demo.Controllers;
 
-
 import com.charity_org.demo.Models.Service.IPaymentMethodService;
 import com.charity_org.demo.Models.Service.PaypalService;
-import com.charity_org.demo.Models.Service.VisaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@RestController
-@RequestMapping("/payment/api")
-public class PaymentController {
-
-    @Autowired
-    private VisaService visaService;
+@Controller
+@RequestMapping("/paypal")
+public class PaypalController {
 
     @Autowired
     private PaypalService paypalService;
 
-//    @GetMapping("/visa")
-//    public String visaPage(){
-//        return "VisaView";
-//    }
-//    @GetMapping("/paypal")
-//    public String paypalPage(){
-//        return "PaypalView";
-//    }
+    @RequestMapping("/")
+    public String visaPage(){
+        return "PaypalView";
+    }
 
     @CrossOrigin(origins = "*")
     @PostMapping("/save")
@@ -35,10 +27,7 @@ public class PaymentController {
         IPaymentMethodService paymentMethod;
         Boolean result;
 
-        if (jsonMap.containsKey("cvv")) {
-            paymentMethod = visaService;
-            result = paymentMethod.processPayment(jsonMap);
-        } else if (jsonMap.containsKey("paypal-email")) {
+        if (jsonMap.containsKey("paypal-email")) {
             paymentMethod = paypalService;
             result = paymentMethod.processPayment(jsonMap);
         } else {
