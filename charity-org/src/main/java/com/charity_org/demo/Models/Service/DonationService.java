@@ -7,17 +7,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DonationService {
+public  class DonationService {
     @Autowired
     private DonationRepository donationRepository;
 
-    public Donation save(Donation donation) {
+    public Donation saveDonation(Donation donation) {
         return donationRepository.save(donation);
     }
 
     public Donation getDonation(long id) {
         return donationRepository.getReferenceById(id);
     }
+
     public long getCount(){
         return donationRepository.countDonations();
     }

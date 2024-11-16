@@ -5,6 +5,7 @@ import com.charity_org.demo.Enums.Roles;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -15,6 +16,9 @@ public class Donation extends BaseEntity {
  @JoinColumn(name = "userId")  // Maps this field to the 'user' field in 'User'
  private User user;
 
+ @OneToMany(mappedBy = "donation")
+ private ArrayList<DonnationDetails> donnationDetails;
+
  private Date date = new Date();
  private Time time = new Time(date.getTime());
 
@@ -22,5 +26,5 @@ public class Donation extends BaseEntity {
  private DonationStatus status;
 
  private double donationTotalPrice;
- //private donnationdetails donationdetail;
+
 }
