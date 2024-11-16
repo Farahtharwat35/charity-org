@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
+@MappedSuperclass
 abstract public class Person extends BaseEntity {
     @Column(nullable = false)
     protected String name;
