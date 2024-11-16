@@ -15,7 +15,7 @@ public class Event extends BaseEntity{
     @Column(nullable = false)
     private String eventName;
 
-    @Column(nullable = false)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date eventDate;
 
     @ManyToOne
