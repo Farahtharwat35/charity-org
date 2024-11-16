@@ -2,6 +2,7 @@
     import com.charity_org.demo.Enums.Roles;
     import jakarta.persistence.Entity;
     import jakarta.persistence.OneToMany;
+    import jakarta.persistence.Table;
     import lombok.Data;
     import lombok.NoArgsConstructor;
     import org.springframework.context.annotation.Primary;
@@ -15,9 +16,11 @@
     @NoArgsConstructor
     @Component
     @Primary
+    @Table(name = "users")
     public class User extends Person {
         private Date visitDate;
         private int numberOfActionsTaken;
+
         @OneToMany(mappedBy = "user")
         private List<Donation> donations;
 
