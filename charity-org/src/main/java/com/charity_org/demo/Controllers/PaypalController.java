@@ -16,7 +16,7 @@ public class PaypalController {
     private PaypalService paypalService;
 
     @RequestMapping("/")
-    public String visaPage(){
+    public String paypalPage(){
         return "PaypalView";
     }
 
@@ -24,12 +24,10 @@ public class PaypalController {
     @PostMapping("/save")
     public String processPayment(@RequestBody Map<String, Object> jsonMap) {
 
-        IPaymentMethodService paymentMethod;
         Boolean result;
 
         if (jsonMap.containsKey("paypal-email")) {
-            paymentMethod = paypalService;
-            result = paymentMethod.processPayment(jsonMap);
+            result = paypalService.processPayment(jsonMap);
         } else {
             return "{\"status\": \"error\", \"message\": \"Invalid Input Format\"}";
         }
