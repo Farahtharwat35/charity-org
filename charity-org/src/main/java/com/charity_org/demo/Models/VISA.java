@@ -14,7 +14,7 @@ public class VISA extends BaseEntity {
     private String cardNumber;
 
     @Column(nullable = false)
-    private int cvv;
+    private Integer cvv;
 
     @Column(nullable = false)
     private Date expirationDate;
@@ -28,5 +28,17 @@ public class VISA extends BaseEntity {
     @Column(nullable = false)
     private String lName;
 
+    public VISA(){
+
+    }
+    public VISA(String cardNumber, Integer cvv, Date expirationDate, String fName, String middleName, String lName){
+        this.cardNumber = cardNumber;
+        this.cvv=cvv;
+        this.expirationDate=expirationDate;
+        this.fName=fName;
+        this.middleName=middleName;
+        this.lName=lName;
+
+    }
 
 }
