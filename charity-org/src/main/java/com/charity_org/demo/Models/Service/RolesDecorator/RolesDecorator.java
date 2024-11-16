@@ -3,5 +3,6 @@ package com.charity_org.demo.Models.Service.RolesDecorator;
 import com.charity_org.demo.Models.Person;
 
 public abstract class RolesDecorator extends Person {
-    public abstract void applyRoles(Person personRef);
+    protected Person personRef;
+    public abstract void applyRoles();
 }

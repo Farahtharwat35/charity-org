@@ -7,9 +7,10 @@ import java.util.*;
 import com.charity_org.demo.Enums.Roles;
 import org.springframework.stereotype.Component;
 
-@Entity
+
 @Data
 @Component
+@MappedSuperclass
 abstract public class Person extends BaseEntity {
     @Column(nullable = false)
     protected String name;
@@ -28,4 +29,6 @@ abstract public class Person extends BaseEntity {
     @ElementCollection(targetClass = Roles.class)
     @Enumerated(EnumType.STRING)
     protected Set<Roles> role = new HashSet<>();
+
+    public abstract void applyRoles();
 }
