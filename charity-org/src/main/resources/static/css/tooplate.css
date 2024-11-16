@@ -27,6 +27,7 @@ body {
   padding-bottom: 35px;
 }
 
+
 a {
   color: #FFF;
   transition: all 0.3s ease;
@@ -296,7 +297,14 @@ textarea:focus {
 }
 
 .btn-large {
-  padding: 0 77px;
+  padding: 0 50px;
+  border-radius: 5px;
+  background-color: black;
+  text-transform: capitalize;
+  font-size: 1rem;
+}
+.btn-medium {
+  padding: 0 50px;
   border-radius: 5px;
   background-color: black;
   text-transform: capitalize;
@@ -457,6 +465,9 @@ input[type="email"]:not(.browser-default).tm-input-white-bg {
   border-radius: 5px;
 }
 
+.validate{
+color: black;
+}
 .tm-form-white .select-wrapper input.select-dropdown {
   box-sizing: border-box;
 }
