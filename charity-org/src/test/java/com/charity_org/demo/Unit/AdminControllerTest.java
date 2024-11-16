@@ -3,26 +3,18 @@ package com.charity_org.demo.Unit;
 import com.charity_org.demo.Controllers.AdminController;
 import com.charity_org.demo.DTO.PostOrPutEventRequest;
 import com.charity_org.demo.Enums.EventStatus;
-import com.charity_org.demo.Models.Address;
 import com.charity_org.demo.Models.Event;
 import com.charity_org.demo.Models.Service.EventService;
-import com.charity_org.demo.Models.repository.AddressRepository;
-import com.charity_org.demo.Models.repository.EventRepository;
-import com.charity_org.demo.Patcher.Patcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
+
 
 import java.util.Date;
 
