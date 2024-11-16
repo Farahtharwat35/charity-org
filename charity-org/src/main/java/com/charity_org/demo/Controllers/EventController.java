@@ -1,10 +1,12 @@
 package com.charity_org.demo.Controllers;
 
+
 import com.charity_org.demo.Enums.EventStatus;
 import com.charity_org.demo.Models.Event;
 import com.charity_org.demo.Models.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -19,9 +21,13 @@ public class EventController {
     private EventService eventService;
 
     @GetMapping("/get-all")
-    public List<Event> getEvents() {
-        return eventService.listAllEvents();
+    public String getEvents(Model model) {
+        List<Event> events = eventService.listAllEvents();
+        model.addAttribute("events", events);
+        return "ListEventsView";
     }
+
+
 
     @GetMapping("/create")
     public long createEvent(@RequestParam String eventName,
@@ -40,6 +46,9 @@ public class EventController {
         eventService.createEvent(eventName, parsedDate, eventLocationId, description, status);
         return eventService.listAllEvents().size();
     }
+
+
+
     // sample run
     // http://localhost:8080/events/create?eventName=SampleEvent&eventDate=2024-11-15&eventLocationId=1&description=Annual%20Charity%20Event&status=UPCOMING
 
