@@ -29,4 +29,8 @@ public class DonationService {
     public void updateDonationStatus(Long id, String status) {
         donationRepository.updateDonationStatusById(id, status);
     }
+
+    public List<Donation> getAllDonations() {
+        return donationRepository.findAll();
+    }
 }
