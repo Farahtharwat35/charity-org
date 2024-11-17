@@ -17,7 +17,7 @@ public class Event extends BaseEntity{
     @Column(nullable = false)
     private String eventName;
 
-    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date eventDate;
 

@@ -16,7 +16,10 @@
     @Primary
     @Table(name = "users")
     public class User extends Person {
+        @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         private Date visitDate;
+
+        @Column(columnDefinition = "int default 0")
         private int numberOfActionsTaken;
 
         @OneToMany(mappedBy = "user")

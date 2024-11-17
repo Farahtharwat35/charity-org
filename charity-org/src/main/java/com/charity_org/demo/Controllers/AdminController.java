@@ -6,8 +6,6 @@ import com.charity_org.demo.Models.Event;
 import com.charity_org.demo.Models.Service.AddressService;
 import com.charity_org.demo.Models.Service.EventService;
 import com.charity_org.demo.Patcher.Patcher;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -33,12 +31,8 @@ public class AdminController {
     @Autowired
     private AddressService addressService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    public AdminController(EventService eventService,ModelMapper modelMapper) {
+    public AdminController(EventService eventService) {
         this.eventService = eventService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/add_event")

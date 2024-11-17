@@ -24,7 +24,7 @@ abstract public class Person extends BaseEntity {
     @Column(nullable = false)
     protected String password;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "int default 18")
     protected int age;
 
     @ElementCollection(targetClass = Roles.class)
