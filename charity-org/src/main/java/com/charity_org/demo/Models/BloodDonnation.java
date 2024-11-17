@@ -1,6 +1,7 @@
 package com.charity_org.demo.Models;
 
 
+import com.charity_org.demo.Enums.BloodType;
 import jakarta.persistence.Entity;
 import lombok.*;
 
@@ -13,7 +14,7 @@ import lombok.*;
 public class BloodDonnation extends DonationType {
 
     int donatorAge;
-    String bloodType;
+    BloodType bloodType;
     double bloodAmount;
 
 

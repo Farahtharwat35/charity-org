@@ -11,7 +11,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public abstract class DonationType extends  BaseEntity{
+public abstract class DonationType extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "donationDetailsID")
     private DonationDetails donationDetails;

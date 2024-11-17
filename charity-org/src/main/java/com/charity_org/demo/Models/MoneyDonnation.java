@@ -11,7 +11,9 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MoneyDonnation  extends DonationType {
+@Getter
+@Setter
+public class MoneyDonnation extends DonationType {
 private Currencies currency;
 
 
