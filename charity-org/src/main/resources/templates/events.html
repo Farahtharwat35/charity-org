@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <style>
+        .card { margin-bottom: 1rem; }
+        .card-body { padding: 1.5rem; }
+        .event-actions button { margin-right: 10px; }
+        .status-upcoming {
+            background-color: #28a745; /* Green */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-ongoing {
+            background-color: #ff9800; /* Orange */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-completed {
+            background-color: #007bff; /* Blue */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-cancelled {
+            background-color: #c75e6a; /* Red */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-postponed {
+            background-color: #6c757d; /* Grey */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-failed {
+            background-color: #dc3545; /* Dark Red */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Event List</h2>
+
+    <a href="/api/admin/add_event" class="btn btn-success mb-3">Create Event</a>
+
+    <!-- Loop through the events and display them as cards -->
+    <div class="row">
+        <div class="col-md-4" th:each="event : ${events}">
+            <div class="card">
+                <!-- Placeholder for event image (Optional) -->
+                <div class="card-img-top" style="height: 180px; background-color: #f0f0f0; display: flex; justify-content: center; align-items: center;">
+                    <span class="text-muted">No Image</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${event.eventName}"></h5>
+                    <p class="card-text" th:text="${#dates.format(event.eventDate, 'dd MMM yyyy')}"></p>
+                    <p class="card-text" th:text="${event.description}"></p>
+                    <p class="card-text">
+                        <strong>Status:</strong>
+                        <span th:class="'status-' + ${event.status.toString().toLowerCase()}" th:text="${event.status}"></span>
+                    </p>
+                    <div class="event-actions">
+                        <!-- Edit Button -->
+                        <a th:href="@{/api/admin/edit_event/{id}(id=${event.id})}" class="btn btn-primary">Edit</a>
+
+                        <!-- Delete Button -->
+                        <form th:action="@{/api/admin/delete_event/{id}(id=${event.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

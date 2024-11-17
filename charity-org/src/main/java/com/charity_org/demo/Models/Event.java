@@ -4,6 +4,8 @@ package com.charity_org.demo.Models;
 import com.charity_org.demo.Enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 
@@ -15,7 +17,8 @@ public class Event extends BaseEntity{
     @Column(nullable = false)
     private String eventName;
 
-    @Column(nullable = false)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date eventDate;
 
     @ManyToOne

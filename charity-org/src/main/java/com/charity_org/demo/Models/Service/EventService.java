@@ -31,7 +31,8 @@ public class EventService implements IEventSubject {
         return true;
     }
 
-    public boolean updateEvent(Event event) {
+    public boolean updateEvent(long Id, Event event) {
+        event.setId(Id);
         eventRepository.save(event);
         return true;
     }
@@ -70,5 +71,9 @@ public class EventService implements IEventSubject {
     public boolean deleteEvent(long id) {
         eventRepository.deleteById(id);
         return true;
+    }
+
+    public ArrayList<Event> getAllEvents() {
+        return eventRepository.findAll();
     }
 }

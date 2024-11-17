@@ -1,0 +1,64 @@
+package com.charity_org.demo.Controllers;
+
+
+import com.charity_org.demo.Models.Assigments;
+import com.charity_org.demo.Models.Donation;
+import com.charity_org.demo.Models.Service.CourierService;
+import com.charity_org.demo.Models.Service.DonationService;
+import com.charity_org.demo.Models.Service.RolesDecorator.UserService;
+import com.charity_org.demo.Models.User;
+import com.charity_org.demo.Models.repository.AssigmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/courier")
+public class CourierController {
+
+    @Autowired
+    private DonationService donationService;
+
+    @Autowired
+    private CourierService courierService;
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/dashboard")
+    public String dashboard(Model model, User user) {
+
+
+        List<Donation> allDonations = donationService.getAllDonations();
+
+        // Fetch donations assigned to the courier
+        List<Assigments> assignedDonations = courierService.getMyAssigments(user);
+
+        // Add donations to the model
+        model.addAttribute("allDonations", allDonations);
+        model.addAttribute("assignedDonations", assignedDonations);
+
+        return "courier-dashboard";
+    }
+
+
+    @PostMapping("/assign/{donationId}")
+    public String assignDonationToCourier(Model model, @PathVariable long donationId) {
+        Donation donation = donationService.getDonation(donationId);
+        User courier = userService.getUser(1);
+        if (donation != null && courier != null) {
+            courierService.assignCourierToDonation(courier, donation);
+            model.addAttribute("success", "Donation assigned successfully");
+            return "redirect:/courier/dashboard";
+        } else {
+            model.addAttribute("error", "Invalid donation or courier ID");
+            return "redirect:/courier/dashboard";
+        }
+    }
+}

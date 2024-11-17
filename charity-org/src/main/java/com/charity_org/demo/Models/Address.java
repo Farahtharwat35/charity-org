@@ -1,9 +1,6 @@
 package com.charity_org.demo.Models;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.Entity;
 
 import java.util.List;
 
@@ -11,6 +8,7 @@ import java.util.List;
 @Entity
 @Data
 public class Address extends BaseEntity {
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne

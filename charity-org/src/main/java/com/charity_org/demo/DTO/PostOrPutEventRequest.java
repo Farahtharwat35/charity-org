@@ -4,6 +4,7 @@ import com.charity_org.demo.Enums.EventStatus;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -18,6 +19,7 @@ public class PostOrPutEventRequest {
 
     @NotEmpty(message = "Event date is required.", groups = Create.class)
     @JsonProperty("event_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date eventDate;
 
     @NotEmpty(message = "Event location ID is required.", groups = Create.class)

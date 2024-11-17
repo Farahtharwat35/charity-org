@@ -33,4 +33,7 @@ public class AddressService {
         return addresses;
     }
 
+    public List<Address> findAll(){
+        return addressRepository.findAll();
+    }
 }
