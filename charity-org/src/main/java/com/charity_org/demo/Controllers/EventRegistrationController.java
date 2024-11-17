@@ -3,12 +3,14 @@ package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.Enums.EventStatus;
 import com.charity_org.demo.Models.Event;
+import com.charity_org.demo.Models.EventRegistration;
 import com.charity_org.demo.Models.Service.EventRegistrationService;
 import com.charity_org.demo.Models.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +23,8 @@ public class EventRegistrationController {
     @Autowired
     private EventService eventService;
 
+    private EventRegistration eventRegistration = new EventRegistration();
+
     @Autowired
     private EventRegistrationService eventRegistrationService;
 
@@ -32,23 +36,23 @@ public class EventRegistrationController {
     }
 
     @PostMapping("/registerEvent")
-    public String eventRegistration(@RequestParam("event.id") Long eventId, Model model) {
+    public String eventRegistration(@RequestParam("event.id") Long eventId, Model model, RedirectAttributes redirectAttributes) {
         // Fetch the Event object by ID
         Event event = eventService.getById(eventId);
 
         // If the event exists, process the registration
         if (event != null) {
             Date currentDateTime = new Date();
-            boolean result = eventRegistrationService.register(event, currentDateTime);
+            eventRegistration.setEvent(event);
+            eventRegistration.setRegisteredAt(currentDateTime);
+            eventRegistrationService.register(eventRegistration);
 
+            redirectAttributes.addFlashAttribute("message", "Event registered successfully!");
             // You could add a confirmation message here
-            model.addAttribute("confirmationMessage", "You have successfully registered for " + event.getEventName());
-        } else {
-            // Handle the case when the event is not found
-            model.addAttribute("errorMessage", "Event not found.");
         }
+        return "redirect:/event-registration/getAllEvents";
 
-        return "EventView";  // Optionally redirect to a success page or display a confirmation
+
     }
 
 

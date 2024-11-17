@@ -14,18 +14,20 @@ public class EventRegistrationService {
     @Autowired
     private EventRegistrationRepository EventRegistrationRepository;
 
+
     public boolean register(EventRegistration eventRegistration) {
-        EventRegistrationRepository.save(eventRegistration);
+        if (!EventRegistrationRepository.findAll().contains(eventRegistration)) {
+            EventRegistrationRepository.save(eventRegistration);
+
+        }
         return true;
     }
-
     public boolean register(Event event, Date date) {
-        EventRegistration eventRegistration = new EventRegistration();
-        eventRegistration.setEvent(event);
-        eventRegistration.setRegisteredAt(date);
-        EventRegistrationRepository.save(eventRegistration);
-        return true;
-    }
-
-
+        if (!EventRegistrationRepository.findAll().contains(event)) {
+            EventRegistration eventRegistration = new EventRegistration();
+            eventRegistration.setEvent(event);
+            eventRegistration.setRegisteredAt(date);
+            EventRegistrationRepository.save(eventRegistration);
+        }
+        return true;}
 }

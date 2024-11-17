@@ -9,6 +9,7 @@
 <body>
 <div class="container mt-5">
     <h2 class="text-center mb-4">Event List</h2>
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -16,27 +17,32 @@
             <th>Event Date</th>
             <th>Location ID</th>
             <th>Description</th>
-            <th>Action</th> <!-- Column for the "Choose" button -->
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <!-- Loop through the events and display them -->
         <tr th:each="event : ${events}">
             <td th:text="${event.eventName}"></td>
             <td th:text="${#dates.format(event.eventDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${event.eventLocationId}"></td>
+            <td th:text="${event.eventLocation.name}"></td>
             <td th:text="${event.description}"></td>
             <td>
-                <!-- "Choose" button for each event -->
-                <form th:action="@{/event-registration/registerEvent}" method="post">
-                    <!-- Sending the event ID as part of the form -->
+                <form th:action="@{/event-registration/registerEvent}" method="post" onsubmit="disableButton(this)">
                     <input type="hidden" th:name="event.id" th:value="${event.id}" />
-                    <button type="submit" class="btn btn-primary btn-sm">Choose</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Register</button>
                 </form>
             </td>
         </tr>
         </tbody>
     </table>
+
 </div>
+<script>
+    function disableButton(form) {
+        const button = form.querySelector("button[type='submit']");
+        button.disabled = true; // Disable the button
+        button.textContent = "Registered..."; // Optional: change the button text
+    }
+</script>
 </body>
 </html>
