@@ -7,10 +7,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DonationTypeService {
-    @Autowired
-    DonationTypeRepository donationTypeRepository;
 
-    public DonationType saveDonationType(DonationType donationType) {
-        return donationTypeRepository.save(donationType);
-    }
 }

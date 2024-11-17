@@ -15,6 +15,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DonationController {
 @Autowired
 DonationTypeService donationTypeService;
+    @Autowired
+    BloodDonationService bloodDonationService;
+
+    @Autowired
+    ClothesDonationService clothesDonationService;
+
+    @Autowired
+    FurnitureDonationService furnitureDonationService;
+
+    @Autowired
+     MoneyDonationService moneyDonnationService;
+
 @Autowired
 DonationDetailsService donationDetailsService;
 @Autowired
@@ -40,7 +52,7 @@ DonationService donationService;
 
 
         DonationDetails newdonationDetails= new DonationDetails();
-        newdonationDetails.setDonationType(donationTypeService.saveDonationType(moneyDonnation));
+        newdonationDetails.setDonationType(moneyDonnationService.save(moneyDonnation));
         newdonationDetails.setQuantity(quantity);
 
             Tax newTax = new Tax(donationDetailsService);
@@ -83,7 +95,7 @@ DonationService donationService;
         clothesDonation.setCost(0);
 
         DonationDetails donationDetails = new DonationDetails();
-        donationDetails.setDonationType(donationTypeService.saveDonationType(clothesDonation));
+        donationDetails.setDonationType(clothesDonationService.save(clothesDonation));
         donationDetails.setQuantity(quantity);
         ShippingFee shippingFee = new ShippingFee(donationDetailsService);
         donationDetails.setSubTotalPrice(shippingFee.calculate_price(donationDetails));
@@ -119,7 +131,7 @@ DonationService donationService;
         bloodDonation.setCost(0);
 
         DonationDetails donationDetails = new DonationDetails();
-        donationDetails.setDonationType(donationTypeService.saveDonationType(bloodDonation));
+        donationDetails.setDonationType(bloodDonationService.save(bloodDonation));
         donationDetails.setQuantity(1); // Blood donations often don't have quantities
         ShippingFee shippingFee = new ShippingFee(donationDetailsService);
         BloodDrawFees newBloodDrawFees = new BloodDrawFees(shippingFee);
@@ -158,7 +170,7 @@ DonationService donationService;
         furnitureDonation.setCost(0);
 
         DonationDetails donationDetails = new DonationDetails();
-        donationDetails.setDonationType(donationTypeService.saveDonationType(furnitureDonation));
+        donationDetails.setDonationType(furnitureDonationService.save(furnitureDonation));
         donationDetails.setQuantity(1); // Blood donations often don't have quantities
         FurnitureTruckFees furnitureTruckFees=new FurnitureTruckFees(donationDetailsService);
         donationDetails.setSubTotalPrice(furnitureTruckFees.calculate_price(donationDetails));

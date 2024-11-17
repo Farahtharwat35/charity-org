@@ -4,12 +4,12 @@ import com.charity_org.demo.Enums.FurnitureCondition;
 import com.charity_org.demo.Enums.FurnitureType;
 
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FurnitureDonnation extends DonationType {
