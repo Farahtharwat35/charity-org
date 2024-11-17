@@ -1,6 +1,7 @@
 package com.charity_org.demo.Controllers;
 
 
+import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Models.Assigments;
 import com.charity_org.demo.Models.Donation;
 import com.charity_org.demo.Models.Service.CourierService;
@@ -35,10 +36,13 @@ public class CourierController {
     public String dashboard(Model model, User user) {
 
 
-        List<Donation> allDonations = donationService.getAllDonations();
+        List<Donation> allDonations = donationService.getAllPendingDonations();
 
         // Fetch donations assigned to the courier
         List<Assigments> assignedDonations = courierService.getMyAssigments(user);
+
+        //remove donations which found in my assigment
+        allDonations.removeIf(donation -> assignedDonations.stream().anyMatch(assigment -> assigment.getDonation().getId() == donation.getId()));
 
         // Add donations to the model
         model.addAttribute("allDonations", allDonations);
@@ -60,5 +64,14 @@ public class CourierController {
             model.addAttribute("error", "Invalid donation or courier ID");
             return "redirect:/courier/dashboard";
         }
+    }
+
+    @PostMapping("/complete/{donationId}")
+    public String completeDonation(Model model, @PathVariable long donationId) {
+        Donation donation = donationService.getDonation(donationId);
+        if (donation != null) {
+            donationService.updateDonationStatus(donationId, DonationStatus.COMPLETED);
+        }
+        return "redirect:/courier/dashboard";
     }
 }

@@ -16,6 +16,7 @@ public interface AssigmentRepository extends JpaRepository<Assigments, Long> {
     @Query("UPDATE Assigments a SET a.isDeleted = true WHERE a.id = :id")
     boolean deleteAssigment(@Param("id") Long id);
 
-    @Query("SELECT a FROM Assigments a WHERE a.courier.id = :courier")
+    @Query("SELECT a FROM Assigments a WHERE a.courier.id = :courier AND a.isDeleted = false AND a.donation.status = 'PENDING'")
     List<Assigments> getAllByCourier(@Param("courier") long courier);
+
 }
