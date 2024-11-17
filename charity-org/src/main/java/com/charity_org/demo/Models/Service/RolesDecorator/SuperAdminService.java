@@ -23,10 +23,14 @@ public class SuperAdminService extends RolesDecorator {
        personRef.applyRoles();
        personRef.getRole().add(Roles.SUPERADMIN);
     }
-    public User createUserAdmin(User user) {
+    public User createAdminUser(User user) {
+        // Decorate the user with AdminService to apply the ADMIN role
+        AdminService adminDecorator = new AdminService(user);
+        adminDecorator.applyRoles();
+        // Save the updated user
         userRepository.save(user);
-        adminService.applyRoles();
         return user;
+
     }
 
     public User createCourier(User user) {
