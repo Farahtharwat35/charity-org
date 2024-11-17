@@ -26,7 +26,7 @@ public class Donation extends BaseEntity {
 
  @OneToMany(mappedBy = "donation",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
  private List<DonationDetails> donationDetails;
-
+/**/
  private Date date = new Date();
  private Time time = new Time(date.getTime());
 
