@@ -1,28 +1,34 @@
 package com.charity_org.demo.Models;
 
 
+import com.charity_org.demo.Models.Service.DonationTotalPrice;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.List;
+import lombok.Getter;
 
 @Entity
 @Data
-public class DonnationDetails extends BaseEntity{
-    @OneToOne
+@Getter
+public class DonnationDetails extends DonationTotalPrice {
+    @Id
+    private int id;
+
+    @ManyToOne
     @JoinColumn(name = "donationId")
-    private Donation donationId;
+    private Donation donation;
 
 
 
-    @OneToMany(mappedBy = "donnationDetails")
-    private List<DonationType> donationTypes;
+    @OneToOne(mappedBy = "donnationDetails")
+    private DonationType donationType;
 
     private int quantity;
 
     private double subTotalPrice;
 
 
-
-
+    @Override
+    public double calculate_price() {
+        return this.donationType.getCost() *this.quantity;
+    }
 }

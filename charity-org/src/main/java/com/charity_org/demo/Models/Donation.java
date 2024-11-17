@@ -4,6 +4,8 @@ import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Enums.Roles;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +15,8 @@ import java.util.Date;
 public class Donation extends BaseEntity {
 
  @ManyToOne
- @JoinColumn(name = "userId")  // Maps this field to the 'user' field in 'User'
+ @JoinColumn(name = "userId")
+ @Getter// Maps this field to the 'user' field in 'User'
  private User user;
 
  @OneToMany(mappedBy = "donation")
@@ -25,6 +28,6 @@ public class Donation extends BaseEntity {
  @Enumerated(EnumType.STRING)
  private DonationStatus status;
 
- private double donationTotalPrice;
+
 
 }

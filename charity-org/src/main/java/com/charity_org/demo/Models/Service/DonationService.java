@@ -1,5 +1,6 @@
 package com.charity_org.demo.Models.Service;
 import com.charity_org.demo.Models.Donation;
+import com.charity_org.demo.Models.DonnationDetails;
 import com.charity_org.demo.Models.repository.DonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,4 +31,6 @@ public  class DonationService {
     public void updateDonationStatus(Long id, String status) {
         donationRepository.updateDonationStatusById(id, status);
     }
+
+
 }

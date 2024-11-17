@@ -10,7 +10,7 @@ public class DonationTypeService {
     @Autowired
     DonationTypeRepository donationTypeRepository;
 
-    DonationType saveDonationType(DonationType donationType) {
+    public DonationType saveDonationType(DonationType donationType) {
         return donationTypeRepository.save(donationType);
     }
 }

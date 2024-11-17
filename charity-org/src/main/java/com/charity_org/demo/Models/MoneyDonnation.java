@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MoneyDonnation  extends DonationType {
-private double amount;
 private Currencies currency;
 
 
