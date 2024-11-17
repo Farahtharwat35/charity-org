@@ -1,5 +1,6 @@
 package com.charity_org.demo.Models.Service;
 
+import com.charity_org.demo.Enums.PaymentStatus;
 import com.charity_org.demo.Models.PaymentMethod;
 import com.charity_org.demo.Models.Paypal;
 import com.charity_org.demo.Models.VISA;
@@ -23,6 +24,7 @@ public class VisaService implements IPaymentMethodService{
         if(!visaRepository.findAll().contains((VISA) paymentMethod)) {
             VISA result = visaRepository.save((VISA) paymentMethod);
         }
+        paymentMethod.setStatus(PaymentStatus.COMPLETED);
         return true;
     }
 }

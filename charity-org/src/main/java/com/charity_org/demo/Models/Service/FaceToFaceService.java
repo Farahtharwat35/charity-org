@@ -1,6 +1,7 @@
 package com.charity_org.demo.Models.Service;
 
 
+import com.charity_org.demo.Enums.PaymentStatus;
 import com.charity_org.demo.Models.FaceToFace;
 import com.charity_org.demo.Models.PaymentMethod;
 import com.charity_org.demo.Models.VISA;
@@ -17,6 +18,7 @@ public class FaceToFaceService implements IPaymentMethodService {
         if(!faceRepository.findAll().contains((FaceToFace) paymentMethod)) {
             FaceToFace result = faceRepository.save((FaceToFace) paymentMethod);
         }
+        paymentMethod.setStatus(PaymentStatus.COMPLETED);
         return true;
     }
 }
