@@ -3,8 +3,11 @@ import com.charity_org.demo.Enums.Roles;
 import com.charity_org.demo.Models.Person;
 import com.charity_org.demo.Models.User;
 import com.charity_org.demo.Models.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SuperAdminService extends RolesDecorator {
@@ -38,12 +41,18 @@ public class SuperAdminService extends RolesDecorator {
         return user;
 
     }
+    public List<User> getAdmins() {
+        return userRepository.findUsersByRole(Roles.ADMIN);
+    }
 
+    @Transactional
     public boolean deleteAdmin(Long adminId) {
-        return userRepository.deleteUser(adminId);
+        int result = userRepository.deleteUser(adminId);
+        return result > 0;
     }
 
     public boolean deleteCourier(Long courierId) {
-        return userRepository.deleteUser(courierId);
+        int result = userRepository.deleteUser(courierId);
+        return result > 0;
     }
 }
