@@ -8,15 +8,56 @@
         .card { margin-bottom: 1rem; }
         .card-body { padding: 1.5rem; }
         .event-actions button { margin-right: 10px; }
-        .status-upcoming { background-color: #28a745; color: white; padding: 5px 10px; border-radius: 5px; }
-        .status-completed { background-color: #007bff; color: white; padding: 5px 10px; border-radius: 5px; }
-        .status-cancelled { background-color: #c75e6a; color: white; padding: 5px 10px; border-radius: 5px; }
+        .status-upcoming {
+            background-color: #28a745; /* Green */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-ongoing {
+            background-color: #ff9800; /* Orange */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-completed {
+            background-color: #007bff; /* Blue */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-cancelled {
+            background-color: #c75e6a; /* Red */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-postponed {
+            background-color: #6c757d; /* Grey */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status-failed {
+            background-color: #dc3545; /* Dark Red */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="container mt-5">
     <h2 class="mb-4">Event List</h2>
+
+    <a href="/api/admin/add_event" class="btn btn-success mb-3">Create Event</a>
 
     <!-- Loop through the events and display them as cards -->
     <div class="row">
@@ -36,10 +77,10 @@
                     </p>
                     <div class="event-actions">
                         <!-- Edit Button -->
-                        <a th:href="@{/edit_event/{id}(id=${event.id})}" class="btn btn-primary">Edit</a>
+                        <a th:href="@{/api/admin/edit_event/{id}(id=${event.id})}" class="btn btn-primary">Edit</a>
 
                         <!-- Delete Button -->
-                        <form th:action="@{/delete_event/{id}(id=${event.id})}" method="post" style="display:inline;">
+                        <form th:action="@{/api/admin/delete_event/{id}(id=${event.id})}" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>

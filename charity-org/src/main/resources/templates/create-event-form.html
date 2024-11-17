@@ -10,7 +10,9 @@
 <div class="container mt-5">
     <h1 class="text-center">Create Event</h1>
     <!-- Display error message -->
-    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
 
     <!-- Form for creating an event -->
     <form th:action="@{/api/admin/save_event}" th:object="${event}" method="post" class="needs-validation" novalidate>

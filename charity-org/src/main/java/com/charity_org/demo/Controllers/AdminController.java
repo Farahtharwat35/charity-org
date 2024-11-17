@@ -65,24 +65,24 @@ public class AdminController {
         model.addAttribute("events", eventService.getAllEvents());
         return "events";
     }
-    @DeleteMapping("/delete_event/{Id}")
+    @PostMapping("/delete_event/{Id}")
     public String deleteEvent(@PathVariable Long Id) {
         eventService.deleteEvent(Id);
-        return "redirect:/admin/events";
+        return "redirect:/api/admin/events";
     }
     @GetMapping("/edit_event/{Id}")
     public String editEvent(@PathVariable Long Id, Model model) {
         model.addAttribute("event", eventService.getEvent(Id));
         return "edit-event-form";
     }
-    @PutMapping("/update_event/{Id}")
+    @PostMapping("/update_event/{Id}")
     public String updateEvent(@PathVariable Long Id, @ModelAttribute("event") Event event, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error", "Invalid input. Please check your input.");
+            model.addAttribute("error", bindingResult.getAllErrors());
             return "edit-event-form";
         }
         eventService.updateEvent(Id, event);
-        return "redirect:/admin/events";
+        return "redirect:/api/admin/events";
     }
 
 }
