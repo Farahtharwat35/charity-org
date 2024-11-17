@@ -11,7 +11,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Paypal extends BaseEntity implements IPaymentMethod{
+public class Paypal extends PaymentMethod{
     @Column(nullable = false)
     private String paypalEmail;
     @Column(nullable = false)

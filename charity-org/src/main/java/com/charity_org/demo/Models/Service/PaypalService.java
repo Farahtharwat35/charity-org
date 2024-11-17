@@ -2,7 +2,7 @@ package com.charity_org.demo.Models.Service;
 
 
 
-import com.charity_org.demo.Models.IPaymentMethod;
+import com.charity_org.demo.Models.PaymentMethod;
 import com.charity_org.demo.Models.Paypal;
 import com.charity_org.demo.Models.repository.PaypalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class PaypalService implements IPaymentMethodService {
 
 
     @Override
-    public boolean processPayment(IPaymentMethod paymentMethod) {
+    public boolean processPayment(PaymentMethod paymentMethod) {
         if(!paypalRepository.findAll().contains((Paypal)paymentMethod)) {
             Paypal result = paypalRepository.save((Paypal) paymentMethod);
         }

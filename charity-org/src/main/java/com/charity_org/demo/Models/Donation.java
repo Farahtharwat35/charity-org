@@ -1,15 +1,11 @@
 package com.charity_org.demo.Models;
 
-import com.charity_org.demo.Enums.DonationStatus;
-import com.charity_org.demo.Enums.Roles;
+import com.charity_org.demo.Enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.sql.Time;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
@@ -23,7 +19,7 @@ public class Donation extends BaseEntity {
  private Time time = new Time(date.getTime());
 
  @Enumerated(EnumType.STRING)
- private DonationStatus status;
+ private PaymentStatus status;
 
  private double donationTotalPrice;
 

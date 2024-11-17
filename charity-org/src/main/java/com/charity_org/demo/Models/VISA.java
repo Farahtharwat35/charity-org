@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-public class VISA extends BaseEntity implements IPaymentMethod{
+public class VISA extends PaymentMethod{
 
     @Column(nullable = false)
     private String cardNumber;

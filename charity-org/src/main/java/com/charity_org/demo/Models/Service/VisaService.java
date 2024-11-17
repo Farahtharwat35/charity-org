@@ -1,6 +1,6 @@
 package com.charity_org.demo.Models.Service;
 
-import com.charity_org.demo.Models.IPaymentMethod;
+import com.charity_org.demo.Models.PaymentMethod;
 import com.charity_org.demo.Models.Paypal;
 import com.charity_org.demo.Models.VISA;
 import com.charity_org.demo.Models.repository.VisaRepository;
@@ -19,7 +19,7 @@ public class VisaService implements IPaymentMethodService{
     @Autowired
     private VisaRepository visaRepository;
     @Override
-    public boolean processPayment(IPaymentMethod paymentMethod) {
+    public boolean processPayment(PaymentMethod paymentMethod) {
         if(!visaRepository.findAll().contains((VISA) paymentMethod)) {
             VISA result = visaRepository.save((VISA) paymentMethod);
         }

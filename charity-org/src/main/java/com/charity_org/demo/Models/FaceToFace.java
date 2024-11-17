@@ -9,6 +9,6 @@ import lombok.*;
 @Setter
 @Getter
 @AllArgsConstructor
-public class FaceToFace extends BaseEntity implements IPaymentMethod {
+public class FaceToFace extends PaymentMethod {
 
 }
