@@ -7,7 +7,6 @@ import java.util.*;
 import com.charity_org.demo.Enums.Roles;
 import org.springframework.stereotype.Component;
 
-
 @Data
 @Component
 @MappedSuperclass
@@ -21,9 +20,11 @@ abstract public class Person extends BaseEntity {
 
     @Column(nullable = false)
     protected String email;
+
     @Column(nullable = false)
     protected String password;
 
+    @Column(nullable = false)
     protected int age;
 
     @ElementCollection(targetClass = Roles.class)

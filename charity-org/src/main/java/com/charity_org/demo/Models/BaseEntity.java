@@ -11,7 +11,8 @@ public abstract class BaseEntity {
     @Column(unique = true)
     protected long id;
 
+
     @Column(name = "IS_DELETED", nullable = false,columnDefinition = "BOOLEAN DEFAULT false")
-    protected boolean isDeleted=false;
+    protected boolean isDeleted;
 //    private DBconnection dbConnection ; // Will be used
 }

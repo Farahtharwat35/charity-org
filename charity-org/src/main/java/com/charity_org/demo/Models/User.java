@@ -7,6 +7,8 @@
     import org.springframework.stereotype.Component;
     import java.util.Date;
     import java.util.List;
+
+
     @Entity
     @Data
     @NoArgsConstructor
@@ -32,4 +34,5 @@
             this.role.add(Roles.USER);
         }
 
+//        private []Event eventsParticipatedIn;
     }

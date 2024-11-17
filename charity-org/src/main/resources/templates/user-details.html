@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .user-details {
+            margin-top: 30px;
+        }
+        .user-details h1 {
+            margin-bottom: 20px;
+        }
+        .user-details p {
+            font-size: 1.1rem;
+        }
+        .btn-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container user-details">
+    <h1 class="text-center">User Details</h1>
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <p><strong>Age:</strong> <span th:text="${user.age}"></span></p>
+            <p><strong>Number Of Contributions:</strong> <span th:text="${user.numberOfActionsTaken}"></span></p>
+        </div>
+    </div>
+
+    <div class="btn-container text-center">
+        <a th:href="@{/user/edit/{id}(id=${user.id})}" class="btn btn-primary">Edit User</a>
+        <a th:href="@{/user-details.html}" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
