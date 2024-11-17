@@ -7,7 +7,6 @@ import com.charity_org.demo.Models.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +29,8 @@ public class EventService implements IEventSubject {
             addressRepository.save(eventAddress);
         }
         eventRepository.save(new Event(eventName, eventDate, addressRepository.getReferenceById(eventLocationId), description, EventStatus.UPCOMING));
+    public boolean createEvent(Event event) {
+        eventRepository.save(event);
         return true;
     }
 
@@ -87,20 +88,28 @@ public class EventService implements IEventSubject {
 
 
     // Update event details
-    public boolean update(Long id, String eventName, Date eventDate, int eventLocationId, String description, EventStatus status) {
-        Optional<Event> optionalEvent = eventRepository.findById(id);
+    public boolean update(Event updatedEvent) {
+        Optional<Event> optionalEvent = eventRepository.findById(updatedEvent.getId());
+
         if (optionalEvent.isPresent()) {
-            Event event = optionalEvent.get();
-            event.setEventName(eventName);
-            event.setEventDate(eventDate);
-            event.setEventLocationId(eventLocationId);
-            event.setDescription(description);
-            event.setStatus(status);
-            eventRepository.save(event);
+            Event existingEvent = optionalEvent.get();
+
+            // Update fields
+            existingEvent.setEventName(updatedEvent.getEventName());
+            existingEvent.setEventDate(updatedEvent.getEventDate());
+            existingEvent.setEventLocationId(updatedEvent.getEventLocationId());
+            existingEvent.setDescription(updatedEvent.getDescription());
+            existingEvent.setStatus(updatedEvent.getStatus());
+
+            // Save the updated event to the database
+            eventRepository.save(existingEvent);
             return true;
         }
+
+        // Event with given ID not found
         return false;
     }
+
 
     // Soft delete event by setting isDeleted to true
     public boolean deleteById(Long id) {

@@ -3,6 +3,8 @@ package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.Enums.EventStatus;
 import com.charity_org.demo.Models.Event;
+import com.charity_org.demo.Models.EventRegistration;
+import com.charity_org.demo.Models.Service.EventRegistrationService;
 import com.charity_org.demo.Models.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ import java.util.List;
 public class EventController {
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private EventRegistrationService eventRegistrationService;
 
     @GetMapping("/get-all")
     public String getEvents(Model model) {
@@ -43,7 +48,7 @@ public class EventController {
             throw new IllegalArgumentException("Invalid date format. Use 'yyyy-MM-dd'");
         }
 
-        eventService.createEvent(eventName, parsedDate, eventLocationId, description, status);
+//        eventService.createEvent(eventName, parsedDate, eventLocationId, description, status);
         return eventService.listAllEvents().size();
     }
 
@@ -67,7 +72,8 @@ public class EventController {
         } catch (ParseException e) {
             throw new IllegalArgumentException("Invalid date format. Use 'yyyy-MM-dd'");
         }
-        return eventService.update(id, eventName, parsedDate, eventLocationId, description, status);
+//        return eventService.update(id, eventName, parsedDate, eventLocationId, description, status);
+        return true;
     }
 
     // Delete event endpoint
@@ -82,4 +88,11 @@ public class EventController {
     public Event getById(@PathVariable Long id) {
         return eventService.getById(id);
     }
+
+    @PostMapping("/register")
+    public String registerEvent(){
+//        eventRegistrationService.register(new EventRegistration());
+        return "ListEventsView";
+    }
+
 }
