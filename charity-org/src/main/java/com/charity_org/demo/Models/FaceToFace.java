@@ -10,12 +10,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FaceToFace extends BaseEntity implements IPaymentMethod{
-    //@Column(nullable = false)
-    //float currency;
-//    @OneToMany(mappedBy = "courier-id")
-    @ManyToOne
-    @JoinColumn(name = "courier-id")
-    private Courier courier;
+public class FaceToFace extends BaseEntity implements IPaymentMethod {
 
 }
