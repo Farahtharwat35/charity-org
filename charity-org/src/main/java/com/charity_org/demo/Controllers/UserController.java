@@ -1,101 +1,174 @@
 package com.charity_org.demo.Controllers;
-import com.charity_org.demo.DTO.ErrorResponseDTO;
 import com.charity_org.demo.DTO.UserDTO;
+import com.charity_org.demo.Enums.DonationStatus;
+import com.charity_org.demo.Enums.EventStatus;
+import com.charity_org.demo.Models.Address;
+import com.charity_org.demo.Models.Donation;
+import com.charity_org.demo.Models.Event;
+import com.charity_org.demo.Models.Service.DonationService;
+import com.charity_org.demo.Models.Service.EventService;
 import com.charity_org.demo.Models.Service.RolesDecorator.UserService;
 import com.charity_org.demo.Models.User;
 import com.charity_org.demo.Patcher.Patcher;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-
-
-@RestController
+@Controller
+@RequestMapping("/user")
+@EnableWebMvc
+@Configuration
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    Patcher patcher;
+    private Patcher patcher;
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public String getUser(@PathVariable Long id, Model model) {
         User user = userService.getUser(id);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
-        //return new UserDisplays(user); // Convert User to UserDisplays DTO
+        if (user == null) {
+            model.addAttribute("errorMessage", "User not found");
+            return "error";
+        }
+        model.addAttribute("user", user);
+        return "user-details";
     }
 
-    @GetMapping("/users/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        User user = userService.getUserByEmail(email);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
-//        return new UserDisplays(user);
+    @GetMapping("/edit/{id}")
+    public String showEditUserForm(@PathVariable Long id, Model model) {
+        User user = userService.getUser(id);
+        if (user == null) {
+            model.addAttribute("errorMessage", "User not found");
+            return "error";
+        }
+        model.addAttribute("user", user);
+        return "user-form"; // View for editing user details
     }
 
-    @GetMapping("/users/email/{email}/password/{password}")
-    public ResponseEntity<User> getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
-        User user = userService.getUserByEmailAndPassword(email, password);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
-//        return new UserDisplays(user);
-    }
-
-    @PatchMapping("/users/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO userData, @PathVariable Long id) {
+    @PostMapping("update/{id}")
+    public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user, Model model) {
         User existingUser = userService.getUser(id);
         if (existingUser == null) {
-            // Return an ErrorResponseDTO with a status code and message when user is not found
-            ErrorResponseDTO errorResponse = new ErrorResponseDTO("User not found", HttpStatus.NOT_FOUND.value());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            model.addAttribute("errorMessage", "User not found");
+            return "error";
         }
-        try {
-            patcher.objectPatcher(existingUser, userData);
-            userService.updateUserdata(existingUser);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Return an ErrorResponseDTO with a status code and message on exception
-            ErrorResponseDTO errorResponse = new ErrorResponseDTO("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(existingUser);
+//        try {
+//            patcher.objectPatcher(existingUser, user);
+//            userService.updateUserdata(existingUser);
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Internal server error: " + e.getMessage());
+//            return "error";
+//        }
+        userService.updateUserdata(user);
+        model.addAttribute("user", userService.getUser(id));
+        return "user-details"; // Redirect to the user list or success page
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<Object> createUser(@Validated @RequestBody UserDTO userDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            // Collect validation errors and return a bad request response
-            StringBuilder errorMessage = new StringBuilder("Validation failed: ");
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                errorMessage.append(error.getDefaultMessage()).append(" ");
-            }
-            // Return a detailed error message
-            ErrorResponseDTO errorResponse = new ErrorResponseDTO(errorMessage.toString().trim(), HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-        }
-
-        // Continue with the normal processing (e.g., saving the user)
-        User user = userService.save(userDTO.getName(), userDTO.getEmail(), userDTO.getPassword(), userDTO.getAddressId(), userDTO.getAge());
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
-    }
-
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    @PostMapping("/{id}/delete")
+    public String deleteUser(@PathVariable Long id, Model model) {
         boolean isDeleted = userService.deleteUser(id);
-        if (isDeleted) {
-            return ResponseEntity.ok("User deleted successfully.");
-        } else {
-            return ResponseEntity.status(404).body("User not found.");
+        if (!isDeleted) {
+            model.addAttribute("errorMessage", "User not found");
+            return "error";
         }
+        return "redirect:/users"; // Redirect to the user list
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleException(Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("An unexpected error occurred: " + e.getMessage());
+    @GetMapping("/events/{id}")
+    public String getEvents(@PathVariable Long id, Model model) {
+        EventService eventService = new EventService();
+        User user = userService.getUser(id);
+        if (user == null) {
+            model.addAttribute("errorMessage", "User not found");
+            return "error";
+        }
+        // Mock data for events
+        List<Event> events = new ArrayList<>();
+        Address address = new Address();
+        address.setName("123 Main St");
+
+        events.add(new Event(
+                "Charity Run 2024",
+                new Date(),
+                address,
+                "Join us for a fun and fulfilling charity run!",
+                EventStatus.UPCOMING
+        ));
+
+        events.add(new Event(
+                "Food Drive 2024",
+                new Date(System.currentTimeMillis() + 86400000L), // Event date: tomorrow
+                address,
+                "Help us collect and distribute food to those in need.",
+                EventStatus.ONGOING
+        ));
+
+        events.add(new Event(
+                "Music Concert Fundraiser",
+                new Date(System.currentTimeMillis() + 2 * 86400000L), // Event date: in 2 days
+                address,
+                "An evening of music and fun to support our cause.",
+                EventStatus.ONGOING
+        ));
+
+        model.addAttribute("events", events);
+        return "events-list";
     }
+
+    @GetMapping("/donations/{id}")
+    public String getDonations(@PathVariable Long id, Model model) {
+        DonationService donationService = new DonationService();
+        User user = userService.getUser(id);
+        if (user == null) {
+            model.addAttribute("errorMessage", "User not found");
+            return "error";
+        }
+        // Mock data for donations
+        List<Donation> donations = new ArrayList<>();
+        Donation donation1 = new Donation();
+        donation1.setUser(user);
+        donation1.setDate(new Date()); // Current date
+        donation1.setTime(new Time(System.currentTimeMillis()));
+        donation1.setStatus(DonationStatus.COMPLETED);
+        donation1.setDonationTotalPrice(250.00);
+        donations.add(donation1);
+
+        // Donation 2
+        Donation donation2 = new Donation();
+        donation2.setUser(user);
+        donation2.setDate(new Date(System.currentTimeMillis() - 86400000L)); // Yesterday
+        donation2.setTime(new Time(System.currentTimeMillis() - 86400000L));
+        donation2.setStatus(DonationStatus.PENDING);
+        donation2.setDonationTotalPrice(500.00);
+        donations.add(donation2);
+
+        // Donation 3
+        Donation donation3 = new Donation();
+        donation3.setUser(user);
+        donation3.setDate(new Date(System.currentTimeMillis() - 2 * 86400000L)); // Two days ago
+        donation3.setTime(new Time(System.currentTimeMillis() - 2 * 86400000L));
+        donation3.setStatus(DonationStatus.CANCELLED);
+        donation3.setDonationTotalPrice(100.00);
+        donations.add(donation3);
+
+
+        model.addAttribute("donations", donations);
+        return "donations-list";
+    }
+
+@ExceptionHandler(Exception.class)
+public String handleException(Exception e, Model model) {
+    model.addAttribute("errorMessage", "An unexpected error occurred: " + e.getMessage());
+    return "error"; // Generic error view
+}
 }

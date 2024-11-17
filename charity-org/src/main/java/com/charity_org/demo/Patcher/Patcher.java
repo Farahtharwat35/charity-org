@@ -25,6 +25,5 @@ public class Patcher {
             //MAKING THE FIELD PRIVATE AGAIN
             field.setAccessible(false);
         }
-
     }
 }

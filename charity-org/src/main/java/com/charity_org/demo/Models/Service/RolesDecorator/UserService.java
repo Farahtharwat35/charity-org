@@ -50,8 +50,9 @@ public class UserService {
         person.setRole(Collections.singleton(Roles.USER));
     }
 
-    public User updateUserdata(User user) {
-        return userRepository.updateUserData(user.getId(), user);
+    public void updateUserdata(User user) {
+        userRepository.updateUserData(user.getId(), user);
+        userRepository.save(user);
     }
 
     public boolean deleteUser(long id) {

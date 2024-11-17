@@ -4,8 +4,12 @@ import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Enums.Roles;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,5 +26,6 @@ public class Donation extends BaseEntity {
  private DonationStatus status;
 
  private double donationTotalPrice;
+
  //private donnationdetails donationdetail;
 }

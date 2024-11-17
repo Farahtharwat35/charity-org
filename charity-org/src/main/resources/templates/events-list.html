@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Events List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h1 {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .event-card {
+            margin-bottom: 20px;
+        }
+        .event-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .event-card p {
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center">Upcoming and Ongoing Events</h1>
+
+    <!-- No events available message -->
+    <div th:if="${events.isEmpty()}" class="alert alert-warning text-center">
+        <p>No events available at the moment.</p>
+    </div>
+
+    <!-- Events List -->
+    <div class="row">
+        <div class="col-md-4" th:each="event : ${events}">
+            <div class="card event-card">
+                <div class="card-body">
+                    <h2 class="card-title" th:text="${event.eventName}">Event Name</h2>
+                    <p><strong>Date:</strong> <span th:text="${#dates.format(event.eventDate, 'dd MMM yyyy')}">Event Date</span></p>
+                    <p><strong>Address:</strong> <span th:text="${event.eventLocation}">Event Address</span></p>
+                    <p><strong>Description:</strong> <span th:text="${event.description}">Event Description</span></p>
+                    <p><strong>Status:</strong> <span th:text="${event.status}">Event Status</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to User List -->
+    <div class="text-center mt-4">
+        <a href="/users" class="btn btn-primary">Back to User List</a>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -7,7 +7,6 @@ import java.util.*;
 import com.charity_org.demo.Enums.Roles;
 import org.springframework.stereotype.Component;
 
-
 @Data
 @Component
 @MappedSuperclass

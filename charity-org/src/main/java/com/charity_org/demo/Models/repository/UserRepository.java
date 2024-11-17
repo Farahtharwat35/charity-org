@@ -9,8 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
+
+    @Transactional
     @Query("SELECT u FROM User u WHERE u.email = :email")
     User getUserByEmail(@Param("email") String email);
 
@@ -27,6 +29,10 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Modifying
     @Transactional
     @Query("UPDATE User a SET a = :user WHERE a.id = :id")
-    User updateUserData(@Param("id") Long id, @Param("user") User user);
+    int updateUserData(@Param("id") Long id, @Param("user") User user);
+
+
+
+
 
 }
