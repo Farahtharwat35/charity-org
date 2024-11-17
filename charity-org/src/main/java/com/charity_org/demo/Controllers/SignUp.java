@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import javax.validation.groups.Default;
 
 
@@ -35,7 +36,7 @@ public class SignUp {
     // Process the signup form
     @PostMapping("/signup")
     public String signup(
-            @ModelAttribute("signupRequest") @Validated({SignUpRequest.Create.class, Default.class}) SignUpRequest signupRequest,
+            @Valid SignUpRequest signupRequest,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes) {
@@ -43,6 +44,7 @@ public class SignUp {
         // Check for validation errors
         if (bindingResult.hasErrors()) {
             return "signup";
+
         }
 
         // Check if the email is already taken
@@ -69,7 +71,7 @@ public class SignUp {
 
         redirectAttributes.addFlashAttribute("signupRequest", signupRequest);
         // Redirect to a success page (or login page)
-        return "redirect:/auth/success";
+        return "redirect:/auth/login";
     }
 
     // Serve a success page
