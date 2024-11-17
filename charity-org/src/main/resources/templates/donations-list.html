@@ -31,11 +31,12 @@
 <div class="container donations-list">
     <h1 class="text-center">Donations List</h1>
 
+
     <div th:if="${donations.isEmpty()}" class="alert alert-info text-center">
         <p>No donations available at the moment.</p>
     </div>
 
-    <div th:each="donation : ${donations}" class="donation-item">
+    <div th:each="donation:${donations}" class="donation-item">
         <h5>User: <span th:text="${donation.user.name}"></span></h5>
         <p><strong>Date:</strong> <span th:text="${donation.date}"></span></p>
         <p><strong>Time:</strong> <span th:text="${donation.time}"></span></p>
@@ -44,7 +45,7 @@
     </div>
 
     <div class="btn-container text-center">
-        <a th:href="@{/users}" class="btn btn-secondary">Back to User List</a>
+        <a th:href="@{/}" class="btn btn-secondary">Back</a>
     </div>
 </div>
 

@@ -30,12 +30,14 @@
         <div class="card-body">
             <p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
             <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <p><strong>Age:</strong> <span th:text="${user.age}"></span></p>
+            <p><strong>Number Of Contributions:</strong> <span th:text="${user.numberOfActionsTaken}"></span></p>
         </div>
     </div>
 
     <div class="btn-container text-center">
         <a th:href="@{/user/edit/{id}(id=${user.id})}" class="btn btn-primary">Edit User</a>
-        <a th:href="@{/}" class="btn btn-secondary">Back to Home</a>
+        <a th:href="@{/user-details.html}" class="btn btn-secondary">Back to Home</a>
     </div>
 </div>
 

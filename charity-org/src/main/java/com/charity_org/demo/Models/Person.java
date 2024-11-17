@@ -20,6 +20,7 @@ abstract public class Person extends BaseEntity {
 
     @Column(nullable = false)
     protected String email;
+
     @Column(nullable = false)
     protected String password;
 

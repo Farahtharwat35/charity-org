@@ -74,7 +74,7 @@ public class UserController {
         return "user-details"; // Redirect to the user list or success page
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id, Model model) {
         boolean isDeleted = userService.deleteUser(id);
         if (!isDeleted) {
@@ -134,14 +134,13 @@ public class UserController {
             return "error";
         }
         // Mock data for donations
-        List<Donation> donations = new ArrayList<>();
+
         Donation donation1 = new Donation();
         donation1.setUser(user);
         donation1.setDate(new Date()); // Current date
         donation1.setTime(new Time(System.currentTimeMillis()));
         donation1.setStatus(DonationStatus.COMPLETED);
         donation1.setDonationTotalPrice(250.00);
-        donations.add(donation1);
 
         // Donation 2
         Donation donation2 = new Donation();
@@ -150,7 +149,7 @@ public class UserController {
         donation2.setTime(new Time(System.currentTimeMillis() - 86400000L));
         donation2.setStatus(DonationStatus.PENDING);
         donation2.setDonationTotalPrice(500.00);
-        donations.add(donation2);
+
 
         // Donation 3
         Donation donation3 = new Donation();
@@ -159,12 +158,31 @@ public class UserController {
         donation3.setTime(new Time(System.currentTimeMillis() - 2 * 86400000L));
         donation3.setStatus(DonationStatus.CANCELLED);
         donation3.setDonationTotalPrice(100.00);
-        donations.add(donation3);
-
-
+        List<Donation> donations = new ArrayList<>() {{
+            add(donation1);
+            add(donation2);
+            add(donation3);
+        }};
         model.addAttribute("donations", donations);
         return "donations-list";
     }
+
+//    @PostMapping("/register/{eventID}")
+//    public String registerForEvent(@PathVariable Long eventID, @ModelAttribute("user") User user, Model model) {
+//        EventService eventService = new EventService();
+//        Event event = eventService.getEvent(eventID);
+//        if (event == null) {
+//            model.addAttribute("errorMessage", "Event not found");
+//            return "error";
+//        }
+//        // Register the user for the event
+//        // Add the user to the event's list of participants
+//        event.addParticipant(user);
+//        // Update the event in the database
+//        eventService.updateEvent(event);
+//        model.addAttribute("user", user);
+//        return "user-details"; // Redirect to the user details page
+//    }
 
 @ExceptionHandler(Exception.class)
 public String handleException(Exception e, Model model) {

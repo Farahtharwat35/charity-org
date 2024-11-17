@@ -26,7 +26,7 @@
         .form-group label {
             font-weight: bold;
         }
-        .form-group input {
+        .form-group input, .form-group select {
             border-radius: 4px;
             padding: 10px;
             width: 100%;
@@ -65,12 +65,16 @@
             <input type="email" id="email" name="email" th:field="*{email}" class="form-control" required>
         </div>
         <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" th:field="*{password}" class="form-control" required>
+        </div>
+        <div class="form-group">
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>
 
     <div class="form-footer">
-        <a th:href="@{/user-details.html}" class="btn btn-secondary">Cancel</a>
+        <a th:href="@{/user/{id}(id=${user.id})}" class="btn btn-secondary">Cancel</a>
     </div>
 </div>
 
