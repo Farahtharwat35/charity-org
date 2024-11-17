@@ -24,7 +24,8 @@ public class FaceToFaceController {
     // POST Request to handle form submission
     @PostMapping("/save")
     public String processPayment(Model model) {
-        boolean result = FaceService.processPayment(new FaceToFace());
+        FaceToFace faceToFace = new FaceToFace();
+        boolean result = FaceService.processPayment(faceToFace);
 
         if (result) {
             model.addAttribute("message", "Payment processed successfully!");

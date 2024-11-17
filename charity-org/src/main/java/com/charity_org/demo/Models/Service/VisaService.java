@@ -21,7 +21,7 @@ public class VisaService implements IPaymentMethodService{
     @Override
     public boolean processPayment(IPaymentMethod paymentMethod) {
         if(!visaRepository.findAll().contains((VISA) paymentMethod)) {
-            VISA result = visaRepository.save((VISA) paymentMethod);
+            visaRepository.save((VISA) paymentMethod);
         }
         return true;
     }

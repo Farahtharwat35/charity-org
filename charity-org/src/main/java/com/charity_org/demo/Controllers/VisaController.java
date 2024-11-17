@@ -19,7 +19,7 @@ public class VisaController {
     @Autowired
     private VisaService visaService;
 
-    @GetMapping("")
+    @GetMapping({"", "/"})
     public String visaPage(Model model) {
         model.addAttribute("visa", new VISA()); // Add an empty Paypal object to the model
         return "VisaView"; // The HTML form view

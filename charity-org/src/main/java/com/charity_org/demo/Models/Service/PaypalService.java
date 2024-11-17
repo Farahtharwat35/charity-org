@@ -20,7 +20,7 @@ public class PaypalService implements IPaymentMethodService {
     @Override
     public boolean processPayment(IPaymentMethod paymentMethod) {
         if(!paypalRepository.findAll().contains((Paypal)paymentMethod)) {
-            Paypal result = paypalRepository.save((Paypal) paymentMethod);
+            paypalRepository.save((Paypal) paymentMethod);
         }
             return true;
     }

@@ -15,7 +15,7 @@ public class PaypalController {
     private PaypalService paypalService;
 
     // GET Request to display the form
-    @GetMapping("")
+    @GetMapping({"", "/"})
     public String paypalPage(Model model) {
         model.addAttribute("paypal", new Paypal()); // Add an empty Paypal object to the model
         return "PaypalView"; // The HTML form view

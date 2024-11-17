@@ -15,7 +15,7 @@ public class FaceToFaceService implements IPaymentMethodService {
     @Override
     public boolean processPayment(IPaymentMethod paymentMethod){
         if(!faceRepository.findAll().contains((FaceToFace) paymentMethod)) {
-            FaceToFace result = faceRepository.save((FaceToFace) paymentMethod);
+            faceRepository.save((FaceToFace) paymentMethod);
         }
         return true;
     }
