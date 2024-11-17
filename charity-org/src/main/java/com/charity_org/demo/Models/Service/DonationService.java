@@ -1,4 +1,5 @@
 package com.charity_org.demo.Models.Service;
+import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Models.Donation;
 import com.charity_org.demo.Models.repository.DonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,11 @@ public class DonationService {
         return donationRepository.getDonationsByUserId(userId);
     }
 
-    public void updateDonationStatus(Long id, String status) {
+    public void updateDonationStatus(Long id, DonationStatus status) {
         donationRepository.updateDonationStatusById(id, status);
     }
 
-    public List<Donation> getAllDonations() {
-        return donationRepository.findAll();
+    public List<Donation> getAllPendingDonations() {
+        return donationRepository.findAllPendingDonations();
     }
 }

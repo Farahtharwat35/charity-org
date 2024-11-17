@@ -36,16 +36,22 @@
             <th>Time</th>
             <th>Total Price</th>
             <th>Status</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="donation, iterStat : ${assignedDonations}">
+        <tr th:each="assignment, iterStat : ${assignedDonations}">
             <td th:text="${iterStat.index + 1}"></td>
-            <td th:text="${donation.user.name}"></td>
-            <td th:text="${#dates.format(donation.date, 'dd MMM yyyy')}"></td>
-            <td th:text="${donation.time}"></td>
-            <td th:text="${donation.donationTotalPrice}"></td>
-            <td th:text="${donation.status}"></td>
+            <td th:text="${assignment.donation.user.name}"></td>
+            <td th:text="${#dates.format(assignment.donation.date, 'dd MMM yyyy')}"></td>
+            <td th:text="${assignment.donation.time}"></td>
+            <td th:text="${assignment.donation.donationTotalPrice}"></td>
+            <td th:text="${assignment.donation.status}"></td>
+            <td>
+                <form th:action="@{/courier/complete/{donationId}(donationId=${assignment.donation.id})}" method="post" style="display:inline-block;">
+                    <button type="submit" class="btn btn-success">Mark as Completed</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

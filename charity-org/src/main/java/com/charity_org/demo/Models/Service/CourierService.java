@@ -14,12 +14,12 @@ public class CourierService {
 
     @Autowired
     private AssigmentRepository assigmentRepository;
+
     public void assignCourierToDonation(User user, Donation donation) {
         assigmentRepository.save(new Assigments(user, donation));
     }
 
     public List<Assigments> getMyAssigments(User user) {
-        assigmentRepository.getAllByCourier(user.getId());
-        return null;
+        return assigmentRepository.getAllByCourier(1);
     }
 }
