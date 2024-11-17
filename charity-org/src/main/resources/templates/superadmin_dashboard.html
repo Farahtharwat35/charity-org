@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperAdmin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">SuperAdmin Dashboard</h1>
+
+    <!-- Success Message -->
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+<!--    &lt;!&ndash; Admin Details &ndash;&gt;-->
+<!--    <div th:if="${createdAdmin}" class="alert alert-info">-->
+<!--        <h4>Admin Created:</h4>-->
+<!--        <p><strong>Name:</strong> <span th:text="${createdAdmin.name}"></span></p>-->
+<!--        <p><strong>Email:</strong> <span th:text="${createdAdmin.email}"></span></p>-->
+<!--    </div>-->
+
+    <div class="button-container">
+        <button onclick="navigateTo('/super_admin/createAdminUser')">Create Admin User</button>
+        <button onclick="navigateTo('/super_admin/createCourierView')">Create Courier</button>
+        <button onclick="navigateTo('/super_admin/deleteView')">Delete Operations</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function navigateTo(path) {
+        window.location.href = path;
+    }
+</script>
+</body>
+</html>
