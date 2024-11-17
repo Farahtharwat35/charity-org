@@ -6,47 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PayPal</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/materialize.min.css">
-    <link rel="stylesheet" href="/css/tooplate.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .form-container h3 {
+            color: #343a40;
+        }
+
+        .form-container p {
+            color: #6c757d;
+        }
+
+        .form-container .btn-submit {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .form-container .btn-submit:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
-<style>
-    body {
-        background-color: white;
-    }
 
-    * {
-        color: black;
-    }
-</style>
-
-<body id="register">
-<div class="container">
-    <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <header class="mb-5">
-                <h3 class="mt-0">Charity</h3>
-                <p class="mb-4">Kindly, enter your PayPal credentials.</p>
-            </header>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <!-- Form that binds to the Paypal model -->
-            <form action="/paypal/save" method="post">
-                <input placeholder="PayPal Email" name="paypalEmail" class="validate" type="email" required>
-                <input placeholder="PayPal Password" name="password" class="validate" type="password" required>
-                <div class="text-center mt-4">
-                    <button type="submit" class="waves-effect btn-large btn-large-white px-4 tm-border-radius-0" style="border-radius: 13px;">Submit</button>
+<body>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="row w-100">
+        <div class="col-md-8 offset-md-2">
+            <div class="form-container">
+                <div class="text-center mb-4">
+                    <h3>Charity</h3>
+                    <p>Kindly, enter your PayPal credentials.</p>
                 </div>
-            </form>
-
-            <!-- Display message -->
-            <div class="mt-4" style="color: black;">
-                <p th:text="${message}"></p> <!-- Thymeleaf will dynamically replace this with the message -->
+                <form action="/paypal/save" method="post">
+                    <div class="mb-3">
+                        <label for="paypalEmail" class="form-label">PayPal Email</label>
+                        <input type="email" id="paypalEmail" name="paypalEmail" class="form-control" placeholder="Enter your PayPal Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">PayPal Password</label>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Enter your PayPal Password" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-submit px-4">Submit</button>
+                    </div>
+                </form>
+                <div class="mt-4 text-center">
+                    <p th:text="${message}" class="text-muted"></p> <!-- Thymeleaf will dynamically replace this with the message -->
+                </div>
             </div>
         </div>
     </div>
 </div>
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
