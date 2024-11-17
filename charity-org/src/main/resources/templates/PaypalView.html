@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PayPal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/tooplate.css">
+</head>
+<style>
+    body {
+        background-color: white;
+    }
+
+    * {
+        color: black;
+    }
+</style>
+
+<body id="register">
+<div class="container">
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <header class="mb-5">
+                <h3 class="mt-0">Charity</h3>
+                <p class="mb-4">Kindly, enter your PayPal credentials.</p>
+            </header>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <!-- Form that binds to the Paypal model -->
+            <form action="/paypal/save" method="post">
+                <input placeholder="PayPal Email" name="paypalEmail" class="validate" type="email" required>
+                <input placeholder="PayPal Password" name="password" class="validate" type="password" required>
+                <div class="text-center mt-4">
+                    <button type="submit" class="waves-effect btn-large btn-large-white px-4 tm-border-radius-0" style="border-radius: 13px;">Submit</button>
+                </div>
+            </form>
+
+            <!-- Display message -->
+            <div class="mt-4" style="color: black;">
+                <p th:text="${message}"></p> <!-- Thymeleaf will dynamically replace this with the message -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

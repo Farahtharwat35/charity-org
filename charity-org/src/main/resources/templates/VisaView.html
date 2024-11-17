@@ -12,67 +12,40 @@
     <link rel="stylesheet" href="/css/tooplate.css">
 </head>
 <style>
-    body {background-color: white;}
-    * {color:black;}
-
+    body { background-color: white; }
+    * { color: black; }
 </style>
 <body id="register">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                <header class="mb-5">
-                    <h3 class="mt-0">Charity</h3>
-                    <p class="mb-4">Kindly, enter your credit card details.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <header class="mb-5">
+                <h3 class="mt-0">Charity</h3>
+                <p class="mb-4">Kindly, enter your credit card details.</p>
+            </header>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <!-- Form to bind the VISA model -->
+            <form id="visaForm" action="/visa/save" method="POST">
+                <!-- Spring MVC automatically binds the input fields to the VISA model -->
+                <input placeholder="Card Number" name="cardNumber" class="validate" type="text" required>
+                <input placeholder="CVV" name="cvv" class="validate" type="password" required>
+                <input placeholder="Expiration Date (YYYY-MM-DD)" name="expirationDate" class="validate" type="date" required>
+                <input placeholder="First Name" name="fName" class="validate" type="text" required>
+                <input placeholder="Middle Name" name="middleName" class="validate" type="text">
+                <input placeholder="Last Name" name="lName" class="validate" type="text" required>
+                <div class="text-center mt-4">
+                    <button type="submit" class="waves-effect btn-large btn-large-white px-4 tm-border-radius-0" style="border-radius: 13px;">Submit</button>
+                </div>
+            </form>
 
-                </header>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                <form id="visaForm" onsubmit="submitVisaPayment(event)">
-                    <input placeholder="Card Number" class="validate" id="cardNumber" type="text" required>
-                    <input placeholder="CVV" id="cvv" class="validate" type="password" required>
-                    <input placeholder="Expiration Date (YYYY-MM-DD)"  class="validate" id="expirationDate" type="date" required>
-                    <input placeholder="First Name" id="fName" class="validate" type="text" required>
-                    <input placeholder="Middle Name" class="validate" id="middleName" type="text">
-                    <input placeholder="Last Name" class="validate" id="lName" type="text" required>
-                    <div class="text-center mt-4">
-                        <button type="submit" class="waves-effect btn-large btn-large-white px-4 tm-border-radius-0" style="border-radius: 13px;">Submit</button>
-                    </div>
-                </form>
-                <div id="responseMessage" style="color:aliceblue"></div>
-                
+            <!-- Display message after form submission -->
+            <div id="responseMessage" style="color:black;">
+                <p th:text="${message}"></p>
             </div>
         </div>
     </div>
-
-    <script>
-        async function submitVisaPayment(event) {
-        event.preventDefault(); // Prevent form from reloading the page
-
-        const data = {
-            "cardNumber": document.getElementById('cardNumber').value,
-            "cvv": document.getElementById('cvv').value,
-            "expirationDate": document.getElementById('expirationDate').value,
-            "fName": document.getElementById('fName').value,
-            "middleName": document.getElementById('middleName').value,
-            "lName": document.getElementById('lName').value
-        };
-
-        try {
-            const response = await fetch('http://localhost:8080/payment/api/save', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.text();
-            document.getElementById('responseMessage').innerText = result;
-        } catch (error) {
-            document.getElementById('responseMessage').innerText = 'Error: ' + error;
-        }
-    }
-</script>
+</div>
 </body>
 
 </html>

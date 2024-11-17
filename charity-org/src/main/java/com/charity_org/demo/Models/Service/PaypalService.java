@@ -2,6 +2,7 @@ package com.charity_org.demo.Models.Service;
 
 
 
+import com.charity_org.demo.Models.IPaymentMethod;
 import com.charity_org.demo.Models.Paypal;
 import com.charity_org.demo.Models.repository.PaypalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +18,11 @@ public class PaypalService implements IPaymentMethodService {
 
 
     @Override
-    public boolean processPayment(@RequestBody Map<String, Object> jsonMap) {
-        if (jsonMap.containsKey("paypal-email")) {
-            String email = (String) jsonMap.get("paypal-email");
-            if (email.contains("@")) {
-                String phoneNumber = (String) jsonMap.get("password");
-                paypalRepository.save(new Paypal(email, phoneNumber));
-                return true;
-            }
+    public boolean processPayment(IPaymentMethod paymentMethod) {
+        if(!paypalRepository.findAll().contains((Paypal)paymentMethod)) {
+            Paypal result = paypalRepository.save((Paypal) paymentMethod);
         }
-        return false;
+            return true;
     }
 }
 

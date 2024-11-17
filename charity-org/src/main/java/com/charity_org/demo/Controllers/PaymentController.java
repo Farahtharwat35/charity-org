@@ -28,25 +28,25 @@ public class PaymentController {
 //        return "PaypalView";
 //    }
 
-    @CrossOrigin(origins = "*")
-    @PostMapping("/save")
-    public String processPayment(@RequestBody Map<String, Object> jsonMap) {
-
-        IPaymentMethodService paymentMethod;
-        Boolean result;
-
-        if (jsonMap.containsKey("cvv")) {
-            paymentMethod = visaService;
-            result = paymentMethod.processPayment(jsonMap);
-        } else if (jsonMap.containsKey("paypal-email")) {
-            paymentMethod = paypalService;
-            result = paymentMethod.processPayment(jsonMap);
-        } else {
-            return "{\"status\": \"error\", \"message\": \"Invalid Input Format\"}";
-        }
-
-        return result
-                ? "{\"status\": \"success\", \"message\": \"Payment Processed Successfully\"}"
-                : "{\"status\": \"error\", \"message\": \"Payment Processing Failed\"}";
-    }
+//    @CrossOrigin(origins = "*")
+//    @PostMapping("/save")
+//    public String processPayment(@RequestBody Map<String, Object> jsonMap) {
+//
+//        IPaymentMethodService paymentMethod;
+//        Boolean result;
+//
+//        if (jsonMap.containsKey("cvv")) {
+//            paymentMethod = visaService;
+//            result = paymentMethod.processPayment(jsonMap);
+//        } else if (jsonMap.containsKey("paypal-email")) {
+//            paymentMethod = paypalService;
+//            result = paymentMethod.processPayment(jsonMap);
+//        } else {
+//            return "{\"status\": \"error\", \"message\": \"Invalid Input Format\"}";
+//        }
+//
+//        return result
+//                ? "{\"status\": \"success\", \"message\": \"Payment Processed Successfully\"}"
+//                : "{\"status\": \"error\", \"message\": \"Payment Processing Failed\"}";
+//    }
 }

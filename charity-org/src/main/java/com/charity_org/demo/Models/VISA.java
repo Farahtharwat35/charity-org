@@ -3,12 +3,13 @@ package com.charity_org.demo.Models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @Data
 @Entity
-public class VISA extends BaseEntity {
+public class VISA extends BaseEntity implements IPaymentMethod{
 
     @Column(nullable = false)
     private String cardNumber;
@@ -17,6 +18,7 @@ public class VISA extends BaseEntity {
     private Integer cvv;
 
     @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date expirationDate;
 
     @Column(nullable = false)
