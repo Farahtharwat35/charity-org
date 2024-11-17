@@ -1,9 +1,13 @@
 package com.charity_org.demo.Controllers;
 
+import com.charity_org.demo.Models.Paypal;
 import com.charity_org.demo.Models.Service.IPaymentMethodService;
+import com.charity_org.demo.Models.Service.PaypalService;
 import com.charity_org.demo.Models.Service.VisaService;
+import com.charity_org.demo.Models.VISA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -15,27 +19,23 @@ public class VisaController {
     @Autowired
     private VisaService visaService;
 
-    @RequestMapping("")
-    public String visaPage(){
-        return "VisaView";
+    @GetMapping("")
+    public String visaPage(Model model) {
+        model.addAttribute("visa", new VISA()); // Add an empty Paypal object to the model
+        return "VisaView"; // The HTML form view
     }
 
-    @CrossOrigin(origins = "*")
+    // POST Request to handle form submission
     @PostMapping("/save")
-    public String processPayment(@RequestBody Map<String, Object> jsonMap) {
+    public String processPayment(@ModelAttribute VISA visa, Model model) {
+        boolean result = visaService.processPayment(visa);
 
-        IPaymentMethodService paymentMethod;
-        Boolean result;
-
-        if (jsonMap.containsKey("cvv")) {
-            paymentMethod = visaService;
-            result = paymentMethod.processPayment(jsonMap);
+        if (result) {
+            model.addAttribute("message", "Payment processed successfully!");
         } else {
-            return "{\"status\": \"error\", \"message\": \"Invalid Input Format\"}";
+            model.addAttribute("message", "Payment processing failed. Please try again.");
         }
 
-        return result
-                ? "{\"status\": \"success\", \"message\": \"Payment Processed Successfully\"}"
-                : "{\"status\": \"error\", \"message\": \"Payment Processing Failed\"}";
+        return "VisaView"; // Render the same view with the message
     }
 }
