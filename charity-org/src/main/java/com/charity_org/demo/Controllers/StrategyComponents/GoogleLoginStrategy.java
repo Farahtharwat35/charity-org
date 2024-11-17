@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 public class GoogleLoginStrategy implements LoginStrategyInterface {
     @Override
     public boolean login(LoginRequest loginRequest) {
-        String token = loginRequest.getToken();
-        if (token == null || token.isEmpty()) {
-            return false;
+        // Simulate authentication logic for Google
+        if (loginRequest.getToken() != null && !loginRequest.getToken().isEmpty()) {
+            // Mock token validation (replace with actual validation)
+            return true; // Assuming token is valid
         }
-        return "valid_google_token".equals(token);  // Mocking validation
+        return false; // If no token is provided or token is invalid
     }
 }
+

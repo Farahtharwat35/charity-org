@@ -8,10 +8,6 @@ public class FacebookLoginStrategy implements LoginStrategyInterface {
     @Override
     public boolean login(LoginRequest loginRequest) {
         //validate the token
-        String token = loginRequest.getToken();
-        if (token == null || token.isEmpty()) {
-            return false;
-        }
-        return "valid_facebook_token".equals(token);  // Mocking validation
+      return true;  // Mocking validation
     }
 }
