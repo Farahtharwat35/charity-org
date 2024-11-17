@@ -1,5 +1,6 @@
 package com.charity_org.demo.Models;
 
+import com.charity_org.demo.Enums.ClothesType;
 import com.charity_org.demo.Enums.Season;
 import com.charity_org.demo.Enums.ClothesSize;
 
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClothesDonnation  extends DonationType {
-String clothingType;
+ClothesType clothingType;
 ClothesSize size;
 int quantity;
 Season season;
