@@ -32,6 +32,6 @@ public class PaypalController {
             model.addAttribute("message", "Payment processing failed. Please try again.");
         }
 
-        return "PaypalView"; // Render the same view with the message
+        return "Confirmation"; // Render the same view with the message
     }
 }

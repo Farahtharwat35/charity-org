@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        .status-message {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .waiting {
+            color: orange;
+        }
+
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Payment Confirmation</h1>
+<div id="statusMessage" class="status-message waiting">Waiting for payment to process...</div>
+
+<script>
+    // Simulate waiting and then updating the status
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const statusMessage = document.getElementById("statusMessage");
+            statusMessage.textContent = "Payment successful!";
+            statusMessage.classList.remove("waiting");
+            statusMessage.classList.add("success");
+        }, 3000); // Simulate 3-second delay
+    });
+</script>
+</body>
+
+</html>

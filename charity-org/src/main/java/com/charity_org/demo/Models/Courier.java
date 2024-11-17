@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Courier extends Person {
 
-    @OneToMany(mappedBy = "facetoface")
+    @OneToMany(mappedBy = "courier")
     List<FaceToFace> ordersList;
 
 }
