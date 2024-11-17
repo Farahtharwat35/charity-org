@@ -1,16 +1,12 @@
     package com.charity_org.demo.Models;
     import com.charity_org.demo.Enums.Roles;
-    import jakarta.persistence.Entity;
-    import jakarta.persistence.OneToMany;
-    import jakarta.persistence.Table;
+    import jakarta.persistence.*;
     import lombok.Data;
     import lombok.NoArgsConstructor;
     import org.springframework.context.annotation.Primary;
     import org.springframework.stereotype.Component;
-
     import java.util.Date;
     import java.util.List;
-
     @Entity
     @Data
     @NoArgsConstructor

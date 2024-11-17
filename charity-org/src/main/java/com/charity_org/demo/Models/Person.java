@@ -28,7 +28,10 @@ abstract public class Person extends BaseEntity {
 
     @ElementCollection(targetClass = Roles.class)
     @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
     protected Set<Roles> role = new HashSet<>();
+
 
     public abstract void applyRoles();
 }

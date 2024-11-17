@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .button-container button {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Super Admin Dashboard</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Admins</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Couriers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container mt-4">
+    <!-- Flash Messages -->
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+    <!-- Buttons -->
+    <div class="button-container">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAdminModal">Create Admin</button>
+        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createCourierModal">Create Courier</button>
+    </div>
+</div>
+<div class="container mt-5">
+    <!-- Table to Display Admins -->
+    <h2 class="mb-3">Admins:</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="admin : ${admins}">
+            <tr>
+                <td th:text="${admin.name}">Admin Name</td>
+                <td th:text="${admin.email}">Admin Email</td>
+                <td th:text="${admin.id}">Admin id</td>
+                <td>
+                    <form th:action="@{/super_admin/deleteAdmin/{id}(id=${admin.id})}" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button></form>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<!-- Create Admin Modal -->
+<div class="modal fade" id="createAdminModal" tabindex="-1" aria-labelledby="createAdminModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createAdminModalLabel">Create Admin User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/super_admin/createAdminUser}" th:object="${user}" method="post" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Admin Name</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Enter admin name" required>
+                        <div class="invalid-feedback">Please enter a valid name.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Admin Email</label>
+                        <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Enter admin email" required>
+                        <div class="invalid-feedback">Please enter a valid email.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Admin Password</label>
+                        <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Enter admin password" required>
+                        <div class="invalid-feedback">Please enter a valid password.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Admin</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Courier Modal -->
+<div class="modal fade" id="createCourierModal" tabindex="-1" aria-labelledby="createCourierModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCourierModalLabel">Create Courier User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/super_admin/createCourier}" th:object="${user}" method="post" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="nameC" class="form-label">Courier Name</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="nameC" placeholder="Enter courier name" required>
+                        <div class="invalid-feedback">Please enter a valid name.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailC" class="form-label">Courier Email</label>
+                        <input type="email" th:field="*{email}" class="form-control" id="emailC" placeholder="Enter courier email" required>
+                        <div class="invalid-feedback">Please enter a valid email.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="passwordC" class="form-label">Courier Password</label>
+                        <input type="password" th:field="*{password}" class="form-control" id="passwordC" placeholder="Enter courier password" required>
+                        <div class="invalid-feedback">Please enter a valid password.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Courier</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Basic client-side validation
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+</body>
+</html>
