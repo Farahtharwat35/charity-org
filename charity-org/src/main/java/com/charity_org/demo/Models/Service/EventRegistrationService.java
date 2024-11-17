@@ -19,8 +19,11 @@ public class EventRegistrationService {
         return true;
     }
 
-    public boolean register(User user, Event event, Date registeredAt, String complains) {
-        EventRegistrationRepository.save(new EventRegistration(user,event,registeredAt,complains));
+    public boolean register(Event event, Date date) {
+        EventRegistration eventRegistration = new EventRegistration();
+        eventRegistration.setEvent(event);
+        eventRegistration.setRegisteredAt(date);
+        EventRegistrationRepository.save(eventRegistration);
         return true;
     }
 

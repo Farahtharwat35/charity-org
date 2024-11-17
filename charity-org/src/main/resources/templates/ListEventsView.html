@@ -28,7 +28,9 @@
             <td th:text="${event.description}"></td>
             <td>
                 <!-- "Choose" button for each event -->
-                <form th:action="@{/events/choose/{id}(id=${event.id})}" method="post">
+                <form th:action="@{/event-registration/registerEvent}" method="post">
+                    <!-- Sending the event ID as part of the form -->
+                    <input type="hidden" th:name="event.id" th:value="${event.id}" />
                     <button type="submit" class="btn btn-primary btn-sm">Choose</button>
                 </form>
             </td>

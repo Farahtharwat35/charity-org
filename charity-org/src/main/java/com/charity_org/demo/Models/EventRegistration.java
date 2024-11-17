@@ -22,7 +22,7 @@ public class EventRegistration extends BaseEntity{
     @Column(nullable = false)
     private Date registeredAt;
 
-    @Column(nullable = false, length = 500)
+    @Column(length = 500)
     private String complains;
 
     public EventRegistration(){}
