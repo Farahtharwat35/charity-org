@@ -149,8 +149,6 @@ public class UserController {
         donation2.setTime(new Time(System.currentTimeMillis() - 86400000L));
         donation2.setStatus(DonationStatus.PENDING);
         donation2.setDonationTotalPrice(500.00);
-
-
         // Donation 3
         Donation donation3 = new Donation();
         donation3.setUser(user);

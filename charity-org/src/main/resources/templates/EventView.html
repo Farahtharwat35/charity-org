@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Event Registration</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/tooplate.css">
+</head>
+<style>
+    body {
+        background-color: white;
+    }
+
+    * {
+        color: black;
+    }
+
+    .bordered-input {
+        border: 2px solid #000;
+        border-radius: 5px;
+        padding: 8px;
+        width: 100%;
+    }
+</style>
+
+<body id="register">
+<div class="container">
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <header class="mb-5">
+                <h3 class="mt-0">Event Registration</h3>
+                <p class="mb-4">Please fill out the details below to register for an event.</p>
+            </header>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <form id="eventForm" onsubmit="submitEventRegistration(event)">
+                <input placeholder="Event Name" class="validate bordered-input" id="eventName" type="text" required>
+                <input placeholder="Event Date (YYYY-MM-DD)" class="validate bordered-input" id="eventDate" type="date" required>
+                <input placeholder="Address ID (positive only)" class="validate bordered-input" id="addressId" type="number" min="1" required>
+                <textarea placeholder="Event Description" class="validate bordered-input" id="description" maxlength="500" rows="4" required></textarea>
+                <div class="text-center mt-4">
+                    <button type="submit" class="waves-effect btn-large btn-medium-white px-4 tm-border-radius-0" style="border-radius: 13px;">Submit</button>
+                </div>
+            </form>
+            <div id="responseMessage" style="color:aliceblue"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function submitEventRegistration(event) {
+        event.preventDefault(); // Prevent form from reloading the page
+
+        const data = {
+            "eventName": document.getElementById('eventName').value,
+            "eventDate": document.getElementById('eventDate').value,
+            "addressId": parseInt(document.getElementById('addressId').value),
+            "description": document.getElementById('description').value
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/event/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.text();
+            document.getElementById('responseMessage').innerText = result;
+        } catch (error) {
+            document.getElementById('responseMessage').innerText = 'Error: ' + error;
+        }
+    }
+</script>
+</body>
+
+</html>

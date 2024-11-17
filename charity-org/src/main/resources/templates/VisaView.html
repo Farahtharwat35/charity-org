@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VISA</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/tooplate.css">
+</head>
+<style>
+    body { background-color: white; }
+    * { color: black; }
+</style>
+<body id="register">
+<div class="container">
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <header class="mb-5">
+                <h3 class="mt-0">Charity</h3>
+                <p class="mb-4">Kindly, enter your credit card details.</p>
+            </header>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <!-- Form to bind the VISA model -->
+            <form id="visaForm" action="/visa/save" method="POST">
+                <!-- Spring MVC automatically binds the input fields to the VISA model -->
+                <input placeholder="Card Number" name="cardNumber" class="validate" type="text" required>
+                <input placeholder="CVV" name="cvv" class="validate" type="password" required>
+                <input placeholder="Expiration Date (YYYY-MM-DD)" name="expirationDate" class="validate" type="date" required>
+                <input placeholder="First Name" name="fName" class="validate" type="text" required>
+                <input placeholder="Middle Name" name="middleName" class="validate" type="text">
+                <input placeholder="Last Name" name="lName" class="validate" type="text" required>
+                <div class="text-center mt-4">
+                    <button type="submit" class="waves-effect btn-large btn-large-white px-4 tm-border-radius-0" style="border-radius: 13px;">Submit</button>
+                </div>
+            </form>
+
+            <!-- Display message after form submission -->
+            <div id="responseMessage" style="color:black;">
+                <p th:text="${message}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

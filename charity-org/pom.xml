@@ -101,7 +101,6 @@
             <artifactId>jakarta.servlet.jsp-api</artifactId>
             <version>4.0.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
