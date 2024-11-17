@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) center/cover;
+    color: white;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 56px; /* Add padding equal to navbar height */
+    box-sizing: border-box;
+    position: relative;
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    margin-top: 10px;
+    z-index: 1;
+}
+
+.card-btn {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-btn:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
