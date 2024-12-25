@@ -23,7 +23,10 @@
     </style>
 </head>
 <body>
-
+<script>
+    let cookieValue = SessionService().getCookieValueByName("SESSION_ID");
+    let user = SessionService().getUserFromSession(cookieValue);
+</script>
 <div class="container user-details">
     <h1 class="text-center">User Details</h1>
     <div class="card">

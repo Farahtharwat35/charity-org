@@ -14,7 +14,7 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping("/get-all")
+    @GetMapping("/all")
     public String getEvents(Model model) {
         List<Event> events = eventService.listAllEvents();
         model.addAttribute("events", events);

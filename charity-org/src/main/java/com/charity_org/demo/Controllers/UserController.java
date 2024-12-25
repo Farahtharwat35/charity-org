@@ -2,6 +2,9 @@ package com.charity_org.demo.Controllers;
 import com.charity_org.demo.DTO.UserDTO;
 import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Enums.EventStatus;
+import com.charity_org.demo.Middlware.cookies.CookieHandler;
+import com.charity_org.demo.Middlware.cookies.Session;
+import com.charity_org.demo.Middlware.cookies.SessionRepository;
 import com.charity_org.demo.Models.Address;
 import com.charity_org.demo.Models.Donation;
 import com.charity_org.demo.Models.Event;
@@ -10,10 +13,12 @@ import com.charity_org.demo.Models.Service.EventService;
 import com.charity_org.demo.Models.Service.RolesDecorator.UserService;
 import com.charity_org.demo.Models.User;
 import com.charity_org.demo.Patcher.Patcher;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.sql.Time;
@@ -33,9 +38,16 @@ public class UserController {
     @Autowired
     private Patcher patcher;
 
+    @Autowired
+    CookieHandler cookieHandler;
+
+    @Autowired
+    SessionRepository sessionRepository;
+
     @GetMapping("/{id}")
-    public String getUser(@PathVariable Long id, Model model) {
-        User user = userService.getUser(id);
+    public String getUser(@PathVariable Long id, Model model , HttpServletRequest request) {
+        String sessionId = cookieHandler.getCookieValue("SESSION_ID", request);
+        User user = cookieHandler.getUserFromSession(sessionId);
         if (user == null) {
             model.addAttribute("errorMessage", "User not found");
             return "error";
