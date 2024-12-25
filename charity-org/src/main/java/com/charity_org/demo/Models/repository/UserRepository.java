@@ -26,6 +26,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u JOIN u.role r WHERE r = :role AND u.isDeleted= false")
     List<User> findUsersByRole(@Param("role") Roles role);
+
     @Modifying
     @Transactional
     @Query("UPDATE User a SET a = :user WHERE a.id = :id")

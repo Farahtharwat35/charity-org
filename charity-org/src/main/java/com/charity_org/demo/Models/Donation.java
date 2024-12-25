@@ -16,7 +16,7 @@ import java.util.List;
 public class Donation extends BaseEntity {
 
  @ManyToOne
- @JoinColumn(name = "userId")  // Maps this field to the 'user' field in 'User'
+ @JoinColumn(name = "userId")
  private User user;
 
  private Date date = new Date();

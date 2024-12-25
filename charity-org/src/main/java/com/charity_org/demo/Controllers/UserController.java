@@ -1,9 +1,7 @@
 package com.charity_org.demo.Controllers;
-import com.charity_org.demo.DTO.UserDTO;
 import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Enums.EventStatus;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
-import com.charity_org.demo.Middlware.cookies.Session;
 import com.charity_org.demo.Middlware.cookies.SessionRepository;
 import com.charity_org.demo.Models.Address;
 import com.charity_org.demo.Models.Donation;
@@ -18,13 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Controller
 @RequestMapping("/user")
@@ -45,16 +45,32 @@ public class UserController {
     SessionRepository sessionRepository;
 
     @GetMapping("/{id}")
-    public String getUser(@PathVariable Long id, Model model , HttpServletRequest request) {
+    public String getUser(@PathVariable Long id, Model model, HttpServletRequest request) {
+        Logger logger = LoggerFactory.getLogger(UserController.class);
+
+        logger.info("Fetching session ID from cookies...");
         String sessionId = cookieHandler.getCookieValue("SESSION_ID", request);
+        logger.debug("Session ID: {}", sessionId);
+        logger.info("Fetching user from session...");
         User user = cookieHandler.getUserFromSession(sessionId);
         if (user == null) {
+            logger.warn("No user found for session ID: {}", sessionId);
             model.addAttribute("errorMessage", "User not found");
             return "error";
         }
+        logger.info("Checking if user ID matches the requested ID...");
+        if (user.getId() != id) {
+            logger.error("Unauthorized access: User ID {} does not match requested ID {}", user.getId(), id);
+            model.addAttribute("errorMessage", "Unauthorized access");
+            return "error";
+        }
+
+        logger.info("User ID matches. Adding user to model...");
         model.addAttribute("user", user);
+        logger.info("Returning user-details view.");
         return "user-details";
     }
+
 
     @GetMapping("/edit/{id}")
     public String showEditUserForm(@PathVariable Long id, Model model) {
