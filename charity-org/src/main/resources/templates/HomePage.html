@@ -109,10 +109,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <button class="btn btn-primary me-2" onclick="location.href='/my-donations'">My Donations</button>
+                    <a th:href="@{/user/donations/{id}(id=1)}" class="btn btn-primary me-3">My Donations</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-primary" onclick="location.href='/my-events'">My Events</button>
+                    <a th:href="@{/user/events/{id}(id=1)}" class="btn btn-primary">My Events</a>
                 </li>
             </ul>
         </div>
