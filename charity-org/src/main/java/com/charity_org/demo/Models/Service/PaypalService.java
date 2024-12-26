@@ -2,14 +2,11 @@ package com.charity_org.demo.Models.Service;
 
 
 
-import com.charity_org.demo.Models.IPaymentMethod;
-import com.charity_org.demo.Models.Paypal;
-import com.charity_org.demo.Models.repository.PaypalRepository;
+import com.charity_org.demo.Classes.StrategyComponents.IPaymentMethod;
+import com.charity_org.demo.Models.Model.Paypal;
+import com.charity_org.demo.Models.Repository.PaypalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Map;
 
 @Service
 public class PaypalService implements IPaymentMethodService {

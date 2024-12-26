@@ -1,9 +1,9 @@
 package com.charity_org.demo.Models.Service;
 
-import com.charity_org.demo.Models.Assigments;
-import com.charity_org.demo.Models.Donation;
-import com.charity_org.demo.Models.User;
-import com.charity_org.demo.Models.repository.AssigmentRepository;
+import com.charity_org.demo.Models.Model.Assigments;
+import com.charity_org.demo.Models.Model.Donation;
+import com.charity_org.demo.Models.Model.User;
+import com.charity_org.demo.Models.Repository.AssigmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

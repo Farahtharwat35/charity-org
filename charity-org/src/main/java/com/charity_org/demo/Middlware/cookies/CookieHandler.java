@@ -1,6 +1,6 @@
 package com.charity_org.demo.Middlware.cookies;
-import com.charity_org.demo.Models.Service.RolesDecorator.UserService;
-import com.charity_org.demo.Models.User;
+import com.charity_org.demo.Models.Service.UserService;
+import com.charity_org.demo.Models.Model.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

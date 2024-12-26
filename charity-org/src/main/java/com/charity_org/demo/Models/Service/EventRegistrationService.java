@@ -1,9 +1,8 @@
 package com.charity_org.demo.Models.Service;
 
-import com.charity_org.demo.Models.Event;
-import com.charity_org.demo.Models.EventRegistration;
-import com.charity_org.demo.Models.User;
-import com.charity_org.demo.Models.repository.EventRegistrationRepository;
+import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Model.EventRegistration;
+import com.charity_org.demo.Models.Repository.EventRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

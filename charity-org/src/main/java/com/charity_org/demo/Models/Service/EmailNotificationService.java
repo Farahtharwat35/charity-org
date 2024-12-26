@@ -1,5 +1,6 @@
 package com.charity_org.demo.Models.Service;
 
+import com.charity_org.demo.Classes.ObserverComponents.IEventObserver;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,9 +1,9 @@
 package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.DTO.LoginRequest;
-import com.charity_org.demo.Controllers.StrategyComponents.LoginStrategyInterface;
-import com.charity_org.demo.Models.Service.RolesDecorator.UserService;
-import com.charity_org.demo.Models.User;
+import com.charity_org.demo.Classes.StrategyComponents.LoginStrategyInterface;
+import com.charity_org.demo.Models.Service.UserService;
+import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

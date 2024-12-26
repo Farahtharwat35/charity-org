@@ -1,8 +1,8 @@
 package com.charity_org.demo.Controllers;
 import com.charity_org.demo.DTO.SignUpRequest;
-import com.charity_org.demo.Models.Address;
+import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Service.AddressService;
-import com.charity_org.demo.Models.Service.RolesDecorator.UserService;
+import com.charity_org.demo.Models.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
