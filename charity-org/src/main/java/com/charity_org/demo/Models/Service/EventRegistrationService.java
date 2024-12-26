@@ -29,4 +29,11 @@ public class EventRegistrationService {
             EventRegistrationRepository.save(eventRegistration);
         }
         return true;}
+
+    public boolean unregister(EventRegistration eventRegistration) {
+        if (EventRegistrationRepository.findAll().contains(eventRegistration)) {
+            EventRegistrationRepository.delete(eventRegistration);
+        }
+        return true;
+    }
 }
