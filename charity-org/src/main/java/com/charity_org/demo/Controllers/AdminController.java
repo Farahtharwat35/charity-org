@@ -1,7 +1,6 @@
 package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.DTO.PostOrPutEventRequest;
-
 import com.charity_org.demo.Models.Event;
 import com.charity_org.demo.Models.Service.AddressService;
 import com.charity_org.demo.Models.Service.EventService;
@@ -10,11 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.groups.Default;
 
 

@@ -1,5 +1,4 @@
 package com.charity_org.demo.Middlware.cookies;
-import com.charity_org.demo.Controllers.UserController;
 import com.charity_org.demo.Models.Service.RolesDecorator.UserService;
 import com.charity_org.demo.Models.User;
 import jakarta.servlet.http.Cookie;
