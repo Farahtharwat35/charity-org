@@ -1,10 +1,9 @@
 package com.charity_org.demo.Models.Service;
 
 
-import com.charity_org.demo.Models.FaceToFace;
-import com.charity_org.demo.Models.IPaymentMethod;
-import com.charity_org.demo.Models.VISA;
-import com.charity_org.demo.Models.repository.FaceToFaceRepository;
+import com.charity_org.demo.Models.Model.FaceToFace;
+import com.charity_org.demo.Classes.StrategyComponents.IPaymentMethod;
+import com.charity_org.demo.Models.Repository.FaceToFaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

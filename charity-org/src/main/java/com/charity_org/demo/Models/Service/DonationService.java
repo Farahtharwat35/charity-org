@@ -1,10 +1,8 @@
 package com.charity_org.demo.Models.Service;
 import com.charity_org.demo.Enums.DonationStatus;
-import com.charity_org.demo.Models.Donation;
-import com.charity_org.demo.Models.repository.DonationRepository;
+import com.charity_org.demo.Models.Model.Donation;
+import com.charity_org.demo.Models.Repository.DonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

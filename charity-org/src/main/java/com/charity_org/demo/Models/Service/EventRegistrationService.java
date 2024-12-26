@@ -1,9 +1,8 @@
 package com.charity_org.demo.Models.Service;
 
-import com.charity_org.demo.Models.Event;
-import com.charity_org.demo.Models.EventRegistration;
-import com.charity_org.demo.Models.User;
-import com.charity_org.demo.Models.repository.EventRegistrationRepository;
+import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Model.EventRegistration;
+import com.charity_org.demo.Models.Repository.EventRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,4 +29,11 @@ public class EventRegistrationService {
             EventRegistrationRepository.save(eventRegistration);
         }
         return true;}
+
+    public boolean unregister(EventRegistration eventRegistration) {
+        if (EventRegistrationRepository.findAll().contains(eventRegistration)) {
+            EventRegistrationRepository.delete(eventRegistration);
+        }
+        return true;
+    }
 }

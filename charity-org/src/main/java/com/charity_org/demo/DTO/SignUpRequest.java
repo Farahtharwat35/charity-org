@@ -1,5 +1,4 @@
 package com.charity_org.demo.DTO;
-import com.charity_org.demo.Models.Address;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;

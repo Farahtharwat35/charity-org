@@ -1,7 +1,7 @@
 package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.DTO.PostOrPutEventRequest;
-import com.charity_org.demo.Models.Event;
+import com.charity_org.demo.Models.Model.Event;
 import com.charity_org.demo.Models.Service.AddressService;
 import com.charity_org.demo.Models.Service.EventService;
 import com.charity_org.demo.Patcher.Patcher;

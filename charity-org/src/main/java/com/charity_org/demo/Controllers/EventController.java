@@ -1,5 +1,5 @@
 package com.charity_org.demo.Controllers;
-import com.charity_org.demo.Models.Event;
+import com.charity_org.demo.Models.Model.Event;
 import com.charity_org.demo.Models.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,12 +1,13 @@
 package com.charity_org.demo.Models.Service;
+import com.charity_org.demo.Classes.ObserverComponents.IEventObserver;
+import com.charity_org.demo.Classes.ObserverComponents.IEventSubject;
 import com.charity_org.demo.Enums.EventStatus;
-import com.charity_org.demo.Models.Address;
-import com.charity_org.demo.Models.Event;
-import com.charity_org.demo.Models.repository.AddressRepository;
-import com.charity_org.demo.Models.repository.EventRepository;
+import com.charity_org.demo.Models.Model.Address;
+import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Repository.AddressRepository;
+import com.charity_org.demo.Models.Repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +30,7 @@ public class EventService implements IEventSubject {
                 addressRepository.save(eventAddress);
             }
             try {
-                eventRepository.save(new com.charity_org.demo.Models.Event(eventName, eventDate, addressRepository.getReferenceById(eventLocationId), description, EventStatus.UPCOMING));
+                eventRepository.save(new com.charity_org.demo.Models.Model.Event(eventName, eventDate, addressRepository.getReferenceById(eventLocationId), description, EventStatus.UPCOMING));
                 return true;
             } catch (Exception e) {
                 return false;
@@ -46,7 +47,7 @@ public class EventService implements IEventSubject {
             return true;
         }
 
-        public com.charity_org.demo.Models.Event getEvent(long id) {
+        public com.charity_org.demo.Models.Model.Event getEvent(long id) {
             return eventRepository.getReferenceById(id);
         }
 
@@ -80,11 +81,11 @@ public class EventService implements IEventSubject {
             return true;
         }
 
-        public List<com.charity_org.demo.Models.Event> getAllEvents() {
+        public List<com.charity_org.demo.Models.Model.Event> getAllEvents() {
             return eventRepository.findAll();
         }
 
-        public List<com.charity_org.demo.Models.Event> listAllEvents() {
+        public List<com.charity_org.demo.Models.Model.Event> listAllEvents() {
             return eventRepository.findAll().stream()
                     .filter(event -> !event.isDeleted())
                     .collect(Collectors.toList());
@@ -93,10 +94,10 @@ public class EventService implements IEventSubject {
 
         // Update event details
         public boolean update(Event updatedEvent) {
-            Optional<com.charity_org.demo.Models.Event> optionalEvent = eventRepository.findById(updatedEvent.getId());
+            Optional<com.charity_org.demo.Models.Model.Event> optionalEvent = eventRepository.findById(updatedEvent.getId());
 
             if (optionalEvent.isPresent()) {
-                com.charity_org.demo.Models.Event existingEvent = optionalEvent.get();
+                com.charity_org.demo.Models.Model.Event existingEvent = optionalEvent.get();
 
                 // Update fields
                 existingEvent.setEventName(updatedEvent.getEventName());
@@ -117,9 +118,9 @@ public class EventService implements IEventSubject {
 
         // Soft delete event by setting isDeleted to true
         public boolean deleteById(Long id) {
-            Optional<com.charity_org.demo.Models.Event> optionalEvent = eventRepository.findById(id);
+            Optional<com.charity_org.demo.Models.Model.Event> optionalEvent = eventRepository.findById(id);
             if (optionalEvent.isPresent()) {
-                com.charity_org.demo.Models.Event event = optionalEvent.get();
+                com.charity_org.demo.Models.Model.Event event = optionalEvent.get();
                 event.setDeleted(true); // Set isDeleted to true instead of deleting the record
                 eventRepository.save(event);
                 return true;
@@ -128,7 +129,7 @@ public class EventService implements IEventSubject {
         }
 
         // Soft delete event by setting isDeleted to true
-        public com.charity_org.demo.Models.Event getById(Long id) {
+        public com.charity_org.demo.Models.Model.Event getById(Long id) {
             return eventRepository.findById(id).orElse(null);
         }
 }

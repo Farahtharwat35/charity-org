@@ -1,6 +1,6 @@
 package com.charity_org.demo.Models.Service;
-import com.charity_org.demo.Models.Address;
-import com.charity_org.demo.Models.repository.AddressRepository;
+import com.charity_org.demo.Models.Model.Address;
+import com.charity_org.demo.Models.Repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

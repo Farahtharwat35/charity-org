@@ -1,17 +1,10 @@
 package com.charity_org.demo.Models.Service;
 
-import com.charity_org.demo.Models.IPaymentMethod;
-import com.charity_org.demo.Models.Paypal;
-import com.charity_org.demo.Models.VISA;
-import com.charity_org.demo.Models.repository.VisaRepository;
+import com.charity_org.demo.Classes.StrategyComponents.IPaymentMethod;
+import com.charity_org.demo.Models.Model.Visa;
+import com.charity_org.demo.Models.Repository.VisaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
 
 @Service
 public class VisaService implements IPaymentMethodService{
@@ -20,8 +13,8 @@ public class VisaService implements IPaymentMethodService{
     private VisaRepository visaRepository;
     @Override
     public boolean processPayment(IPaymentMethod paymentMethod) {
-        if(!visaRepository.findAll().contains((VISA) paymentMethod)) {
-            VISA result = visaRepository.save((VISA) paymentMethod);
+        if(!visaRepository.findAll().contains((Visa) paymentMethod)) {
+            Visa result = visaRepository.save((Visa) paymentMethod);
         }
         return true;
     }

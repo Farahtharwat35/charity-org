@@ -1,9 +1,6 @@
 package com.charity_org.demo.Controllers;
-
-
-import com.charity_org.demo.Enums.EventStatus;
-import com.charity_org.demo.Models.Event;
-import com.charity_org.demo.Models.EventRegistration;
+import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Model.EventRegistration;
 import com.charity_org.demo.Models.Service.EventRegistrationService;
 import com.charity_org.demo.Models.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 

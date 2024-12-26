@@ -1,6 +1,6 @@
 package com.charity_org.demo.Controllers;
 
-import com.charity_org.demo.Models.Paypal;
+import com.charity_org.demo.Models.Model.Paypal;
 import com.charity_org.demo.Models.Service.PaypalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
