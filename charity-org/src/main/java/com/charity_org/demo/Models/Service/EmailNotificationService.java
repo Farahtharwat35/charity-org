@@ -16,7 +16,7 @@ public class EmailNotificationService implements IEventObserver {
     public EmailNotificationService(EventService eventService, String emailAddress) {
         eventService.addObserver(this);
         this.emailAddress = emailAddress;
-        this.emailFacade = EmailFacade.getInstance();
+        this.emailFacade = new EmailFacade();
     }
 
     @Override

@@ -1,61 +1,46 @@
 package com.charity_org.demo.Classes.Facade;
+
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import java.util.Properties;
-
 @Component
 public class EmailFacade {
+
     private static EmailFacade instance;
-    private final String smtpHost;
-    private final String smtpPort;
-    @Value("${mailgun.username}")
-    private String username;
-    @Value("${mailgun.password}")
-    private String password;
-    private final Properties properties;
 
-    public EmailFacade() {
-        smtpHost = "smtp.mailgun.org";
-        smtpPort = "587";
-        //get from enviornment variables
+    @Value("${mailgun.api.base-url}")
+    private String baseUrl;
 
-        properties = new Properties();
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", smtpHost);
-        properties.put("mail.smtp.port", smtpPort);
-    }
+    @Value("${mailgun.api.key}")
+    private String apiKey;
 
-    public static synchronized EmailFacade getInstance() {
-        if (instance == null) {
-            instance = new EmailFacade();
-        }
-        return instance;
-    }
+    @Value("${mailgun.domain}")
+    private String domain;
+
 
     public boolean sendEmail(String recipient, String subject, String body) {
-        Session session = Session.getInstance(properties, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
-            message.setSubject(subject);
-            message.setText(body);
-            Transport.send(message);
+        String url = String.format("%s%s/messages", baseUrl, domain);
 
-        } catch (MessagingException e) {
+        try {
+            HttpResponse<JsonNode> request = Unirest.post(url)
+                    .basicAuth("api", apiKey)
+                    .queryString("from", "Charity Org <postmaster@" + domain + ">")
+                    .queryString("to", recipient)
+                    .queryString("subject", subject)
+                    .queryString("text", body)
+                    .asJson();
+
+            System.out.println("Response: " + request.getBody().toString());
+            return request.getStatus() == 200;
+
+        } catch (UnirestException e) {
             e.printStackTrace();
             return false;
         }
-        return true;
     }
 }
