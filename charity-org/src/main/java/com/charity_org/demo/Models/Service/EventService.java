@@ -1,4 +1,6 @@
 package com.charity_org.demo.Models.Service;
+import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
+import com.charity_org.demo.Classes.IteratorComponents.SearchEventIterator;
 import com.charity_org.demo.Classes.ObserverComponents.IEventObserver;
 import com.charity_org.demo.Classes.ObserverComponents.IEventSubject;
 import com.charity_org.demo.Enums.EventStatus;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -132,4 +135,13 @@ public class EventService implements IEventSubject {
         public com.charity_org.demo.Models.Model.Event getById(Long id) {
             return eventRepository.findById(id).orElse(null);
         }
+    public EventIterator createSearchIterator(String keyword) {
+        List<Event> allEvents = listAllEvents(); // Get all events
+        List<Event> matchingEvents = allEvents.stream()
+                .filter(event -> event.getEventName().toLowerCase().contains(keyword.toLowerCase()) ||
+                        event.getDescription().toLowerCase().contains(keyword.toLowerCase()))
+                .collect(Collectors.toList());
+        return new SearchEventIterator(matchingEvents, keyword);
+    }
+
 }

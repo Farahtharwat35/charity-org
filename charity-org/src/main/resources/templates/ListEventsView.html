@@ -9,13 +9,28 @@
 <body>
 <div class="container mt-5">
     <h2 class="text-center mb-4">Event List</h2>
+
+    <!-- Search Bar -->
+    <form th:action="@{/events/search}" method="get" class="mb-4" id="searchForm">
+        <div class="input-group">
+            <input type="text" name="keyword" class="form-control" placeholder="Search events..."  />
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+            <button type="button" class="btn btn-outline-primary" id="resetBtn">Reset</button>
+        </div>
+    </form>
+
     <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
-    <table class="table table-bordered">
+
+    <!-- Event Table -->
+    <div th:if="${events.isEmpty()}" class="alert alert-info">
+        No events matched your search criteria.
+    </div>
+    <table class="table table-bordered" th:if="${!events.isEmpty()}">
         <thead>
         <tr>
             <th>Event Name</th>
             <th>Event Date</th>
-            <th>Location ID</th>
+            <th>Location</th>
             <th>Description</th>
             <th>Action</th>
         </tr>
@@ -33,16 +48,26 @@
                 </form>
             </td>
         </tr>
+        <tr th:if="${events.isEmpty()}">
+            <td colspan="5" class="text-center">No events found</td>
+        </tr>
         </tbody>
     </table>
-
 </div>
+
 <script>
     function disableButton(form) {
         const button = form.querySelector("button[type='submit']");
         button.disabled = true; // Disable the button
         button.textContent = "Registered..."; // Optional: change the button text
     }
+    // JavaScript to handle Reset button click
+    document.getElementById("resetBtn").addEventListener("click", function() {
+        // Reset the search input field
+        document.querySelector("input[name='keyword']").value = "";
+
+        // Submit the form to get all events
+        document.getElementById("searchForm").submit();  });
 </script>
 </body>
 </html>
