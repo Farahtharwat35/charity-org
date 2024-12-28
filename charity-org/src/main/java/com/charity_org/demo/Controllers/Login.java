@@ -42,7 +42,8 @@ public class Login {
             @ModelAttribute LoginRequest loginRequest,
             Model model,
             HttpServletRequest request,
-            HttpServletResponse response
+            HttpServletResponse response,
+            @RequestParam("code") String code
     ) {
         LoginStrategyInterface loginStrategy = loginStrategies.get(provider.toLowerCase());
         User user = userService.getUserByEmail(loginRequest.getEmail());
@@ -70,7 +71,7 @@ public class Login {
             cookieHandler.setCookie("SESSION_ID", sessionId, 3600, response, request, "/", user.getId());
 
             model.addAttribute("success", "Authenticated with " + provider + " successfully.");
-            return "login_success";
+            return "HomePage";
         } else {
             model.addAttribute("error", "Authentication failed for " + provider + ".");
             return "login";
