@@ -19,8 +19,6 @@
                 googleSignIn.style.display = "none";
             }
         }
-
-        // Initialize the form based on the default selected provider
         document.addEventListener("DOMContentLoaded", toggleProviderFields);
     </script>
 </head>
@@ -69,10 +67,12 @@
                                 <button type="submit" class="btn btn-dark w-100">Login</button>
                             </div>
                         </div>
+                        <div id="google-signin">
                         <a th:href="@{'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:8080&response_type=code&client_id=220303868474-lensdhftrbb1m040rp7jvk5vi1rvfu03.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid&access_type=offline'}"
                            class="btn btn-danger w-100">
                             Sign in with Google
                         </a>
+                        </div>
                     </form>
                 </div>
                 <div class="card-footer">
