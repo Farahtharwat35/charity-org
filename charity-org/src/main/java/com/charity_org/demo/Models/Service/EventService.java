@@ -1,8 +1,10 @@
 package com.charity_org.demo.Models.Service;
 import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
 import com.charity_org.demo.Classes.IteratorComponents.SearchEventIterator;
+
 import com.charity_org.demo.Classes.ObserverComponents.IEventObserver;
 import com.charity_org.demo.Classes.ObserverComponents.IEventSubject;
+import com.charity_org.demo.Classes.Proxy.IEventService;
 import com.charity_org.demo.Enums.EventStatus;
 import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.Event;
@@ -10,6 +12,7 @@ import com.charity_org.demo.Models.Repository.AddressRepository;
 import com.charity_org.demo.Models.Repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,83 +21,101 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class EventService implements IEventSubject {
+public class EventService implements IEventSubject, IEventService {
     @Autowired
     private EventRepository eventRepository;
+
     @Autowired
     private AddressRepository addressRepository;
+
     private ArrayList<IEventObserver> observers = new ArrayList<>();
 
-    public boolean createEvent(String eventName, Date eventDate, long eventLocationId, String description) {
-        Address eventAddress = addressRepository.getReferenceById(eventLocationId);  // Modify if needed to handle address creation
-            if (eventAddress == null) {
-                // If no address found, you could handle address creation here or throw an error
-                eventAddress = new Address();
-                addressRepository.save(eventAddress);
-            }
-            try {
-                eventRepository.save(new com.charity_org.demo.Models.Model.Event(eventName, eventDate, addressRepository.getReferenceById(eventLocationId), description, EventStatus.UPCOMING));
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
+    @Override
+    public boolean createEvent(String clientIp, String eventName, Date eventDate, long eventLocationId, String description) {
+        try {
+            Address eventAddress = addressRepository.findById(eventLocationId).orElseThrow();
+            Event event = new Event(eventName, eventDate, eventAddress, description, EventStatus.UPCOMING);
+            eventRepository.save(event);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        public boolean createEvent(Event event) {
+    }
+
+    @Override
+    public boolean createEvent(String clientIp, Event event) {
+        try {
+            eventRepository.save(event);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateEvent(String clientIp, long id, Event event) {
+        event.setId(id);
+        eventRepository.save(event);
+        return true;
+    }
+
+    @Override
+    public Event getEvent(long id) {
+        return eventRepository.getReferenceById(id);
+    }
+
+    @Override
+    public boolean addObserver(IEventObserver observer) {
+        if (observer == null)
+            return false;
+        observers.add(observer);
+        return true;
+    }
+
+    @Override
+    public boolean removeObserver(IEventObserver observer) {
+        if (observer == null || !observers.contains(observer))
+            return false;
+        observers.remove(observer);
+        return true;
+    }
+
+    @Override
+    public boolean notifyObserver(String subject, String content) {
+        observers.forEach(observer -> observer.sendNotification(subject, content));
+        return true;
+    }
+
+    @Override
+    public boolean deleteEvent(String clientIp, long id) {
+        eventRepository.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public List<Event> getAllEvents() {
+        return eventRepository.findAll();
+    }
+
+    @Override
+    public List<Event> listAllEvents() {
+        return eventRepository.findAll().stream()
+                .filter(event -> !event.isDeleted())
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public boolean deleteById(String clientIp, Long id) {
+        Optional<Event> optionalEvent = eventRepository.findById(id);
+        if (optionalEvent.isPresent()) {
+            Event event = optionalEvent.get();
+            event.setDeleted(true);
             eventRepository.save(event);
             return true;
         }
-
-        public boolean updateEvent(long Id, Event event) {
-            event.setId(Id);
-            eventRepository.save(event);
-            return true;
-        }
-
-        public com.charity_org.demo.Models.Model.Event getEvent(long id) {
-            return eventRepository.getReferenceById(id);
-        }
-
-        @Override
-        public boolean addObserver(IEventObserver observer) {
-            if (observer == null)
-                return false;
-
-            observers.add(observer);
-            return true;
-        }
-
-       @Override
-        public boolean removeObserver(IEventObserver observer) {
-            if (observer == null || !observers.contains(observer))
-                return false;
-
-            observers.remove(observer);
-            return true;
-        }
-
-
-        public boolean notifyObserver(String subject, String content) {
-            observers.forEach(observer -> {
-                observer.sendNotification(subject, content);
-            });
-            return true;
-        }
-        public boolean deleteEvent(long id) {
-            eventRepository.deleteById(id);
-            return true;
-        }
-
-        public List<com.charity_org.demo.Models.Model.Event> getAllEvents() {
-            return eventRepository.findAll();
-        }
-
-        public List<com.charity_org.demo.Models.Model.Event> listAllEvents() {
-            return eventRepository.findAll().stream()
-                    .filter(event -> !event.isDeleted())
-                    .collect(Collectors.toList());
-        }
-
-
+        return false;
+    }
         // Update event details
         public boolean update(Event updatedEvent) {
             Optional<com.charity_org.demo.Models.Model.Event> optionalEvent = eventRepository.findById(updatedEvent.getId());
@@ -118,23 +139,6 @@ public class EventService implements IEventSubject {
             return false;
         }
 
-
-        // Soft delete event by setting isDeleted to true
-        public boolean deleteById(Long id) {
-            Optional<com.charity_org.demo.Models.Model.Event> optionalEvent = eventRepository.findById(id);
-            if (optionalEvent.isPresent()) {
-                com.charity_org.demo.Models.Model.Event event = optionalEvent.get();
-                event.setDeleted(true); // Set isDeleted to true instead of deleting the record
-                eventRepository.save(event);
-                return true;
-            }
-            return false;
-        }
-
-        // Soft delete event by setting isDeleted to true
-        public com.charity_org.demo.Models.Model.Event getById(Long id) {
-            return eventRepository.findById(id).orElse(null);
-        }
     public EventIterator createSearchIterator(String keyword) {
         List<Event> allEvents = listAllEvents(); // Get all events
         List<Event> matchingEvents = allEvents.stream()
@@ -142,6 +146,11 @@ public class EventService implements IEventSubject {
                         event.getDescription().toLowerCase().contains(keyword.toLowerCase()))
                 .collect(Collectors.toList());
         return new SearchEventIterator(matchingEvents, keyword);
+    }
+
+
+    public Event getById(Long id) {
+        return eventRepository.findById(id).orElse(null);
     }
 
 }

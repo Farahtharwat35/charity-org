@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -63,8 +64,8 @@ public class EventController {
 
     // Delete event endpoint
     @DeleteMapping("/delete/{id}")
-    public boolean deleteEvent(@PathVariable Long id) {
-        return eventService.deleteById(id);
+    public boolean deleteEvent(@RequestHeader("X-Forwarded-For") String clientIp, @PathVariable Long id) {
+        return eventService.deleteById(clientIp, id);
     }
 
 
