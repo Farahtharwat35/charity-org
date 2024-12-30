@@ -19,9 +19,9 @@ public class SubscribeToEventCommand implements EventCommand {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         eventSubject.addObserver(eventObserver);
-        eventRegistrationService.register(eventRegistration);
+        return eventRegistrationService.register(eventRegistration);
     }
 
 }

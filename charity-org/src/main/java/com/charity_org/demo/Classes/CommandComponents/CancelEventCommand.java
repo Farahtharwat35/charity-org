@@ -24,9 +24,9 @@ public class CancelEventCommand implements EventCommand {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         eventSubject.notifyObserver(subject,content);
-        eventService.deleteEvent(clientIp, event.getId());
+        return eventService.deleteEvent(clientIp, event.getId());
     }
 
 }
