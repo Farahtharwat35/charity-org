@@ -25,15 +25,23 @@ public class EventController {
     public String getEvents(HttpServletRequest request, Model model) {
         String clientIp = request.getRemoteAddr();
         String query = request.getQueryString();
-        if (query == null) {
-            List<Event> events = eventService.listAllUnDeletedEvents(clientIp, query);
+        try {
+
+
+            if (query == null) {
+                List<Event> events = eventService.listAllUnDeletedEvents(clientIp, query);
+                model.addAttribute("events", events);
+                return "ListEventsView";
+            }
+            String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
+            List<Event> events = eventService.listAllUnDeletedEvents(clientIp, decodedFilter);
             model.addAttribute("events", events);
             return "ListEventsView";
+        }catch (SecurityException e){
+            model.addAttribute("errorTitle", "Security Exception");
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
         }
-        String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
-        List<Event> events = eventService.listAllUnDeletedEvents(clientIp, decodedFilter);
-        model.addAttribute("events", events);
-        return "ListEventsView";
     }
 
 
