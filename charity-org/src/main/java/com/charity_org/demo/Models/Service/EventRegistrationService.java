@@ -6,13 +6,24 @@ import com.charity_org.demo.Models.Repository.EventRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class EventRegistrationService {
     @Autowired
     private EventRegistrationRepository EventRegistrationRepository;
 
+    public List<Event> getEventRegistredByUser(
+            Long userID) {
+        List<EventRegistration> registrations = EventRegistrationRepository.findRegistrationByUserID(userID);
+        List<Event> events = new ArrayList<>() ;
+        for (EventRegistration registration : registrations) {
+            events.add(registration.getEvent());
+        }
+        return events;
+    }
 
     public boolean register(EventRegistration eventRegistration) {
         if (!EventRegistrationRepository.findAll().contains(eventRegistration)) {

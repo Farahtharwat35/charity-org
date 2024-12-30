@@ -15,7 +15,7 @@ public class EventRegistration extends BaseEntity {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "eventId")  // Maps this field to the 'user' field in 'User'
+    @JoinColumn(name = "eventId")
     private Event event;
 
     @Column(nullable = false)
