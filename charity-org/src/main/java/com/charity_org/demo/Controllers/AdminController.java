@@ -46,22 +46,34 @@ public class AdminController {
             model.addAttribute("error", "Invalid input. Please check your input.");
             return "create-event-form";
         }
-
-        eventService.createEvent(request.getRemoteAddr(), event.getEventName(), event.getEventDate(), event.getEventLocationId(), event.getDescription());
-        return "redirect:/api/admin/events";
+        try {
+            eventService.createEvent(request.getRemoteAddr(), event.getEventName(), event.getEventDate(), event.getEventLocationId(), event.getDescription());
+            return "redirect:/api/admin/events";
+        }catch (SecurityException e) {
+            model.addAttribute("errorTitle", "Security Exception");
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
     @GetMapping("/events")
     public String listEvents(HttpServletRequest request, Model model) {
         String query = request.getQueryString();
         String clientIp = request.getRemoteAddr();
-        if (query == null) {
-            model.addAttribute("events", eventService.getAllEvents(clientIp, query));
+        try {
+            if (query == null) {
+                model.addAttribute("events", eventService.getAllEvents(clientIp, query));
+                return "events";
+            }
+            String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
+            model.addAttribute("events", eventService.getAllEvents(clientIp, decodedFilter));
             return "events";
         }
-        String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
-        model.addAttribute("events", eventService.getAllEvents(clientIp, decodedFilter));
-        return "events";
+        catch (SecurityException e) {
+            model.addAttribute("errorTitle", "Security Exception");
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
     @PostMapping("/delete_event/{Id}")
@@ -84,8 +96,14 @@ public class AdminController {
             model.addAttribute("error", bindingResult.getAllErrors());
             return "edit-event-form";
         }
-        String clientIp= request.getRemoteAddr();
-        eventService.updateEvent(clientIp, Id, event);
-        return "redirect:/api/admin/events";
+        try {
+            String clientIp = request.getRemoteAddr();
+            eventService.updateEvent(clientIp, Id, event);
+            return "redirect:/api/admin/events";
+        }catch (SecurityException e) {
+            model.addAttribute("errorTitle", "Security Exception");
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 }
