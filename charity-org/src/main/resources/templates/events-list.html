@@ -41,9 +41,10 @@
                 <div class="card-body">
                     <h2 class="card-title" th:text="${event.eventName}">Event Name</h2>
                     <p><strong>Date:</strong> <span th:text="${#dates.format(event.eventDate, 'dd MMM yyyy')}">Event Date</span></p>
-                    <p><strong>Address:</strong> <span th:text="${event.eventLocation}">Event Address</span></p>
+                    <p><strong>Address:</strong> <span th:text="${event.eventLocation.name}">Event Address</span></p>
                     <p><strong>Description:</strong> <span th:text="${event.description}">Event Description</span></p>
                     <p><strong>Status:</strong> <span th:text="${event.status}">Event Status</span></p>
+                    <button type="button" class="btn btn-primary" id="unRegisterBtn" th:disabled="${event.eventDate != null and event.eventDate.before(#dates.createNow())}">Unregister</button>
                 </div>
             </div>
         </div>
