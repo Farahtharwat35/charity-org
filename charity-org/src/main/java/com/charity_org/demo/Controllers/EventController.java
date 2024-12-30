@@ -1,4 +1,5 @@
 package com.charity_org.demo.Controllers;
+import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
 import com.charity_org.demo.Models.Model.Event;
 import com.charity_org.demo.Models.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -71,4 +73,21 @@ public class EventController {
     public Event getById(@PathVariable Long id) {
         return eventService.getById(id);
     }
+    @GetMapping("/search")
+    public String searchEvents(@RequestParam("keyword") String keyword, Model model) {
+        List<Event> events;
+        if (keyword == null || keyword.isEmpty()) {
+            events = eventService.listAllEvents(); // Get all events if no keyword is provided
+        } else {
+            EventIterator iterator = eventService.createSearchIterator(keyword);
+            events = new ArrayList<>();
+            while (iterator.hasNext()) {
+                events.add(iterator.next());
+            }
+        }
+        model.addAttribute("events", events);
+        model.addAttribute("keyword", keyword);
+        return "ListEventsView"; // View for displaying search results
+    }
+
 }
