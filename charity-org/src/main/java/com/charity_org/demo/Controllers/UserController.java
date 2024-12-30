@@ -44,6 +44,7 @@ public class UserController {
 
     @Autowired
     SessionRepository sessionRepository;
+
     @Autowired
     private EventRegistrationService eventRegistrationService;
 
@@ -110,8 +111,7 @@ public class UserController {
 
     @GetMapping("/events/{id}")
     public String getMyEvents(@PathVariable Long id, Model model) {
-        EventRegistrationService eventRegisterationtionService = new EventRegistrationService();
-        List<Event> events = eventRegisterationtionService.getEventRegistredByUser(id);
+        List<Event> events = eventRegistrationService.getEventRegistredByUser(id);
         model.addAttribute("events", events);
         return "events-list";
     }

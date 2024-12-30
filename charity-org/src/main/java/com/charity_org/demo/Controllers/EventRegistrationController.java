@@ -19,8 +19,6 @@ public class EventRegistrationController {
     @Autowired
     private EventService eventService;
 
-    private EventRegistration eventRegistration = new EventRegistration();
-
     @Autowired
     private EventRegistrationService eventRegistrationService;
 
@@ -33,25 +31,25 @@ public class EventRegistrationController {
         return "ListEventsView";
     }
 
-    @PostMapping("/registerEvent")
-    public String eventRegistration(@RequestParam("event.id") Long eventId, Model model, RedirectAttributes redirectAttributes) {
-        // Fetch the Event object by ID
-        Event event = eventService.getById(eventId);
-
-        // If the event exists, process the registration
-        if (event != null) {
-            Date currentDateTime = new Date();
-            eventRegistration.setEvent(event);
-            eventRegistration.setRegisteredAt(currentDateTime);
-            eventRegistrationService.register(eventRegistration);
-
-            redirectAttributes.addFlashAttribute("message", "Event registered successfully!");
-            // You could add a confirmation message here
-        }
-        return "redirect:/event-registration/getAllEvents";
-
-
-    }
+//    @PostMapping("/registerEvent")
+//    public String eventRegistration(@RequestParam("event.id") Long eventId, Model model, RedirectAttributes redirectAttributes) {
+//        // Fetch the Event object by ID
+//        Event event = eventService.getById(eventId);
+//
+//        // If the event exists, process the registration
+//        if (event != null) {
+//            Date currentDateTime = new Date();
+//            eventRegistrationService.(event);
+//            eventRegistration.setRegisteredAt(currentDateTime);
+//            eventRegistrationService.register(eventRegistration);
+//
+//            redirectAttributes.addFlashAttribute("message", "Event registered successfully!");
+//            // You could add a confirmation message here
+//        }
+//        return "redirect:/event-registration/getAllEvents";
+//
+//
+//    }
 
 
 }

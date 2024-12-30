@@ -6,7 +6,9 @@
     import org.springframework.context.annotation.Primary;
     import org.springframework.stereotype.Component;
     import java.util.Date;
+    import java.util.HashSet;
     import java.util.List;
+    import java.util.Set;
 
 
     @Entity
@@ -32,10 +34,12 @@
             this.age = age;
             this.address = address;
         }
+        @ManyToMany(fetch = FetchType.EAGER)
+        @JoinTable(name = "user_roles",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
 
-        public void applyRoles() {
-            this.role.add(Roles.USER);
-        }
+        private Set<Role> roles = new HashSet<>();
 
 //        private []Event eventsParticipatedIn;
     }

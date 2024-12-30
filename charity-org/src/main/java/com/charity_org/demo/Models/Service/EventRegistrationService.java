@@ -12,12 +12,12 @@ import java.util.List;
 
 @Service
 public class EventRegistrationService {
-    @Autowired
-    private EventRegistrationRepository EventRegistrationRepository;
 
-    public List<Event> getEventRegistredByUser(
-            Long userID) {
-        List<EventRegistration> registrations = EventRegistrationRepository.findRegistrationByUserID(userID);
+    @Autowired
+    private EventRegistrationRepository eventRegistrationRepository;
+
+    public List<Event> getEventRegistredByUser(Long userID) {
+        List<EventRegistration> registrations = eventRegistrationRepository.findRegistrationByUserID(userID);
         List<Event> events = new ArrayList<>() ;
         for (EventRegistration registration : registrations) {
             events.add(registration.getEvent());
@@ -26,24 +26,24 @@ public class EventRegistrationService {
     }
 
     public boolean register(EventRegistration eventRegistration) {
-        if (!EventRegistrationRepository.findAll().contains(eventRegistration)) {
-            EventRegistrationRepository.save(eventRegistration);
+        if (!eventRegistrationRepository.findAll().contains(eventRegistration)) {
+            eventRegistrationRepository.save(eventRegistration);
 
         }
         return true;
     }
     public boolean register(Event event, Date date) {
-        if (!EventRegistrationRepository.findAll().contains(event)) {
+        if (!eventRegistrationRepository.findAll().contains(event)) {
             EventRegistration eventRegistration = new EventRegistration();
             eventRegistration.setEvent(event);
             eventRegistration.setRegisteredAt(date);
-            EventRegistrationRepository.save(eventRegistration);
+            eventRegistrationRepository.save(eventRegistration);
         }
         return true;}
 
     public boolean unregister(EventRegistration eventRegistration) {
-        if (EventRegistrationRepository.findAll().contains(eventRegistration)) {
-            EventRegistrationRepository.delete(eventRegistration);
+        if (eventRegistrationRepository.findAll().contains(eventRegistration)) {
+            eventRegistrationRepository.delete(eventRegistration);
         }
         return true;
     }

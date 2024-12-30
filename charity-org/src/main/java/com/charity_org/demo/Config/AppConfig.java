@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
     public class AppConfig {
-        @Bean
+
+    @Bean
         public CookieHandler cookieHandler(SessionRepository sessionRepository , UserService userService) {
             return new CookieHandler(sessionRepository, userService);
         }
