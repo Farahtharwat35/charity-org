@@ -90,12 +90,12 @@ public class EventService implements IEventSubject, IEventService {
     }
 
     @Override
-    public List<Event> getAllEvents() {
+    public List<Event> getAllEvents(String clientIp, String queryString) {
         return eventRepository.findAll();
     }
 
     @Override
-    public List<Event> listAllEvents() {
+    public List<Event> listAllUnDeletedEvents(String clientIp, String queryString) {
         return eventRepository.findAll().stream()
                 .filter(event -> !event.isDeleted())
                 .collect(Collectors.toList());

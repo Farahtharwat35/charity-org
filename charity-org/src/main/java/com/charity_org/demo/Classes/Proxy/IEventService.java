@@ -2,7 +2,6 @@ package com.charity_org.demo.Classes.Proxy;
 
 import com.charity_org.demo.Models.Model.Event;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -17,10 +16,9 @@ public interface IEventService {
 
     boolean deleteEvent(String clientIp, long id);
 
-    List<Event> getAllEvents();
+    List<Event> getAllEvents(String clientIp, String queryString);
 
-    List<Event> listAllEvents();
-
+    List<Event> listAllUnDeletedEvents(String clientIp, String queryString);
 
     boolean deleteById(String clientIp, Long id);
 }

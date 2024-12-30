@@ -43,13 +43,16 @@ public class AdminController {
             model.addAttribute("error", "Invalid input. Please check your input.");
             return "create-event-form";
         }
+
         eventService.createEvent(request.getRemoteAddr(), event.getEventName(), event.getEventDate(), event.getEventLocationId(), event.getDescription());
         return "redirect:/api/admin/events";
     }
 
     @GetMapping("/events")
-    public String listEvents(Model model) {
-        model.addAttribute("events", eventService.getAllEvents());
+    public String listEvents(HttpServletRequest request, Model model) {
+        String query = request.getQueryString();
+        String clientIp = request.getRemoteAddr();
+        model.addAttribute("events", eventService.getAllEvents(clientIp, query));
         return "events";
     }
 

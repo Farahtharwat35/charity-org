@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Primary;
     }
 
     @Bean
+    @Primary
     public IEventService eventServiceProxy(IEventService eventService) {
         return new EventServiceProxy(eventService); // The proxy wrapping the actual service
     }

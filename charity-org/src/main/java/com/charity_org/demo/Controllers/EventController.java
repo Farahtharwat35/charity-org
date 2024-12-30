@@ -16,12 +16,21 @@ public class EventController {
     private EventService eventService;
 
     @GetMapping("/all")
-    public String getEvents(Model model) {
-        List<Event> events = eventService.listAllEvents();
+    public String getEvents(HttpServletRequest request, Model model) {
+        String clientIp = request.getRemoteAddr();
+        String query = request.getQueryString();
+        List<Event> events = eventService.listAllUnDeletedEvents(clientIp, query);
         model.addAttribute("events", events);
         return "ListEventsView";
     }
-//
+
+
+    @GetMapping("/get/{id}")
+    public Event getById(@PathVariable Long id) {
+        return eventService.getById(id);
+    }
+
+    //
 //    @GetMapping("/create")
 //    public long createEvent(@RequestParam String eventName,
 //                            @RequestParam String eventDate,
@@ -37,7 +46,7 @@ public class EventController {
 //        }
 //
 //        eventService.createEvent(eventName, parsedDate, eventLocationId, description, status);
-//        return eventService.listAllEvents().size();
+//        return eventService.listAllUnDeletedEvents().size();
 //    }
     // sample run
     // http://localhost:8080/events/create?eventName=SampleEvent&eventDate=2024-11-15&eventLocationId=1&description=Annual%20Charity%20Event&status=UPCOMING
@@ -61,15 +70,4 @@ public class EventController {
 //    }
 
     // Delete event endpoint
-    @DeleteMapping("/delete/{id}")
-    public boolean deleteEvent(@RequestHeader("X-Forwarded-For") String clientIp, @PathVariable Long id) {
-        return eventService.deleteById(clientIp, id);
-    }
-
-
-    // Delete event endpoint
-    @GetMapping("/get/{id}")
-    public Event getById(@PathVariable Long id) {
-        return eventService.getById(id);
-    }
 }

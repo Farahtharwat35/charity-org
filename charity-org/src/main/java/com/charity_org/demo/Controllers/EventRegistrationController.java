@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -24,8 +25,10 @@ public class EventRegistrationController {
     private EventRegistrationService eventRegistrationService;
 
     @GetMapping("/getAllEvents")
-    public String getAllEvents(Model model) {
-        List<Event> events = eventService.listAllEvents();
+    public String getAllEvents(HttpServletRequest request, Model model) {
+        String clientIp = request.getRemoteAddr();
+        String query = request.getQueryString();
+        List<Event> events = eventService.listAllUnDeletedEvents(clientIp, query);
         model.addAttribute("events", events);
         return "ListEventsView";
     }
