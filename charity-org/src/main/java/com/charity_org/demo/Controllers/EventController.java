@@ -1,27 +1,39 @@
 package com.charity_org.demo.Controllers;
 import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
+import com.charity_org.demo.Classes.Proxy.IEventService;
 import com.charity_org.demo.Models.Model.Event;
-import com.charity_org.demo.Models.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
 @RequestMapping("/events") // This adds an initial path to all endpoints in this controller
 public class EventController {
+    private final IEventService eventService;
     @Autowired
-    private EventService eventService;
+    public EventController(IEventService eventService) {
+        this.eventService = eventService;
+    }
 
     @GetMapping("/all")
     public String getEvents(HttpServletRequest request, Model model) {
         String clientIp = request.getRemoteAddr();
         String query = request.getQueryString();
-        List<Event> events = eventService.listAllUnDeletedEvents(clientIp, query);
+        if (query == null) {
+            List<Event> events = eventService.listAllUnDeletedEvents(clientIp, query);
+            model.addAttribute("events", events);
+            return "ListEventsView";
+        }
+        String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
+        List<Event> events = eventService.listAllUnDeletedEvents(clientIp, decodedFilter);
         model.addAttribute("events", events);
         return "ListEventsView";
     }
@@ -29,7 +41,7 @@ public class EventController {
 
     @GetMapping("/get/{id}")
     public Event getById(@PathVariable Long id) {
-        return eventService.getById(id);
+        return eventService.getEvent(id);
     }
 
     //

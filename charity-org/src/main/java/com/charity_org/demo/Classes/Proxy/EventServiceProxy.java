@@ -1,6 +1,12 @@
 package com.charity_org.demo.Classes.Proxy;
 
+import com.charity_org.demo.Classes.CommandComponents.CancelEventCommand;
+import com.charity_org.demo.Classes.CommandComponents.CreateEventCommand;
+import com.charity_org.demo.Classes.CommandComponents.Invoker;
+import com.charity_org.demo.Classes.ObserverComponents.IEventSubject;
+import com.charity_org.demo.Enums.EventStatus;
 import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,9 +19,26 @@ import java.util.regex.Pattern;
 public class EventServiceProxy implements IEventService {
     private final IEventService target;
     private static final Set<String> blockedIps = ConcurrentHashMap.newKeySet();
-    private static final Pattern SQL_INJECTION_PATTERN = Pattern.compile("(?i)(select\\s+.*from|union\\s+.*select|drop\\s+table|insert\\s+into|delete\\s+from|update\\s+.*set|--|;--|;|#)\n", Pattern.CASE_INSENSITIVE);
+    private static final Pattern SQL_INJECTION_PATTERN = Pattern.compile(
+            "(?i).*(" +
+                    "select\\b.*\\bfrom\\b|" +
+                    "union\\b.*\\bselect\\b|" +
+                    "drop\\b.*\\btable\\b|" +
+                    "insert\\b.*\\binto\\b|" +
+                    "delete\\b.*\\bfrom\\b|" +
+                    "update\\b.*\\bset\\b|" +
+                    "exec\\b|" +
+                    "execute\\b|" +
+                    "create\\b.*\\btable\\b|" +
+                    "--|;--|;|#|\\*|" +
+                    "where\\b.*=.*" +
+                    ").*",
+            Pattern.CASE_INSENSITIVE
+    );
+
     private static final Pattern XSS_PATTERN = Pattern.compile("<script>(.*?)</script>|%3Cscript%3E(.*?)%3C/script%3E", Pattern.CASE_INSENSITIVE);
     private static final Logger logger = LoggerFactory.getLogger(EventServiceProxy.class);
+
     public EventServiceProxy(IEventService target) {
         this.target = target;
         logger.info("EventServiceProxy created");
@@ -45,22 +68,9 @@ public class EventServiceProxy implements IEventService {
             blockIp(clientIp);
             throw new SecurityException("Malicious content detected. Your IP has been blocked.");
         }
-        return target.createEvent(clientIp, eventName, eventDate, eventLocationId, description);
-    }
 
-    @Override
-    public boolean createEvent(String clientIp, Event event) {
-        logger.info("Creating event with IP: {}", clientIp);
-        if (blockedIps.contains(clientIp)) {
-            logger.warn("Attempt to create event with blocked IP: {}", clientIp);
-            throw new SecurityException("Your IP is blocked.");
-        }
-        if (isMalicious(event.getEventName()) || isMalicious(event.getDescription())) {
-            logger.warn("Attempt to create event with malicious content. IP: {}", clientIp);
-            blockIp(clientIp);
-            throw new SecurityException("Malicious content detected. Your IP has been blocked.");
-        }
-        return target.createEvent(clientIp, event);
+        Invoker invoker = new Invoker(new CreateEventCommand((EventService) target, eventName, eventDate, eventLocationId, description, clientIp));
+        return invoker.executeCommand();
     }
 
     @Override
@@ -130,6 +140,9 @@ public class EventServiceProxy implements IEventService {
             logger.warn("Attempt to delete event with blocked IP: {}", clientIp);
             throw new SecurityException("Your IP is blocked.");
         }
-        return target.deleteById(clientIp, id);
+        String subject = "Event Deleted";
+        String content = "Event with Name " + getEvent(id).getEventName() + " has been deleted." + "So your registration has been canceled.";
+        Invoker invoker = new Invoker(new CancelEventCommand((IEventSubject) target,subject,content , (EventService) target, getEvent(id),clientIp));
+        return invoker.executeCommand();
     }
 }

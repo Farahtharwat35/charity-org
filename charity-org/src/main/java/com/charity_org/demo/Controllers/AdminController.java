@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import javax.validation.groups.Default;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/admin")
@@ -52,7 +55,12 @@ public class AdminController {
     public String listEvents(HttpServletRequest request, Model model) {
         String query = request.getQueryString();
         String clientIp = request.getRemoteAddr();
-        model.addAttribute("events", eventService.getAllEvents(clientIp, query));
+        if (query == null) {
+            model.addAttribute("events", eventService.getAllEvents(clientIp, query));
+            return "events";
+        }
+        String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
+        model.addAttribute("events", eventService.getAllEvents(clientIp, decodedFilter));
         return "events";
     }
 

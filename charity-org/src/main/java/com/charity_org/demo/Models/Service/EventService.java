@@ -12,6 +12,7 @@ import com.charity_org.demo.Models.Repository.AddressRepository;
 import com.charity_org.demo.Models.Repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,15 +43,6 @@ public class EventService implements IEventSubject, IEventService {
         }
     }
 
-    @Override
-    public boolean createEvent(String clientIp, Event event) {
-        try {
-            eventRepository.save(event);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     @Override
     public boolean updateEvent(String clientIp, long id, Event event) {
@@ -88,7 +80,7 @@ public class EventService implements IEventSubject, IEventService {
 
     @Override
     public boolean deleteEvent(String clientIp, long id) {
-        eventRepository.deleteById(id);
+        eventRepository.deleteEventById(id);
         return true;
     }
 

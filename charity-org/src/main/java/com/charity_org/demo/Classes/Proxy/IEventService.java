@@ -8,8 +8,6 @@ import java.util.List;
 public interface IEventService {
     boolean createEvent(String clientIp, String eventName, Date eventDate, long eventLocationId, String description);
 
-    boolean createEvent(String clientIp, Event event);
-
     boolean updateEvent(String clientIp, long id, Event event);
 
     Event getEvent(long id);
