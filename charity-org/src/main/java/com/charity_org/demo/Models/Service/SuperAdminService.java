@@ -1,5 +1,7 @@
 package com.charity_org.demo.Models.Service;
+import com.charity_org.demo.Classes.RolesDecorator.AdminDecorator;
 import com.charity_org.demo.Classes.RolesDecorator.RolesDecorator;
+import com.charity_org.demo.Classes.RolesDecorator.SuperAdminDecorator;
 import com.charity_org.demo.Enums.Roles;
 import com.charity_org.demo.Models.Model.Person;
 import com.charity_org.demo.Models.Model.User;
@@ -11,32 +13,31 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SuperAdminService extends RolesDecorator {
+public class SuperAdminService {
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
-    private AdminService adminService;
+    private AdminDecorator adminDecorator;
 
+    @Autowired
+    private RoleService roleService;
 
-    public SuperAdminService(Person personRef) {
-        this.personRef = personRef;
-    }
+    @Autowired
+    private UserRoleService userRoleService;
 
-    @Override
-    public void applyRoles() {
-       personRef.applyRoles();
-       personRef.getRole().add(Roles.SUPERADMIN);
-    }
     public User createAdminUser(User user) {
-        // Decorate the user with AdminService to apply the ADMIN role
-        AdminService adminDecorator = new AdminService(user);
-        adminDecorator.applyRoles();
-        // Save the updated user
-        userRepository.save(user);
+        AdminDecorator adminDecorator = new AdminDecorator(user ,roleService, userRoleService);
+        adminDecorator.applyRole();
         return user;
 
     }
-
+    public User createSuperAdmin(User user){
+        SuperAdminDecorator superAdminDecorator = new SuperAdminDecorator(user);
+        superAdminDecorator.applyRole();
+        return user;
+    }
     public User createCourier(User user) {
         userRepository.save(user);
         return user;

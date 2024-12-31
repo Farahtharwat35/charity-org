@@ -3,5 +3,5 @@ import com.charity_org.demo.Models.Model.UserRole;
 import java.util.Set;
 
 public interface IRole {
-    Set<UserRole> getRoles();
+    Set<UserRole> applyRole();
 }

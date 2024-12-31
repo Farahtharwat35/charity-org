@@ -26,6 +26,7 @@ INSERT INTO donation (user_id, date, time, status, donation_total_price) VALUES
                                                                                  (2, '2024-11-16', '12:30:00', 'PENDING', 150.00),
                                                                                  (1, '2024-11-15', '14:00:00', 'PENDING', 200.00),
                                                                                  (2, '2024-11-14', '16:15:00', 'PENDING', 50.00);
+INSERT INTO Role (name) VALUES ('ROLE_USER'), ('ROLE_ADMIN'), ('ROLE_COURIER') ,('ROLE_SUPERADMIN') ;
 
 -- -- Insert Dummy Assignments
 -- INSERT INTO assigments (donation_id, courier_id) VALUES

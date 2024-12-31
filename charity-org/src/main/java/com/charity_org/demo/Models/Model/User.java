@@ -1,6 +1,5 @@
     package com.charity_org.demo.Models.Model;
     import com.charity_org.demo.Classes.RolesDecorator.IRole;
-    import com.charity_org.demo.Enums.Roles;
     import jakarta.persistence.*;
     import lombok.Data;
     import lombok.NoArgsConstructor;
@@ -36,20 +35,11 @@
             this.address = address;
         }
 
-        public void applyRoles() {
-            this.roles.add(Roles.USER);
-        }
-
-//        @ManyToMany(fetch = FetchType.EAGER)
-//        @JoinTable(name = "user_roles",
-//                joinColumns = @JoinColumn(name = "user_id"),
-//                inverseJoinColumns = @JoinColumn(name = "role_id"))
-
         @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
         private Set<UserRole> roles = new HashSet<>();
 
         @Override
-        public Set<UserRole> getRoles() {
+        public Set<UserRole> applyRole() {
             return roles;
         }
     }

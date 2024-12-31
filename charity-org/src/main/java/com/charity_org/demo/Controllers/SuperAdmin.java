@@ -3,6 +3,7 @@ package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.Models.Service.SuperAdminService;
 import com.charity_org.demo.Models.Model.User;
+import com.charity_org.demo.Models.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ import javax.validation.Valid;
 public class SuperAdmin {
     @Autowired
     private SuperAdminService superAdminService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
@@ -46,7 +49,8 @@ public class SuperAdmin {
             redirectAttributes.addFlashAttribute("error", "Validation failed. Please check the input fields.");
             return "redirect:/super_admin/dashboard";
         }
-        User createdUser = superAdminService.createAdminUser(user);
+        User dbUser = userService.getUserByEmail(user.getEmail());
+        User createdUser = superAdminService.createAdminUser(dbUser);
         // Add a success message and pass user details to the dashboard
         redirectAttributes.addFlashAttribute("message", "Admin created successfully!");
         redirectAttributes.addFlashAttribute("createdAdmin", createdUser);

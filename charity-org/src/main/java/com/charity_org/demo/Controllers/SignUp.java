@@ -1,7 +1,11 @@
 package com.charity_org.demo.Controllers;
 import com.charity_org.demo.DTO.SignUpRequest;
 import com.charity_org.demo.Models.Model.Address;
+import com.charity_org.demo.Models.Model.User;
+import com.charity_org.demo.Models.Model.UserRole;
 import com.charity_org.demo.Models.Service.AddressService;
+import com.charity_org.demo.Models.Service.RoleService;
+import com.charity_org.demo.Models.Service.UserRoleService;
 import com.charity_org.demo.Models.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Controller
@@ -21,6 +27,13 @@ public class SignUp {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    RoleService roleService;
+
+    @Autowired
+    UserRoleService userRoleService;
+
     // Serve the signup form
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
@@ -56,16 +69,19 @@ public class SignUp {
         }
 
         // Save the user and associate the address
-        userService.save(
+        User user = userService.save(
                 signupRequest.getName(),
                 signupRequest.getEmail(),
-                signupRequest.getPassword(), // Be sure to hash the password in production
-                address, // Pass the full address object, not just the address ID
+                signupRequest.getPassword(),
+                address,
                 signupRequest.getAge()
         );
 
+        Set<UserRole> userRoles  = new HashSet<>();
+        userRoles.add(userRoleService.createUserRole(user, roleService.getRoleByName("ROLE_USER")));
+        user.setRoles(userRoles);
+
         redirectAttributes.addFlashAttribute("signupRequest", signupRequest);
-        // Redirect to a success page (or login page)
         return "redirect:/auth/login";
     }
 
