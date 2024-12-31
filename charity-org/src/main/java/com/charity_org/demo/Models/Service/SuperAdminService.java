@@ -1,10 +1,12 @@
 package com.charity_org.demo.Models.Service;
 import com.charity_org.demo.Classes.RolesDecorator.AdminDecorator;
+import com.charity_org.demo.Classes.RolesDecorator.CourierDecorator;
 import com.charity_org.demo.Classes.RolesDecorator.SuperAdminDecorator;
 import com.charity_org.demo.Models.Model.Role;
 import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Models.Model.UserRole;
 import com.charity_org.demo.Models.Repository.UserRepository;
+import com.charity_org.demo.Models.Repository.UserRoleRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,8 @@ public class SuperAdminService {
         return user;
     }
     public User createCourier(User user) {
-        userRepository.save(user);
+        CourierDecorator courierDecorator = new CourierDecorator(user, roleService, userRoleService);
+        courierDecorator.applyRole();
         return user;
 
     }
@@ -54,14 +57,24 @@ public class SuperAdminService {
         return adminUsers;
     }
 
+    public List<User> getCouriers() {
+        Role courierRole = roleService.getRoleByName("ROLE_COURIER");
+        List<UserRole> courier = userRoleService.getUsersByRole(courierRole);
+        List<User> courierUsers = new ArrayList<>();
+        for(UserRole courierUser : courier){
+            User admin = userRepository.getById(courierUser.getUser().getId());
+            courierUsers.add(admin);
+        }
+        return courierUsers;
+    }
+
+
     @Transactional
     public boolean deleteAdmin(Long adminId) {
-        int result = userRepository.deleteUser(adminId);
-        return result > 0;
+        return userRoleService.deleteAdmin(adminId) > 0;
     }
 
     public boolean deleteCourier(Long courierId) {
-        int result = userRepository.deleteUser(courierId);
-        return result > 0;
+       return userRoleService.deleteCourier(courierId) > 0;
     }
 }

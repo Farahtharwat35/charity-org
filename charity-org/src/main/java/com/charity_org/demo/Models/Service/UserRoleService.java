@@ -26,4 +26,12 @@ public class UserRoleService {
         return userRoleRepository.getUserRolesByRole(role.getId());
     }
 
+    int deleteAdmin(long adminId){
+        return userRoleRepository.deleteUserRoleByUserIdAndRole(adminId, "ROLE_ADMIN");
+    }
+
+    int deleteCourier(long courierId){
+        return userRoleRepository.deleteUserRoleByUserIdAndRole(courierId, "ROLE_COURIER");
+    }
+
 }

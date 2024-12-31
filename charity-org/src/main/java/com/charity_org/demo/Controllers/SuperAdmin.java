@@ -28,7 +28,8 @@ public class SuperAdmin {
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
         model.addAttribute("user", new User()); // Add User object for form binding
-        model.addAttribute("admins", superAdminService.getAdmins());
+        model.addAttribute("users", superAdminService.getAdmins());
+        model.addAttribute("title", "Admins");
         return "superadmin_dashboard"; // Main dashboard view
     }
 
@@ -43,19 +44,27 @@ public class SuperAdmin {
             @Valid @ModelAttribute("user") User user,
             BindingResult result,
             RedirectAttributes redirectAttributes) {
+        try {
+            if (result.hasErrors()) {
+                // If there are validation errors, add an error message and redirect back to the dashboard
+                redirectAttributes.addFlashAttribute("error", "Validation failed. Please check the input fields.");
+                return "redirect:/super_admin/dashboard";
+            }
+            User dbUser = userService.getUserByEmail(user.getEmail());
+            if (dbUser == null) {
+                redirectAttributes.addFlashAttribute("error", "User with this email does not exist.");
+                return "redirect:/super_admin/dashboard";
+            }
+            User createdUser = superAdminService.createAdminUser(dbUser);
+            // Add a success message and pass user details to the dashboard
+            redirectAttributes.addFlashAttribute("message", "Admin created successfully!");
+            redirectAttributes.addFlashAttribute("createdAdmin", createdUser);
 
-        if (result.hasErrors()) {
-            // If there are validation errors, add an error message and redirect back to the dashboard
-            redirectAttributes.addFlashAttribute("error", "Validation failed. Please check the input fields.");
+            return "redirect:/super_admin/dashboard";
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("message", "User is already an admin");
             return "redirect:/super_admin/dashboard";
         }
-        User dbUser = userService.getUserByEmail(user.getEmail());
-        User createdUser = superAdminService.createAdminUser(dbUser);
-        // Add a success message and pass user details to the dashboard
-        redirectAttributes.addFlashAttribute("message", "Admin created successfully!");
-        redirectAttributes.addFlashAttribute("createdAdmin", createdUser);
-
-        return "redirect:/super_admin/dashboard";
     }
 
 
@@ -68,22 +77,28 @@ public class SuperAdmin {
     public String createCourier(   @Valid @ModelAttribute("user") User user,
                                    BindingResult result,
                                    RedirectAttributes redirectAttributes) {
+        try {
+            if (result.hasErrors()) {
+                // If there are validation errors, add an error message and redirect back to the dashboard
+                redirectAttributes.addFlashAttribute("error", "Validation failed. Please check the input fields.");
+                return "redirect:/super_admin/dashboard";
+            }
+            User dbUser = userService.getUserByEmail(user.getEmail());
+            if (dbUser == null) {
+                redirectAttributes.addFlashAttribute("error", "User with this email does not exist.");
+                return "redirect:/super_admin/dashboard";
+            }
+            User createdUser = superAdminService.createCourier(dbUser);
+            // Add a success message and pass user details to the dashboard
+            redirectAttributes.addFlashAttribute("message", "Courier created successfully!");
+            redirectAttributes.addFlashAttribute("createdCourier", createdUser);
 
-        if (result.hasErrors()) {
-            // If there are validation errors, add an error message and redirect back to the dashboard
-            redirectAttributes.addFlashAttribute("error", "Validation failed. Please check the input fields.");
-            return "redirect:/super_admin/dashboard";
+            return "redirect:/super_admin/list-couriers";
+        } catch( Exception e){
+            redirectAttributes.addFlashAttribute("message", "User is Already a courier");
+            return "redirect:/super_admin/list-couriers";
         }
-        User createdUser = superAdminService.createCourier(user);
-
-        // Add a success message and pass user details to the dashboard
-        redirectAttributes.addFlashAttribute("message", "Courier created successfully!");
-        redirectAttributes.addFlashAttribute("createdCourier", createdUser);
-
-        return "redirect:/super_admin/dashboard";
     }
-
-
 
     @PostMapping ("/deleteAdmin/{id}")
     public String deleteAdmin(@PathVariable Long id) {
@@ -91,14 +106,18 @@ public class SuperAdmin {
         return "redirect:/super_admin/dashboard";
     }
 
-    @DeleteMapping("/deleteCourier/{id}")
-    public ResponseEntity<String> deleteCourier(@PathVariable Long id) {
-        boolean isDeleted = superAdminService.deleteCourier(id);
-        if (isDeleted) {
-            return ResponseEntity.ok("Courier deleted successfully");
-        } else {
-            return ResponseEntity.status(404).body("Courier not found");
-        }
+    @PostMapping("/deleteCourier/{id}")
+    public String deleteCourier(@PathVariable Long id) {
+        superAdminService.deleteCourier(id);
+        return "redirect:/super_admin/list-couriers";
+    }
+
+    @GetMapping("/list-couriers")
+    public String showCourier(Model model){
+        model.addAttribute("user", new User()); // Add User object for form binding
+        model.addAttribute("users", superAdminService.getCouriers());
+        model.addAttribute("title", "Couriers");
+        return "superadmin_dashboard"; // Main dashboard view
     }
 
 }

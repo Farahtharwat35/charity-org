@@ -50,14 +50,9 @@ public class UserController {
     @GetMapping("/{id}")
     public String getUser(@PathVariable Long id, Model model, HttpServletRequest request) {
         Logger logger = LoggerFactory.getLogger(UserController.class);
-
-        logger.info("Fetching session ID from cookies...");
-        String sessionId = cookieHandler.getCookieValue("SESSION_ID", request);
-        logger.debug("Session ID: {}", sessionId);
         logger.info("Fetching user from session...");
-        User user = cookieHandler.getUserFromSession(sessionId);
+        User user = cookieHandler.getUserFromSession(request);
         if (user == null) {
-            logger.warn("No user found for session ID: {}", sessionId);
             model.addAttribute("errorMessage", "User not found");
             return "error";
         }

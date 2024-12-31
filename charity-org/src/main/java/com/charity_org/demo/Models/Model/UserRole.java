@@ -1,14 +1,17 @@
 package com.charity_org.demo.Models.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @NoArgsConstructor
+
+@Table(
+        name = "user_role",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"userId", "roleId"})
+)
 public class UserRole extends BaseEntity{
 
     @ManyToOne
