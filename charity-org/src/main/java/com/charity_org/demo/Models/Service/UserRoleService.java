@@ -22,4 +22,8 @@ public class UserRoleService {
         return userRoleRepository.getUserRolesByUser(user.getId());
     }
 
+    List<UserRole> getUsersByRole(Role role){
+        return userRoleRepository.getUserRolesByRole(role.getId());
+    }
+
 }
