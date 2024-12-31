@@ -1,4 +1,5 @@
     package com.charity_org.demo.Models.Model;
+    import com.charity_org.demo.Classes.RolesDecorator.IRole;
     import com.charity_org.demo.Enums.Roles;
     import jakarta.persistence.*;
     import lombok.Data;
@@ -6,7 +7,9 @@
     import org.springframework.context.annotation.Primary;
     import org.springframework.stereotype.Component;
     import java.util.Date;
+    import java.util.HashSet;
     import java.util.List;
+    import java.util.Set;
 
 
     @Entity
@@ -15,7 +18,7 @@
     @Component
     @Primary
     @Table(name = "users")
-    public class User extends Person {
+    public class User extends Person implements IRole {
         @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         private Date visitDate;
 
@@ -34,8 +37,19 @@
         }
 
         public void applyRoles() {
-            this.role.add(Roles.USER);
+            this.roles.add(Roles.USER);
         }
 
-//        private []Event eventsParticipatedIn;
+//        @ManyToMany(fetch = FetchType.EAGER)
+//        @JoinTable(name = "user_roles",
+//                joinColumns = @JoinColumn(name = "user_id"),
+//                inverseJoinColumns = @JoinColumn(name = "role_id"))
+
+        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+        private Set<UserRole> roles = new HashSet<>();
+
+        @Override
+        public Set<UserRole> getRoles() {
+            return roles;
+        }
     }

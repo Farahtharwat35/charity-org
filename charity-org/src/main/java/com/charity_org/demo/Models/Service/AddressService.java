@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class AddressService {
+
     @Autowired
     private AddressRepository addressRepository;
 
@@ -17,10 +18,9 @@ public class AddressService {
     }
 
     public Address createAddress(String address) {
-        // If the address doesn't exist, create a new one
         Address newAddress = new Address();
         newAddress.setName(address);
-        return addressRepository.save(newAddress); // Save and return the new address
+        return addressRepository.save(newAddress);
     }
     public Address save(Address address) {
         return addressRepository.save(address);
