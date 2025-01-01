@@ -28,7 +28,9 @@ public class Event extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private EventStatus status;
+    private EventStatus status = EventStatus.UPCOMING;
+
+
     public Event(String eventName, Date eventDate, Address eventLocationId, String description, EventStatus status) {
         this.eventName = eventName;
         this.eventDate = eventDate;

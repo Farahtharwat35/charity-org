@@ -44,7 +44,7 @@
 <body>
 
 <div class="container error-container">
-    <h1>Error</h1>
+    <h1 th:text="${errorTitle}"></h1>
     <p th:text="${errorMessage}"></p>
     <a th:href="@{/user-details.html}" class="btn-home">Go to Home</a>
 </div>
