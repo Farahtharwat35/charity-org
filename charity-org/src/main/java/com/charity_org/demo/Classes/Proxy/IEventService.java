@@ -1,5 +1,6 @@
 package com.charity_org.demo.Classes.Proxy;
 
+import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
 import com.charity_org.demo.Models.Model.Event;
 
 import java.util.Date;
@@ -19,4 +20,6 @@ public interface IEventService {
     List<Event> listAllUnDeletedEvents(String clientIp, String queryString);
 
     boolean deleteById(String clientIp, Long id);
+
+    EventIterator createSearchIterator(String clientIp, String query, String keyword);
 }

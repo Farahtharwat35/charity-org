@@ -131,8 +131,8 @@ public class EventService implements IEventSubject, IEventService {
             return false;
         }
 
-    public EventIterator createSearchIterator(String keyword) {
-        List<Event> allEvents = listAllEvents(); // Get all events
+    public EventIterator createSearchIterator(String clientIp, String query, String keyword) {
+        List<Event> allEvents = listAllUnDeletedEvents(clientIp, query); // Get all events
         List<Event> matchingEvents = allEvents.stream()
                 .filter(event -> event.getEventName().toLowerCase().contains(keyword.toLowerCase()) ||
                         event.getDescription().toLowerCase().contains(keyword.toLowerCase()))

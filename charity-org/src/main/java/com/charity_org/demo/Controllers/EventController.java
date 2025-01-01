@@ -97,19 +97,21 @@ public class EventController {
         return eventService.deleteById(clientIp, id);
     }
 
-
-    // Delete event endpoint
-    @GetMapping("/get/{id}")
-    public Event getById(@PathVariable Long id) {
-        return eventService.getById(id);
-    }
     @GetMapping("/search")
-    public String searchEvents(@RequestParam("keyword") String keyword, Model model) {
+    public String searchEvents(@RequestParam("keyword") String keyword, Model model,HttpServletRequest request) {
         List<Event> events;
+        String clientIp = request.getRemoteAddr();
+        String query = request.getQueryString();
         if (keyword == null || keyword.isEmpty()) {
-            events = eventService.listAllEvents(); // Get all events if no keyword is provided
+            if (query == null) {
+                events = eventService.listAllUnDeletedEvents(clientIp, query);
+            }
+            else {
+                String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
+                events = eventService.listAllUnDeletedEvents(clientIp, decodedFilter);
+            }
         } else {
-            EventIterator iterator = eventService.createSearchIterator(keyword);
+            EventIterator iterator = eventService.createSearchIterator(clientIp, query, keyword);
             events = new ArrayList<>();
             while (iterator.hasNext()) {
                 events.add(iterator.next());

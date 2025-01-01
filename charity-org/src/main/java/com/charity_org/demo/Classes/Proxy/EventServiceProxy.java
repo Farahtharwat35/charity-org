@@ -3,6 +3,7 @@ package com.charity_org.demo.Classes.Proxy;
 import com.charity_org.demo.Classes.CommandComponents.CancelEventCommand;
 import com.charity_org.demo.Classes.CommandComponents.CreateEventCommand;
 import com.charity_org.demo.Classes.CommandComponents.Invoker;
+import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
 import com.charity_org.demo.Classes.ObserverComponents.IEventSubject;
 import com.charity_org.demo.Enums.EventStatus;
 import com.charity_org.demo.Models.Model.Event;
@@ -144,5 +145,10 @@ public class EventServiceProxy implements IEventService {
         String content = "Event with Name " + getEvent(id).getEventName() + " has been deleted." + "So your registration has been canceled.";
         Invoker invoker = new Invoker(new CancelEventCommand((IEventSubject) target,subject,content , (EventService) target, getEvent(id),clientIp));
         return invoker.executeCommand();
+    }
+
+    @Override
+    public EventIterator createSearchIterator(String clientIp, String query, String keyword){
+        return target.createSearchIterator(clientIp, query, keyword);
     }
 }
