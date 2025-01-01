@@ -37,7 +37,8 @@ public class CookieHandler {
         return null;
     }
 
-    public User getUserFromSession(String sessionId) {
+    public User getUserFromSession(HttpServletRequest request) {
+        String sessionId = getCookieValue("sessionId" , request);
         Logger logger = LoggerFactory.getLogger(CookieHandler.class);
         logger.info("Attempting to retrieve user for sessionId: {}", sessionId);
 

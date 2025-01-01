@@ -34,5 +34,5 @@ abstract public class Person extends BaseEntity {
     protected Set<Roles> role = new HashSet<>();
 
 
-    public abstract void applyRoles();
+//    public abstract void applyRoles();
 }

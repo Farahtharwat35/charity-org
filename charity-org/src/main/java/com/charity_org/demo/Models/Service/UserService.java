@@ -22,7 +22,7 @@ public class UserService {
         // Save the address and get the saved Address object
         Address address = addressService.save(fullAddress);
         User user = userRepository.save(new User(name, email, password, age, address));
-        user.applyRoles();
+//        user.applyRoles();
         return user;
     }
 

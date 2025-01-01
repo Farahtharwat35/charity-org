@@ -7,6 +7,7 @@ import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.Donation;
 import com.charity_org.demo.Models.Model.Event;
 import com.charity_org.demo.Models.Service.DonationService;
+import com.charity_org.demo.Models.Service.EventRegistrationService;
 import com.charity_org.demo.Models.Service.EventService;
 import com.charity_org.demo.Models.Service.UserService;
 import com.charity_org.demo.Models.Model.User;
@@ -43,18 +44,15 @@ public class UserController {
 
     @Autowired
     SessionRepository sessionRepository;
+    @Autowired
+    private EventRegistrationService eventRegistrationService;
 
     @GetMapping("/{id}")
     public String getUser(@PathVariable Long id, Model model, HttpServletRequest request) {
         Logger logger = LoggerFactory.getLogger(UserController.class);
-
-        logger.info("Fetching session ID from cookies...");
-        String sessionId = cookieHandler.getCookieValue("SESSION_ID", request);
-        logger.debug("Session ID: {}", sessionId);
         logger.info("Fetching user from session...");
-        User user = cookieHandler.getUserFromSession(sessionId);
+        User user = cookieHandler.getUserFromSession(request);
         if (user == null) {
-            logger.warn("No user found for session ID: {}", sessionId);
             model.addAttribute("errorMessage", "User not found");
             return "error";
         }
@@ -90,13 +88,6 @@ public class UserController {
             model.addAttribute("errorMessage", "User not found");
             return "error";
         }
-//        try {
-//            patcher.objectPatcher(existingUser, user);
-//            userService.updateUserdata(existingUser);
-//        } catch (Exception e) {
-//            model.addAttribute("errorMessage", "Internal server error: " + e.getMessage());
-//            return "error";
-//        }
         userService.updateUserdata(user);
         model.addAttribute("user", userService.getUser(id));
         return "user-details"; // Redirect to the user list or success page
@@ -113,42 +104,9 @@ public class UserController {
     }
 
     @GetMapping("/events/{id}")
-    public String getEvents(@PathVariable Long id, Model model) {
-        EventService eventService = new EventService();
-        User user = userService.getUser(id);
-        if (user == null) {
-            model.addAttribute("errorMessage", "User not found");
-            return "error";
-        }
-        // Mock data for events
-        List<Event> events = new ArrayList<>();
-        Address address = new Address();
-        address.setName("123 Main St");
-
-        events.add(new Event(
-                "Charity Run 2024",
-                new Date(),
-                address,
-                "Join us for a fun and fulfilling charity run!",
-                EventStatus.UPCOMING
-        ));
-
-        events.add(new Event(
-                "Food Drive 2024",
-                new Date(System.currentTimeMillis() + 86400000L), // Event date: tomorrow
-                address,
-                "Help us collect and distribute food to those in need.",
-                EventStatus.ONGOING
-        ));
-
-        events.add(new Event(
-                "Music Concert Fundraiser",
-                new Date(System.currentTimeMillis() + 2 * 86400000L), // Event date: in 2 days
-                address,
-                "An evening of music and fun to support our cause.",
-                EventStatus.ONGOING
-        ));
-
+    public String getMyEvents(@PathVariable Long id, Model model) {
+        EventRegistrationService eventRegisterationtionService = new EventRegistrationService();
+        List<Event> events = eventRegisterationtionService.getEventRegistredByUser(id);
         model.addAttribute("events", events);
         return "events-list";
     }
