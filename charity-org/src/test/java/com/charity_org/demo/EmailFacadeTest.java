@@ -7,8 +7,8 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-        "mailgun.username=postmaster@sandboxdc85e9f2d9d540ad9fd8f2e9201d1274.mailgun.org",
-        "mailgun.password=5bfcc4f3c8f43dc0679be2145ba98d59-2e68d0fb-da4064d3"
+        "mailgun.username=",
+        "mailgun.password="
 })
 public class EmailFacadeTest {
     @Autowired
