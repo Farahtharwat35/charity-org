@@ -9,7 +9,6 @@ import java.util.Properties;
 
 @Component
 public class EmailFacade {
-    private static EmailFacade instance;
     private final String smtpHost;
     private final String smtpPort;
     @Value("${mailgun.username}")
@@ -30,13 +29,6 @@ public class EmailFacade {
         properties.put("mail.smtp.port", smtpPort);
     }
 
-    public static synchronized EmailFacade getInstance() {
-        if (instance == null) {
-            instance = new EmailFacade();
-        }
-        return instance;
-    }
-
     public boolean sendEmail(String recipient, String subject, String body) {
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
@@ -46,13 +38,13 @@ public class EmailFacade {
         });
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
+            message.setFrom(new InternetAddress(username, "Charity Organization"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             message.setSubject(subject);
             message.setText(body);
             Transport.send(message);
 
-        } catch (MessagingException e) {
+        } catch (MessagingException | java.io.UnsupportedEncodingException e) {
             e.printStackTrace();
             return false;
         }
