@@ -24,7 +24,7 @@ public class PostOrPutEventRequest {
 
     @NotEmpty(message = "Event location ID is required.", groups = Create.class)
     @JsonProperty("event_location_id")
-    private long eventLocationId;
+    private Long eventLocationId;
 
     @NotEmpty(message = "Event description is required.", groups = Create.class)
     @JsonProperty("description")

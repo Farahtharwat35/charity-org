@@ -2,7 +2,9 @@ package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.Classes.Proxy.IEventService;
 import com.charity_org.demo.DTO.PostOrPutEventRequest;
+import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Repository.AddressRepository;
 import com.charity_org.demo.Models.Service.AddressService;
 import com.charity_org.demo.Patcher.Patcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class AdminController {
 
     @GetMapping("/add_event")
     public String addEventForm(Model model) {
+        List<Address> addresses = addressService.findAll();
+        model.addAttribute("addresses", addresses);
         model.addAttribute("event", new PostOrPutEventRequest());
         return "create-event-form";
     }
@@ -84,6 +88,8 @@ public class AdminController {
 
     @GetMapping("/edit_event/{Id}")
     public String editEvent(@PathVariable Long Id, Model model) {
+        List<Address> addresses = addressService.findAll();
+        model.addAttribute("addresses", addresses);
         model.addAttribute("event", eventService.getEvent(Id));
         return "edit-event-form";
     }

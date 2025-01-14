@@ -1,4 +1,5 @@
 package com.charity_org.demo.Models.Model;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
