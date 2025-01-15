@@ -1,6 +1,8 @@
 package com.charity_org.demo.Models.Service;
+import com.charity_org.demo.Classes.AdapterComponents.AddressAdapter;
 import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Repository.AddressRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,13 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private AddressAdapter addressAdapter;
+
+    @PostConstruct
+    public void initialize() {
+        saveAddressesFromAdapter();
+    }
     public boolean updateAddressName(Long id, String name) {
         return addressRepository.updateAddressNameById(id, name) == 1;
     }
@@ -42,5 +51,16 @@ public class AddressService {
 
     public List<Address> findAll(){
         return addressRepository.findAll();
+    }
+
+    public void saveAddressesFromAdapter(){
+         List<Address> countries = addressAdapter.getCountries();
+         addressRepository.saveAll(countries);
+         for (Address country : countries) {
+             List<Address> states = addressAdapter.getStates(country);
+             if (states != null && !states.isEmpty()) {
+                 addressRepository.saveAll(states);
+             }
+         }
     }
 }
