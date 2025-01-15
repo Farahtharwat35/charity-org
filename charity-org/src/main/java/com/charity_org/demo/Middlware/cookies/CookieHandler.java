@@ -27,7 +27,7 @@ public class CookieHandler {
         logger.info("Fetching Cookie value...");
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            logger.debug("cookies length: {}", cookies.length);
+            logger.info("cookies length: {}", cookies.length);
             return Arrays.stream(cookies)
                     .filter(cookie -> cookie.getName().equals(cookieName))
                     .map(Cookie::getValue)
@@ -38,11 +38,10 @@ public class CookieHandler {
     }
 
     public User getUserFromSession(HttpServletRequest request) {
-        String sessionId = getCookieValue("sessionId" , request);
+        String sessionId = getCookieValue("SESSION_ID" , request);
         Logger logger = LoggerFactory.getLogger(CookieHandler.class);
+        logger.info("Session Value while fetching user :" + sessionId);
         logger.info("Attempting to retrieve user for sessionId: {}", sessionId);
-
-
         Session session = sessionRepository.findBySessionId(sessionId);
 
         if (session != null) {
