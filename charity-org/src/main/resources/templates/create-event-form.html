@@ -33,8 +33,15 @@
 
         <!-- Event Location ID -->
         <div class="mb-3">
-            <label for="eventLocationId" class="form-label">Event Location ID</label>
-            <input type="number" id="eventLocationId" name="eventLocationId" class="form-control" th:field="*{eventLocationId}" required>
+            <label for="eventLocationId" class="form-label">Event Location</label>
+            <select id="eventLocationId" name="eventLocationId" class="form-select" th:field="*{eventLocationId}" required>
+                <option value="" disabled selected>Select an address</option>
+                <option th:each="address : ${addresses}"
+                        th:value="${address.id}"
+                        th:text="${address.name}">
+                </option>
+            </select>
+
             <div class="invalid-feedback">Please provide a valid event location ID.</div>
         </div>
 

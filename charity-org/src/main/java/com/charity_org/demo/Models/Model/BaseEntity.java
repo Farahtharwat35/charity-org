@@ -9,7 +9,7 @@ public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
-    protected long id;
+    protected Long id;
 
 
     @Column(name = "IS_DELETED", nullable = false,columnDefinition = "BOOLEAN DEFAULT false")
