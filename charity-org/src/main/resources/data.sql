@@ -1,12 +1,13 @@
 -- Insert data into Address table first
 -- Parent address
 INSERT INTO address (name, parent_id)
-VALUES ('123 Main St', NULL); -- Assuming this is a root address with no parent
+VALUES ('123 Main St', null); -- Assuming this is a root address with no parent
 
 -- Child address under '123 Main St'
 INSERT INTO address (name, parent_id)
 VALUES ('456 Elm St', 1); -- '456 Elm St' is a child of '123 Main St'
-
+INSERT INTO address (name, parent_id)
+VALUES ('456 Green St', 1);
 INSERT INTO event (event_name, event_date, event_location_id, description, status)
 VALUES
     ('Charity Gala', '2024-12-15', 1, 'A charity event to raise funds for education.', 'UPCOMING'),
