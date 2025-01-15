@@ -19,6 +19,7 @@ import javax.validation.groups.Default;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/admin")
@@ -36,8 +37,10 @@ public class AdminController {
 
     @GetMapping("/add_event")
     public String addEventForm(Model model) {
-        List<Address> addresses = addressService.findAll();
-        model.addAttribute("addresses", addresses);
+        List<Address> addressesWithoutParent = addressService.findAll().stream()
+                .filter(address -> address.getParent() == null)
+                .collect(Collectors.toList());
+        model.addAttribute("countries", addressesWithoutParent);
         model.addAttribute("event", new PostOrPutEventRequest());
         return "create-event-form";
     }

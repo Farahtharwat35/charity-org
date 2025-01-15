@@ -1,7 +1,9 @@
 package com.charity_org.demo.Controllers;
 import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
 import com.charity_org.demo.Classes.Proxy.IEventService;
+import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,10 @@ import java.util.List;
 @RequestMapping("/events") // This adds an initial path to all endpoints in this controller
 public class EventController {
     private final IEventService eventService;
+
+    @Autowired
+    AddressService addressService;
+
     @Autowired
     public EventController(IEventService eventService) {
         this.eventService = eventService;
@@ -52,45 +58,6 @@ public class EventController {
         return eventService.getEvent(id);
     }
 
-    //
-//    @GetMapping("/create")
-//    public long createEvent(@RequestParam String eventName,
-//                            @RequestParam String eventDate,
-//                            @RequestParam int eventLocationId,
-//                            @RequestParam String description,
-//                            @RequestParam EventStatus status) {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        Date parsedDate;
-//        try {
-//            parsedDate = dateFormat.parse(eventDate);
-//        } catch (ParseException e) {
-//            throw new IllegalArgumentException("Invalid date format. Use 'yyyy-MM-dd'");
-//        }
-//
-//        eventService.createEvent(eventName, parsedDate, eventLocationId, description, status);
-//        return eventService.listAllUnDeletedEvents().size();
-//    }
-    // sample run
-    // http://localhost:8080/events/create?eventName=SampleEvent&eventDate=2024-11-15&eventLocationId=1&description=Annual%20Charity%20Event&status=UPCOMING
-
-    // Update event endpoint
-//    @PutMapping("/update/{id}")
-//    public boolean updateEvent(@PathVariable Long id,
-//                               @RequestParam String eventName,
-//                               @RequestParam String eventDate, // Change to String
-//                               @RequestParam int eventLocationId,
-//                               @RequestParam String description,
-//                               @RequestParam EventStatus status) {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        Date parsedDate;
-//        try {
-//            parsedDate = dateFormat.parse(eventDate);
-//        } catch (ParseException e) {
-//            throw new IllegalArgumentException("Invalid date format. Use 'yyyy-MM-dd'");
-//        }
-//        return eventService.update(id, eventName, parsedDate, eventLocationId, description, status);
-//    }
-
     // Delete event endpoint
     @DeleteMapping("/delete/{id}")
     public boolean deleteEvent(@RequestHeader("X-Forwarded-For") String clientIp, @PathVariable Long id) {
@@ -121,5 +88,12 @@ public class EventController {
         model.addAttribute("keyword", keyword);
         return "ListEventsView"; // View for displaying search results
     }
+
+    @GetMapping("/cities")
+    @ResponseBody
+    public List<Address> getCitiesByCountry(@RequestParam("countryId") Long countryId) {
+        return addressService.getCitiesByParentId(countryId);
+    }
+
 
 }

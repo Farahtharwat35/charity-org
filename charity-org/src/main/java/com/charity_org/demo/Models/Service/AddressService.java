@@ -63,4 +63,8 @@ public class AddressService {
              }
          }
     }
+
+    public List<Address> getCitiesByParentId(Long id){
+        return addressRepository.getAddressesByParentId(id);
+    }
 }
