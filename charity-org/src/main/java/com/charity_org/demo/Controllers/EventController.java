@@ -2,6 +2,7 @@ package com.charity_org.demo.Controllers;
 import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
 import com.charity_org.demo.Classes.Proxy.IEventService;
 import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/events") // This adds an initial path to all endpoints in this controller
 public class EventController {
+    @Autowired
+    UserRoleService userRoleService;
     private final IEventService eventService;
     @Autowired
     public EventController(IEventService eventService) {
@@ -33,6 +36,8 @@ public class EventController {
             if (query == null) {
                 List<Event> events = eventService.listAllUnDeletedEvents(clientIp, query);
                 model.addAttribute("events", events);
+                String name =userRoleService.getRole(request);
+                model.addAttribute("role", name);
                 return "ListEventsView";
             }
             String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
