@@ -1,8 +1,10 @@
 package com.charity_org.demo.Models.Service;
+import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Models.Repository.AddressRepository;
 import com.charity_org.demo.Models.Repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ public class UserService {
 
     @Autowired
     AddressRepository addressRepository;
+
 
     @Autowired
     private AddressService addressService;
@@ -45,7 +48,4 @@ public class UserService {
 
     public boolean deleteUser(long id) {
         return userRepository.deleteUser(id) > 0 ;
-    }
-
-
-}
+    }}

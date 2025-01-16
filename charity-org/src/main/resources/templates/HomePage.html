@@ -16,24 +16,6 @@
             padding: 0;
         }
 
-        /* Navbar */
-        .navbar {
-            background-color: #343a40; /* Dark background */
-        }
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #f8f9fa !important;
-        }
-        .navbar .btn {
-            font-size: 0.9rem;
-            padding: 8px 16px;
-            transition: all 0.3s ease-in-out;
-        }
-        .navbar .btn:hover {
-            background-color: #495057;
-        }
-
         /* Hero Section */
         .hero {
             position: relative;
@@ -58,11 +40,11 @@
         .hero h1 {
             font-size: 3rem;
             font-weight: bold;
-            margin-bottom: 0.5rem;
+
         }
         .hero p {
             font-size: 1.2rem;
-            margin-top: 0.5rem;
+
         }
 
         /* Main Content */
@@ -80,10 +62,6 @@
             font-size: 1.25rem;
             font-weight: bold;
         }
-        .btn {
-            margin-top: 1rem;
-            padding: 10px 20px;
-        }
 
         /* Footer */
         footer {
@@ -98,32 +76,17 @@
         }
     </style>
 </head>
+<!-- navbar.html -->
+<div th:replace="fragments/navbar :: navbar(role=${role})"></div>
 <body>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Nonprofit Organization</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a th:href="@{/user/donations/{id}(id=1)}" class="btn btn-primary me-3">My Donations</a>
-                </li>
-                <li class="nav-item">
-                    <a th:href="@{/user/events/{id}(id=1)}" class="btn btn-primary">My Events</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+
 
 <!-- Hero Section -->
 <div class="hero">
     <div>
         <h1>Welcome</h1>
         <p>Making a difference, one step at a time</p>
+
     </div>
 </div>
 

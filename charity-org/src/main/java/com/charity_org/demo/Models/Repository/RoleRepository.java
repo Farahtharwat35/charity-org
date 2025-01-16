@@ -9,4 +9,8 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     @Transactional
     @Query("SELECT r FROM Role r WHERE r.name = :name")
     Role findByName(String name);
+
+    @Transactional
+    @Query("SELECT r.name FROM Role r WHERE r.id = :id")
+    String getRoleNameById(Long id);
 }

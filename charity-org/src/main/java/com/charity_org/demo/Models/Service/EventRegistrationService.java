@@ -47,4 +47,11 @@ public class EventRegistrationService {
         }
         return true;
     }
+    public boolean isUserRegisteredForEvent(Long userId, Long eventId) {
+        // This method should check the database to see if the user is already registered for the event.
+
+        EventRegistration registration = EventRegistrationRepository.findByUserIdAndEventId(userId, eventId);
+        return registration != null;
+    }
+
 }

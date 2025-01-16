@@ -8,9 +8,13 @@ import org.springframework.stereotype.Service;
 public class RoleService {
 
     @Autowired
-    RoleRepository roleRepository;
+     RoleRepository roleRepository;
 
     public Role getRoleByName(String name) {
         return roleRepository.findByName(name);
+    }
+
+    public  String getRoleById(Long id) {
+        return roleRepository.getRoleNameById(id);
     }
 }
