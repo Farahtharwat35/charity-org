@@ -11,9 +11,5 @@ import lombok.*;
 @Getter
 @Setter
 public class MoneyDonnation extends DonationType {
-private Currencies currency;
-
-
-
-
+    private Currencies currency;
 }

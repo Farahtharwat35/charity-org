@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +38,8 @@ public class MoneyTypeController {
     @Autowired
     DonationService donationService;
 
+    MoneyDonnation myMoneyDonnation;
+
     DonationDetails newdonationDetails;
     // Mapping for showing the money donation form
     @GetMapping({"", "/"})
@@ -53,8 +56,9 @@ public class MoneyTypeController {
 
     // Handle the form submission for money donation
     @PostMapping("/submitDonation")
-    public String submitMoneyDonation(@ModelAttribute("moneyDonation") MoneyDonnation moneyDonation, @RequestParam("paymentMethod") String paymentMethod, Model model, HttpServletRequest request) {
+    public String submitMoneyDonation(@ModelAttribute("moneyDonation") MoneyDonnation moneyDonation, @RequestParam("paymentMethod") String paymentMethod, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         // Create MoneyDonation object
+        this.myMoneyDonnation = moneyDonation;
         newdonationDetails= new DonationDetails();
         newdonationDetails.setDonationType(donationTypeService.saveDonationType(moneyDonation));
 
@@ -63,14 +67,14 @@ public class MoneyTypeController {
         newdonationDetails.setDonation_invoice_Description(newTax.display_invoice_details(newdonationDetails));
 
         if(Objects.equals(paymentMethod, "Cash")){
-            return confirmPayment(request);
+            return confirmPayment(redirectAttributes, request);
         }
 
         return paymentMethod;
     }
 
     @GetMapping("/submitPaymentSuccessful")
-    public String confirmPayment( HttpServletRequest request){
+    public String confirmPayment(RedirectAttributes redirectAttributes, HttpServletRequest request){
         if(newdonationDetails != null) {
             //here put the condition
             Donation donation = new Donation();
@@ -79,7 +83,10 @@ public class MoneyTypeController {
             donation.addTodonationDetials(donationDetailsService.saveDonationDetails(newdonationDetails));
             newdonationDetails.setDonation(donation);
             donationService.save(donation);
+            redirectAttributes.addFlashAttribute("donationDetails", newdonationDetails);
+            redirectAttributes.addFlashAttribute("moneyDonation", myMoneyDonnation);
         }
-        return "ListDonationTypesView";
+//        return "ListDonationTypesView";
+        return "redirect:/getReceipt";
     }
 }

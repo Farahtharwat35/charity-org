@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Furniture Donation Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<center>
+<h1>Furniture Donation Receipt</h1>
+
+<p><strong>Donor Name:</strong> <span th:text="${user.name}">John Doe</span></p>
+<p><strong>Email:</strong> <span th:text="${user.email}">johndoe@example.com</span></p>
+
+<hr>
+
+<p><strong>Donation Date:</strong> <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">2025-01-16</span></p>
+
+<h2>Furniture Details</h2>
+<p><strong>Type:</strong> <span th:text="${furnitureDonnation.FurnitureType}">Chair</span></p>
+<p><strong>Condition:</strong> <span th:text="${furnitureDonnation.condition}">Good</span></p>
+<p><strong>Weight:</strong> <span th:text="${#numbers.formatDecimal(furnitureDonnation.weight, 0, 2)}">15.50</span> kg</p>
+
+<h2>Additional Information</h2>
+<p><strong>Total Value:</strong> <span th:text="${#numbers.formatDecimal(donationDetails.subTotalPrice, 0, 2)}">100.00</span> USD</p>
+<p>Thank you for your generous donation! Your contribution helps us support those in need.</p>
+
+<hr>
+<p style="text-align: center;">Charity Organization © 2025</p>
+    <button type="button" onclick="window.location.href='/donation-types/'" class="btn btn-primary">
+        Back
+    </button>
+</center>
+</body>
+</html>

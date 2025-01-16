@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +38,7 @@ public class FurnitureTypeController {
     @Autowired
     DonationService donationService;
 
+    FurnitureDonnation myFurnitureDonation;
     DonationDetails newdonationDetails;
     // Mapping for showing the furniture donation form
     @GetMapping({"", "/"})
@@ -56,8 +58,12 @@ public class FurnitureTypeController {
 
     // Handle the form submission for furniture donation
     @PostMapping("/submitDonation")
-    public String submitFurnitureDonation(@ModelAttribute("furnitureDonation") FurnitureDonnation furnitureDonation, Model model, @RequestParam("paymentMethod") String paymentMethod, HttpServletRequest request) {
+    public String submitFurnitureDonation(@ModelAttribute("furnitureDonation") FurnitureDonnation furnitureDonation, Model model,
+                                          @RequestParam("paymentMethod") String paymentMethod,
+                                          HttpServletRequest request,
+                                          RedirectAttributes redirectAttributes) {
         // Process the form data (e.g., save the donation to a database or perform other actions)
+        myFurnitureDonation = furnitureDonation;
 
         // For now, just adding the donation object to the model to display a confirmation
         model.addAttribute("donation", furnitureDonation);
@@ -74,7 +80,7 @@ public class FurnitureTypeController {
         newdonationDetails.setDonation_invoice_Description(furnitureTruckFees.display_invoice_details(newdonationDetails));
         // Return a confirmation view (could be a new page or the same page with a success message)
         if(Objects.equals(paymentMethod, "Cash")){
-            return confirmPayment(request);
+            return confirmPayment(redirectAttributes,request);
         }
 
         return paymentMethod;
@@ -82,7 +88,7 @@ public class FurnitureTypeController {
 
 
     @GetMapping("/submitPaymentSuccessful")
-    public String confirmPayment( HttpServletRequest request){
+    public String confirmPayment(RedirectAttributes redirectAttributes, HttpServletRequest request){
         if (newdonationDetails != null){//here put the condition
             Donation donation = new Donation();
             User currentUser = cookieHandler.getUserFromSession(request);
@@ -92,8 +98,10 @@ public class FurnitureTypeController {
             donation.setDonationTotalPrice(newdonationDetails.getSubTotalPrice());
             donation.setStatus(DonationStatus.COMPLETED);
             donationService.save(donation);
+            redirectAttributes.addFlashAttribute("donationDetails", newdonationDetails);
+            redirectAttributes.addFlashAttribute("furnitureDonnation", myFurnitureDonation);
         }
-        return "ListDonationTypesView";
+        return "redirect:/getReceipt";
     }
 }
 

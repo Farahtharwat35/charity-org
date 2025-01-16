@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Clothes Donation Receipt</title>
+</head>
+<body>
+<h1>Clothes Donation Receipt</h1>
+
+<p><strong>Clothes Type:</strong> <span th:text="${clothesDonnation.clothingType}">T-Shirt</span></p>
+<p><strong>Size:</strong> <span th:text="${clothesDonnation.size}">M</span></p>
+<p><strong>Quantity:</strong> <span th:text="${clothesDonnation.quantity}">5</span></p>
+<p><strong>Season:</strong> <span th:text="${clothesDonnation.season}">Winter</span></p>
+
+<hr>
+
+<div class="total">
+    <p><strong>Total Clothes Donated:</strong> <span th:text="${clothesDonnation.quantity}">5</span></p>
+</div>
+
+<!-- Optional: Show details in a table or additional info -->
+
+<div>
+    <p><strong>Thank you for your generous donation!</strong></p>
+    <button type="button" onclick="window.location.href='/donation-types/'" class="btn btn-primary">
+        Back
+    </button>
+</div>
+</body>
+</html>

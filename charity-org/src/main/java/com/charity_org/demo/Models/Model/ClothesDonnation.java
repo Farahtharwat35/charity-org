@@ -13,9 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClothesDonnation  extends DonationType {
-ClothesType clothingType;
-ClothesSize size;
-int quantity;
-Season season;
-
+    ClothesType clothingType;
+    ClothesSize size;
+    int quantity;
+    Season season;
 }
