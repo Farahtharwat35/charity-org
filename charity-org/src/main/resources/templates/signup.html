@@ -46,11 +46,27 @@
                             <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="text-danger"></p>
                         </div>
 
-                        <div class="form-group">
-                            <label for="address">Address:</label>
-                            <input type="text" id="address" th:field="*{address}" class="form-control" placeholder="Enter your address" required>
-                            <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="text-danger"></p>
+                        <div class=" form-group mb-3">
+                            <label for="countryDropdown" class="form-label">Country</label>
+                            <select id="countryDropdown" name="countryId" class="form-select form-control" required>
+                                <option value="" disabled selected>Select a country</option>
+                                <option th:each="country : ${countries}"
+                                        th:value="${country.id}"
+                                        th:text="${country.name}"
+                                        data-cities='[[${#objectmapper.writeValueAsString(country.children)}]]'>
+                                </option>
+                            </select>
+                            <div class="invalid-feedback">Please select a country.</div>
                         </div>
+
+                        <div class=" form-group mb-3">
+                            <label for="cityDropdown" class="form-label">City</label>
+                            <select id="cityDropdown" name="cityId" class="form-select form-control" th:field="*{address}" required>
+                                <option value="" disabled selected>Select a city</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a city.</div>
+                        </div>
+
 
                         <button type="submit" class="btn btn-dark btn-block">Signup</button>
                     </form>
@@ -62,7 +78,36 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('countryDropdown').addEventListener('change', function () {
+        const countryId = this.value;
+        const cityDropdown = document.getElementById('cityDropdown');
 
+        cityDropdown.innerHTML = '<option value="" disabled selected>Loading...</option>';
+
+        fetch(`/events/cities?countryId=${countryId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch cities');
+                }
+                return response.json();
+            })
+            .then(cities => {
+                console.log(cities.length);
+                cityDropdown.innerHTML = '<option value="" disabled selected>Select a city</option>';
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.id;
+                    option.textContent = city.name;
+                    cityDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching cities:', error);
+                cityDropdown.innerHTML = '<option value="" disabled selected>Error loading cities</option>';
+            });
+    });
+</script>
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

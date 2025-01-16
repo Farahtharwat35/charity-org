@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -37,6 +39,10 @@ public class SignUp {
     // Serve the signup form
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
+        List<Address> addressesWithoutParent = addressService.findAll().stream()
+                .filter(address -> address.getParent() == null)
+                .collect(Collectors.toList());
+        model.addAttribute("countries", addressesWithoutParent);
         model.addAttribute("signupRequest", new SignUpRequest());
         return "signup";
     }
