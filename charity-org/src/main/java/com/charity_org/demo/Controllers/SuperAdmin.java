@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,7 +71,7 @@ public class SuperAdmin {
 
             return "redirect:/super_admin/dashboard";
         }catch (Exception e){
-            redirectAttributes.addFlashAttribute("message", "User is already an admin");
+            redirectAttributes.addFlashAttribute("error", "User is already an admin");
             return "redirect:/super_admin/dashboard";
         }
     }
@@ -123,10 +122,14 @@ public class SuperAdmin {
     }
 
     @GetMapping("/list-couriers")
-    public String showCourier(Model model){
+    public String showCourier(HttpServletRequest request,Model model){
         model.addAttribute("user", new User()); // Add User object for form binding
         model.addAttribute("users", superAdminService.getCouriers());
         model.addAttribute("title", "Couriers");
+        User user= cookieHandler.getUserFromSession(request);
+        String name =userRoleService.getRole(request);
+        model.addAttribute("role", name);
+        model.addAttribute("userID", user.getId());
         return "superadmin_dashboard"; // Main dashboard view
     }
 

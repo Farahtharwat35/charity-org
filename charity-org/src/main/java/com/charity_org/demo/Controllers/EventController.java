@@ -98,6 +98,10 @@ public class EventController {
                 events.add(iterator.next());
             }
         }
+        User user= cookieHandler.getUserFromSession(request);
+        String name =userRoleService.getRole(request);
+        model.addAttribute("role", name);
+        model.addAttribute("userID", user.getId());
         model.addAttribute("events", events);
         model.addAttribute("keyword", keyword);
         return "ListEventsView"; // View for displaying search results

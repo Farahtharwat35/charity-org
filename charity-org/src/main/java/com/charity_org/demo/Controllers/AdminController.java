@@ -104,9 +104,12 @@ public class AdminController {
 
     @GetMapping("/edit_event/{Id}")
     public String editEvent(@PathVariable Long Id, Model model) {
-        List<Address> addresses = addressService.findAll();
-        model.addAttribute("addresses", addresses);
+
         model.addAttribute("event", eventService.getEvent(Id));
+        List<Address> addressesWithoutParent = addressService.findAll().stream()
+                .filter(address -> address.getParent() == null)
+                .collect(Collectors.toList());
+        model.addAttribute("countries", addressesWithoutParent);
         return "edit-event-form";
     }
 
@@ -116,6 +119,10 @@ public class AdminController {
                               BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", bindingResult.getAllErrors());
+            List<Address> addressesWithoutParent = addressService.findAll().stream()
+                    .filter(address -> address.getParent() == null)
+                    .collect(Collectors.toList());
+            model.addAttribute("countries", addressesWithoutParent);
             return "edit-event-form";
         }
         try {
