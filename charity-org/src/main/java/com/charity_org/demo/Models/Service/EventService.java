@@ -80,8 +80,7 @@ public class EventService implements IEventSubject, IEventService {
 
     @Override
     public boolean deleteEvent(String clientIp, long id) {
-        eventRepository.deleteEventById(id);
-        return true;
+        return eventRepository.deleteEventById(id)>0;
     }
 
     @Override

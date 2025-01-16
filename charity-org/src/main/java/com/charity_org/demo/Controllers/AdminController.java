@@ -98,7 +98,7 @@ public class AdminController {
 
     @PostMapping("/delete_event/{Id}")
     public String deleteEvent(HttpServletRequest request, @PathVariable Long Id) {
-        eventService.deleteById(request.getRemoteAddr(), Id);
+        eventService.deleteEvent(request.getRemoteAddr(), Id);
         return "redirect:/api/admin/events";
     }
 
