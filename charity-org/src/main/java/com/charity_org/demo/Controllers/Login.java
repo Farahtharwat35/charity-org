@@ -1,8 +1,10 @@
 package com.charity_org.demo.Controllers;
 
+import com.charity_org.demo.Classes.AdapterComponents.AddressAdapter;
 import com.charity_org.demo.DTO.LoginRequest;
 import com.charity_org.demo.Classes.StrategyComponents.LoginStrategyInterface;
 import com.charity_org.demo.Models.Model.User;
+import com.charity_org.demo.Models.Service.AddressService;
 import com.charity_org.demo.Models.Service.UserService;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import jakarta.servlet.http.HttpSession;
@@ -53,7 +55,7 @@ public class Login {
 
         logger.info("Login attempt started with provider: {}", provider);
 
-        // Fetch login strategy
+
         LoginStrategyInterface loginStrategy = loginStrategies.get(provider.toLowerCase());
 
         if (loginStrategy == null) {
