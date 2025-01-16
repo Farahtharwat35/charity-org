@@ -22,7 +22,10 @@ public class VisaController {
 
     // POST Request to handle form submission
     @PostMapping("/save")
-    public String processPayment(@ModelAttribute Visa visa, Model model) {
+    public String processPayment(@ModelAttribute Visa visa, Model model,@RequestHeader(value = "Referer", required = false) String referer) {
+        String path = referer.replace("http://localhost:8080/", "");
+        // Get the first segment of the path
+        String firstPath = path.split("/")[0];
         boolean result = visaService.processPayment(visa);
 
         if (result) {
@@ -31,6 +34,6 @@ public class VisaController {
             model.addAttribute("message", "Payment processing failed. Please try again.");
         }
 
-        return "VisaView"; // Render the same view with the message
+        return "redirect:/" + firstPath + "/submitPaymentSuccessful";
     }
 }

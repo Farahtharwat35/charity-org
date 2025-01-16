@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/money-type")
@@ -60,6 +61,10 @@ public class MoneyTypeController {
         Tax newTax = new Tax(donationDetailsService);
         newdonationDetails.setSubTotalPrice(newTax.calculate_price(newdonationDetails));
         newdonationDetails.setDonation_invoice_Description(newTax.display_invoice_details(newdonationDetails));
+
+        if(Objects.equals(paymentMethod, "Cash")){
+            return confirmPayment(request);
+        }
 
         return paymentMethod;  // Return the confirmation view
     }
