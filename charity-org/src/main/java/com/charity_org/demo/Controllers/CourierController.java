@@ -2,6 +2,7 @@ package com.charity_org.demo.Controllers;
 
 
 import com.charity_org.demo.Enums.DonationStatus;
+import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Models.Model.Assigments;
 import com.charity_org.demo.Models.Model.Donation;
 import com.charity_org.demo.Models.Service.CourierService;
@@ -28,14 +29,15 @@ public class CourierController {
 
     @Autowired
     private CourierService courierService;
-
     @Autowired
-    private UserService userService;
+    CookieHandler cookieHandler;
     @Autowired
     UserRoleService userRoleService;
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/dashboard")
     public String dashboard( HttpServletRequest request,Model model, User user) {
-
 
         List<Donation> allDonations = donationService.getAllPendingDonations();
 
@@ -50,6 +52,7 @@ public class CourierController {
         model.addAttribute("assignedDonations", assignedDonations);
         String name =userRoleService.getRole(request);
         model.addAttribute("role", name);
+        model.addAttribute("userID", cookieHandler.getUserFromSession(request).getId());
         return "courier-dashboard";
     }
 

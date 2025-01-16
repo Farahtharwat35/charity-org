@@ -2,8 +2,10 @@ package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.Classes.Proxy.IEventService;
 import com.charity_org.demo.DTO.PostOrPutEventRequest;
+import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Models.Repository.AddressRepository;
 import com.charity_org.demo.Models.Service.AddressService;
 import com.charity_org.demo.Models.Service.UserRoleService;
@@ -25,7 +27,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/api/admin")
 public class AdminController {
-
+    @Autowired
+    CookieHandler cookieHandler;
     private final IEventService eventService;
     private final AddressService addressService;
     private final Patcher patcher;
@@ -73,8 +76,11 @@ public class AdminController {
         try {
             if (query == null) {
                 model.addAttribute("events", eventService.getAllEvents(clientIp, query));
+                User user= cookieHandler.getUserFromSession(request);
                 String name =userRoleService.getRole(request);
                 model.addAttribute("role", name);
+                model.addAttribute("userID", user.getId());
+
                 return "events";
             }
             String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);

@@ -21,13 +21,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
-
+    @Autowired
+    CookieHandler cookieHandler;
   @Autowired
     UserRoleService userRoleService;
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
+        User user= cookieHandler.getUserFromSession(request);
         String name =userRoleService.getRole(request);
         model.addAttribute("role", name);
+        model.addAttribute("userID", user.getId());
         return "HomePage";
     }
 }

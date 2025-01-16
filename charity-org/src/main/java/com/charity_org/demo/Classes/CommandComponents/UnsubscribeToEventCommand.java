@@ -21,6 +21,6 @@ public class UnsubscribeToEventCommand implements EventCommand {
     @Override
     public boolean execute() {
         eventSubject.removeObserver(eventObserver);
-        return eventRegistrationService.unregister(eventRegistration);
+        return eventRegistrationService.unregister(this.eventRegistration.getId());
     }
 }

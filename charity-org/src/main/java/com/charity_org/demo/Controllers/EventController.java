@@ -1,6 +1,10 @@
 package com.charity_org.demo.Controllers;
 import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
 import com.charity_org.demo.Classes.Proxy.IEventService;
+
+import com.charity_org.demo.Middlware.cookies.CookieHandler;
+import com.charity_org.demo.Models.Model.Event;
+import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.Event;
 
@@ -23,6 +27,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/events") // This adds an initial path to all endpoints in this controller
 public class EventController {
+    @Autowired
+    CookieHandler cookieHandler;
     @Autowired
     UserRoleService userRoleService;
     private final IEventService eventService;
@@ -47,6 +53,7 @@ public class EventController {
                 model.addAttribute("events", events);
                 String name =userRoleService.getRole(request);
                 model.addAttribute("role", name);
+                model.addAttribute("userID", cookieHandler.getUserFromSession(request).getId());
                 return "ListEventsView";
             }
             String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
