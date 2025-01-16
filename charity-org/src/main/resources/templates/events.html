@@ -8,51 +8,13 @@
         .card { margin-bottom: 1rem; }
         .card-body { padding: 1.5rem; }
         .event-actions button { margin-right: 10px; }
-        .status-upcoming {
-            background-color: #28a745; /* Green */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .status-ongoing {
-            background-color: #ff9800; /* Orange */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .status-completed {
-            background-color: #007bff; /* Blue */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .status-cancelled {
-            background-color: #c75e6a; /* Red */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .status-postponed {
-            background-color: #6c757d; /* Grey */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .status-failed {
-            background-color: #dc3545; /* Dark Red */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
 
     </style>
 </head>
 <body>
+<!-- navbar.html -->
+<!-- navbar.html -->
+<div th:replace="fragments/navbar :: navbar(role=${role},userID=${userID})"></div>
 
 <div class="container mt-5">
     <h2 class="mb-4">Event List</h2>

@@ -2,10 +2,12 @@ package com.charity_org.demo.Controllers;
 
 
 import com.charity_org.demo.Enums.DonationStatus;
+import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Models.Model.Assigments;
 import com.charity_org.demo.Models.Model.Donation;
 import com.charity_org.demo.Models.Service.CourierService;
 import com.charity_org.demo.Models.Service.DonationService;
+import com.charity_org.demo.Models.Service.UserRoleService;
 import com.charity_org.demo.Models.Service.UserService;
 import com.charity_org.demo.Models.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -27,13 +29,15 @@ public class CourierController {
 
     @Autowired
     private CourierService courierService;
-
+    @Autowired
+    CookieHandler cookieHandler;
+    @Autowired
+    UserRoleService userRoleService;
     @Autowired
     private UserService userService;
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, User user) {
-
+    public String dashboard( HttpServletRequest request,Model model, User user) {
 
         List<Donation> allDonations = donationService.getAllPendingDonations();
 
@@ -46,7 +50,9 @@ public class CourierController {
         // Add donations to the model
         model.addAttribute("allDonations", allDonations);
         model.addAttribute("assignedDonations", assignedDonations);
-
+        String name =userRoleService.getRole(request);
+        model.addAttribute("role", name);
+        model.addAttribute("userID", cookieHandler.getUserFromSession(request).getId());
         return "courier-dashboard";
     }
 
