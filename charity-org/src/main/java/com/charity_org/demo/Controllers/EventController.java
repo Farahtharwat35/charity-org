@@ -32,7 +32,6 @@ public class EventController {
     @Autowired
     UserRoleService userRoleService;
     private final IEventService eventService;
-
     @Autowired
     AddressService addressService;
 

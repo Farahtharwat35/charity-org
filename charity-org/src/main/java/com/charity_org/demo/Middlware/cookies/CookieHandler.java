@@ -1,11 +1,11 @@
 package com.charity_org.demo.Middlware.cookies;
+import com.charity_org.demo.Classes.Singleton.SingletonLogger;
 import com.charity_org.demo.Models.Service.UserService;
 import com.charity_org.demo.Models.Model.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Arrays;
@@ -15,6 +15,7 @@ public class CookieHandler {
 
     private final SessionRepository sessionRepository;
     private final UserService userService;
+    private SingletonLogger logger = SingletonLogger.getInstance(SingletonLogger.FileFormat.PLAIN_TEXT);
 
     @Autowired
     public CookieHandler(SessionRepository sessionRepository, UserService userService) {
@@ -23,11 +24,10 @@ public class CookieHandler {
     }
 
     public String getCookieValue(String cookieName, HttpServletRequest request) {
-        Logger logger = LoggerFactory.getLogger(CookieHandler.class);
-        logger.info("Fetching Cookie value...");
+        logger.log(SingletonLogger.LogLevel.INFO, "Fetching Cookie value...");
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            logger.info("cookies length: {}", cookies.length);
+            logger.log(SingletonLogger.LogLevel.INFO, "cookies length: {}", cookies.length);
             return Arrays.stream(cookies)
                     .filter(cookie -> cookie.getName().equals(cookieName))
                     .map(Cookie::getValue)
@@ -39,23 +39,21 @@ public class CookieHandler {
 
     public User getUserFromSession(HttpServletRequest request) {
         String sessionId = getCookieValue("SESSION_ID" , request);
-        Logger logger = LoggerFactory.getLogger(CookieHandler.class);
-        logger.info("Session Value while fetching user :" + sessionId);
-        logger.info("Attempting to retrieve user for sessionId: {}", sessionId);
+        logger.log(SingletonLogger.LogLevel.INFO, "Session Value while fetching user : {}", sessionId);
+        logger.log(SingletonLogger.LogLevel.INFO, " Attempting to retrieve user for sessionId: {}", sessionId);
         Session session = sessionRepository.findBySessionId(sessionId);
 
         if (session != null) {
-            logger.debug("Session found: {}", session);
-
+            logger.log(SingletonLogger.LogLevel.DEBUG, "Session found: {}", session);
             if (session.getUserId() != null) {
-                logger.info("UserId found in session: {}", session.getUserId());
+                logger.log(SingletonLogger.LogLevel.INFO, "User found in session: {}", session.getUserId());
                 User user = userService.getUser(session.getUserId());
                 return user;
             } else {
-                logger.warn("UserId is null in session: {}", sessionId);
+                logger.log(SingletonLogger.LogLevel.WARN, "UserId is null in session: {}", sessionId);
             }
         } else {
-            logger.warn("No session found for sessionId: {}", sessionId);
+            logger.log(SingletonLogger.LogLevel.WARN, "No session found for sessionId: {}", sessionId);
         }
 
         return null;

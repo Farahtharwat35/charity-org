@@ -1,4 +1,5 @@
 package com.charity_org.demo.Controllers;
+import com.charity_org.demo.Classes.Singleton.SingletonLogger;
 import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Middlware.cookies.SessionRepository;
@@ -18,8 +19,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 
 @Controller
@@ -41,25 +41,26 @@ public class UserController {
     @Autowired
     private EventRegistrationService eventRegistrationService;
 
+    private SingletonLogger logger=SingletonLogger.getInstance(SingletonLogger.FileFormat.PLAIN_TEXT);
+
     @GetMapping("/{id}")
     public String getUser(@PathVariable Long id, Model model, HttpServletRequest request) {
-        Logger logger = LoggerFactory.getLogger(UserController.class);
-        logger.info("Fetching user from session...");
+        logger.log(SingletonLogger.LogLevel.INFO, "Fetching user from session...");
         User user = cookieHandler.getUserFromSession(request);
         if (user == null) {
             model.addAttribute("errorMessage", "User not found");
             return "error";
         }
-        logger.info("Checking if user ID matches the requested ID...");
+
+        logger.log(SingletonLogger.LogLevel.INFO, "Checking if user ID matches the requested ID...");
         if (user.getId() != id) {
-            logger.error("Unauthorized access: User ID {} does not match requested ID {}", user.getId(), id);
+            logger.log(SingletonLogger.LogLevel.ERROR, "Unauthorized access: User ID {} does not match requested ID {}", user.getId(), id);
             model.addAttribute("errorMessage", "Unauthorized access");
             return "error";
         }
-
-        logger.info("User ID matches. Adding user to model...");
+        logger.log(SingletonLogger.LogLevel.INFO, "User ID matches. Adding user to model...");
         model.addAttribute("user", user);
-        logger.info("Returning user-details view.");
+        logger.log(SingletonLogger.LogLevel.INFO, "Returning user-details view.");
         return "user-details";
     }
 

@@ -60,7 +60,7 @@
 
         <div class="mb-3">
             <label for="cityDropdown" class="form-label">City</label>
-            <select id="cityDropdown" name="cityId" class="form-select" required>
+            <select id="cityDropdown" name="cityId" class="form-select" th:field="*{eventLocationId}" required>
                 <option value="" disabled selected>Select a city</option>
             </select>
             <div class="invalid-feedback">Please select a city.</div>
