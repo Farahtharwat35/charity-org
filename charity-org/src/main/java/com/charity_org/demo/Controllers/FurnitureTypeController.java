@@ -1,8 +1,19 @@
 package com.charity_org.demo.Controllers;
 
+import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Enums.FurnitureCondition;
 import com.charity_org.demo.Enums.FurnitureType;
+import com.charity_org.demo.Middlware.cookies.CookieHandler;
+import com.charity_org.demo.Models.Model.Donation;
+import com.charity_org.demo.Models.Model.DonationDetails;
 import com.charity_org.demo.Models.Model.FurnitureDonnation;
+import com.charity_org.demo.Models.Model.User;
+import com.charity_org.demo.Models.Service.DonationDetailsService;
+import com.charity_org.demo.Models.Service.DonationService;
+import com.charity_org.demo.Models.Service.DonationTypeService;
+import com.charity_org.demo.Models.Service.FurnitureTruckFees;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +27,19 @@ import java.util.List;
 @Controller
 @RequestMapping("/furniture-type")
 public class FurnitureTypeController {
+    @Autowired
+    DonationDetailsService donationDetailsService;
+
+    @Autowired
+    DonationTypeService donationTypeService;
+
+    @Autowired
+    CookieHandler cookieHandler;
+
+    @Autowired
+    DonationService donationService;
+
+    DonationDetails newdonationDetails;
     // Mapping for showing the furniture donation form
     @GetMapping({"", "/"})
     public String showFurnitureDonationForm(Model model) {
@@ -40,7 +64,35 @@ public class FurnitureTypeController {
         // For now, just adding the donation object to the model to display a confirmation
         model.addAttribute("donation", furnitureDonation);
 
+
+        furnitureDonation.setHasCost(true);
+        furnitureDonation.setCost(0);
+
+        newdonationDetails = new DonationDetails();
+        newdonationDetails.setDonationType(donationTypeService.saveDonationType(furnitureDonation));
+        newdonationDetails.setQuantity(1); // Blood donations often don't have quantities
+        FurnitureTruckFees furnitureTruckFees=new FurnitureTruckFees(donationDetailsService);
+        newdonationDetails.setSubTotalPrice(furnitureTruckFees.calculate_price(newdonationDetails));
+        newdonationDetails.setDonation_invoice_Description(furnitureTruckFees.display_invoice_details(newdonationDetails));
         // Return a confirmation view (could be a new page or the same page with a success message)
-        return "donationConfirmation";  // Return the confirmation view
+        return "PaypalView";  // Return the confirmation view
+    }
+
+
+    @GetMapping("/submitPaymentSuccessful")
+    public String confirmPayment( HttpServletRequest request){
+        if (newdonationDetails != null){//here put the condition
+            Donation donation = new Donation();
+            User currentUser = cookieHandler.getUserFromSession(request);
+            donation.setUser(currentUser);
+            donation.addTodonationDetials(donationDetailsService.saveDonationDetails(newdonationDetails));
+            newdonationDetails.setDonation(donation);
+            donation.setDonationTotalPrice(newdonationDetails.getSubTotalPrice());
+            donation.setStatus(DonationStatus.COMPLETED);
+            donationService.save(donation);
+        }
+        return "ListDonationTypesView";
     }
 }
+
+
