@@ -1,9 +1,12 @@
 package com.charity_org.demo.Controllers;
 
 
+import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Models.Service.SuperAdminService;
 import com.charity_org.demo.Models.Model.User;
+import com.charity_org.demo.Models.Service.UserRoleService;
 import com.charity_org.demo.Models.Service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -24,12 +27,19 @@ public class SuperAdmin {
     private SuperAdminService superAdminService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    CookieHandler cookieHandler;
+    @Autowired
+    UserRoleService userRoleService;
     @GetMapping("/dashboard")
-    public String showDashboard(Model model) {
+    public String showDashboard(HttpServletRequest request,Model model) {
         model.addAttribute("user", new User()); // Add User object for form binding
         model.addAttribute("users", superAdminService.getAdmins());
         model.addAttribute("title", "Admins");
+        User user= cookieHandler.getUserFromSession(request);
+        String name =userRoleService.getRole(request);
+        model.addAttribute("role", name);
+        model.addAttribute("userID", user.getId());
         return "superadmin_dashboard"; // Main dashboard view
     }
 
