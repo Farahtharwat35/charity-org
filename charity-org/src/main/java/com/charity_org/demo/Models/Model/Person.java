@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.util.*;
 
-import com.charity_org.demo.Enums.Roles;
 import org.springframework.stereotype.Component;
 
 @Data
@@ -27,11 +26,11 @@ abstract public class Person extends BaseEntity {
     @Column(columnDefinition = "int default 18")
     protected int age;
 
-    @ElementCollection(targetClass = Roles.class)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    protected Set<Roles> role = new HashSet<>();
+//    @ElementCollection(targetClass = Roles.class)
+//    @Enumerated(EnumType.STRING)
+//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+//    @Column(name = "role")
+      //  protected Set<Role> role = new HashSet<>();
 
 
 //    public abstract void applyRoles();
