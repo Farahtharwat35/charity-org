@@ -16,10 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,26 +52,16 @@ public class MoneyTypeController {
 
     // Handle the form submission for money donation
     @PostMapping("/submitDonation")
-    public String submitMoneyDonation(@ModelAttribute("moneyDonation") MoneyDonnation moneyDonation, Model model, HttpServletRequest request) {
+    public String submitMoneyDonation(@ModelAttribute("moneyDonation") MoneyDonnation moneyDonation, @RequestParam("paymentMethod") String paymentMethod, Model model, HttpServletRequest request) {
         // Create MoneyDonation object
         newdonationDetails= new DonationDetails();
         newdonationDetails.setDonationType(donationTypeService.saveDonationType(moneyDonation));
 
-
         Tax newTax = new Tax(donationDetailsService);
         newdonationDetails.setSubTotalPrice(newTax.calculate_price(newdonationDetails));
         newdonationDetails.setDonation_invoice_Description(newTax.display_invoice_details(newdonationDetails));
-        System.out.println(newdonationDetails.getDonation_invoice_Description());
-        newdonationDetails.getSubTotalPrice();
 
-
-        System.out.println(newdonationDetails.getSubTotalPrice());
-        // Process the form data (e.g., save the donation to a database or perform other actions)
-
-        // For now, just adding the donation object to the model to display a confirmation
-
-        // Return a confirmation view (could be a new page or the same page with a success message)
-        return "PaypalView";  // Return the confirmation view
+        return paymentMethod;  // Return the confirmation view
     }
 
 
