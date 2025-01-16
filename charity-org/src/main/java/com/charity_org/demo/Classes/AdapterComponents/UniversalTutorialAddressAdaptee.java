@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class AddressAdaptee implements IAddressTarget{
+public class UniversalTutorialAddressAdaptee {
     @Value("${address.api.key}")
     private String apiKey;
     @Value("${address.email}")
@@ -28,38 +28,21 @@ public class AddressAdaptee implements IAddressTarget{
             return "";
         }
     }
-    public List<Address> getCountries(){
+    public HttpResponse<JsonNode> getCountries(){
         String token = getAuthToken();
-        HttpResponse<JsonNode> response = Unirest.get("https://www.universal-tutorial.com/api/countries/")
+        return Unirest.get("https://www.universal-tutorial.com/api/countries/")
                 .header("Accept", "application/json")
                 .header("Authorization", "Bearer " + token)
                 .asJson();
-        List<Address> countries = new ArrayList<>();
-        if (response.isSuccess()){
-            for (int i = 0; i < response.getBody().getArray().length(); i++) {
-                String countryName = response.getBody().getArray().getJSONObject(i).getString("country_name");
-                countries.add(new Address(countryName, null , null));
-            }
-            return countries;
-        }
-        return countries;
     }
 
-    public List<Address> getStates(Address country)
+    public HttpResponse<JsonNode> getStates(Address country)
     {
         String token = getAuthToken();
-        HttpResponse<JsonNode> response = Unirest.get("https://www.universal-tutorial.com/api/states/"+country.getName())
+        return Unirest.get("https://www.universal-tutorial.com/api/states/"+country.getName())
                 .header("Accept", "application/json")
                 .header("Authorization", "Bearer " + token)
                 .asJson();
-        List<Address> states = new ArrayList<>();
-        if (response.isSuccess()){
-            for (int i = 0; i < response.getBody().getArray().length(); i++) {
-                String stateName = response.getBody().getArray().getJSONObject(i).getString("state_name");
-                states.add(new Address(stateName, country , null));
-            }
-            return states;
-        }
-        return states;
+
     }
 }

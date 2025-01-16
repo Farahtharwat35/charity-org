@@ -15,10 +15,6 @@ public class UserService {
     UserRepository userRepository;
 
     @Autowired
-    AddressRepository addressRepository;
-
-
-    @Autowired
     private AddressService addressService;
 
     public User save(String name, String email, String password, Address fullAddress, int age) {
