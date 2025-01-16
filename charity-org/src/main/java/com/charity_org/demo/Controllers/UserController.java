@@ -1,15 +1,10 @@
 package com.charity_org.demo.Controllers;
 import com.charity_org.demo.Enums.DonationStatus;
-import com.charity_org.demo.Enums.EventStatus;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Middlware.cookies.SessionRepository;
-import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.Donation;
 import com.charity_org.demo.Models.Model.Event;
-import com.charity_org.demo.Models.Service.DonationService;
-import com.charity_org.demo.Models.Service.EventRegistrationService;
-import com.charity_org.demo.Models.Service.EventService;
-import com.charity_org.demo.Models.Service.UserService;
+import com.charity_org.demo.Models.Service.*;
 import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Patcher.Patcher;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,13 +30,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private Patcher patcher;
-
     @Autowired
     CookieHandler cookieHandler;
-
+    @Autowired
+    UserRoleService userRoleService;
+    @Autowired
+    private Patcher patcher;
     @Autowired
     SessionRepository sessionRepository;
     @Autowired
@@ -104,11 +98,14 @@ public class UserController {
     }
 
     @GetMapping("/events/{id}")
-    public String getMyEvents(@PathVariable Long id, Model model) {
-        EventRegistrationService eventRegisterationtionService = new EventRegistrationService();
-        List<Event> events = eventRegisterationtionService.getEventRegistredByUser(id);
+    public String getMyEvents(@PathVariable Long id, Model model, HttpServletRequest request) {
+        List<Event> events = eventRegistrationService.getEventRegistredByUser(id);
+        User user= cookieHandler.getUserFromSession(request);
+        String name =userRoleService.getRole(request);
+        model.addAttribute("role", name);
+        model.addAttribute("userID", user.getId());
         model.addAttribute("events", events);
-        return "events-list";
+        return "my-events-list";
     }
 
     @GetMapping("/donations/{id}")

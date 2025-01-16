@@ -8,7 +8,7 @@
 </head>
 <body>
 <!-- navbar.html -->
-<div th:replace="fragments/navbar :: navbar(role=${role})"></div>
+<div th:replace="fragments/navbar :: navbar(role=${role},userID=${userID})"></div>
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Event List</h2>
@@ -23,6 +23,7 @@
     </form>
 
     <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
     <!-- Event Table -->
     <div th:if="${events.isEmpty()}" class="alert alert-info">
