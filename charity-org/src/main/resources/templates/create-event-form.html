@@ -31,19 +31,41 @@
             <div class="invalid-feedback">Please provide a valid event date.</div>
         </div>
 
-        <!-- Event Location ID -->
+<!--        &lt;!&ndash; Event Location ID &ndash;&gt;-->
+<!--        <div class="mb-3">-->
+<!--            <label for="eventLocationId" class="form-label">Event Location</label>-->
+<!--            <select id="eventLocationId" name="eventLocationId" class="form-select" th:field="*{eventLocationId}" required>-->
+<!--                <option value="" disabled selected>Select an address</option>-->
+<!--                <option th:each="address : ${addresses}"-->
+<!--                        th:value="${address.id}"-->
+<!--                        th:text="${address.name}">-->
+<!--                </option>-->
+<!--            </select>-->
+
+<!--            <div class="invalid-feedback">Please provide a valid event location ID.</div>-->
+<!--        </div>-->
+
         <div class="mb-3">
-            <label for="eventLocationId" class="form-label">Event Location</label>
-            <select id="eventLocationId" name="eventLocationId" class="form-select" th:field="*{eventLocationId}" required>
-                <option value="" disabled selected>Select an address</option>
-                <option th:each="address : ${addresses}"
-                        th:value="${address.id}"
-                        th:text="${address.name}">
+            <label for="countryDropdown" class="form-label">Country</label>
+            <select id="countryDropdown" name="countryId" class="form-select" required>
+                <option value="" disabled selected>Select a country</option>
+                <option th:each="country : ${countries}"
+                        th:value="${country.id}"
+                        th:text="${country.name}"
+                        data-cities='[[${#objectmapper.writeValueAsString(country.children)}]]'>
                 </option>
             </select>
-
-            <div class="invalid-feedback">Please provide a valid event location ID.</div>
+            <div class="invalid-feedback">Please select a country.</div>
         </div>
+
+        <div class="mb-3">
+            <label for="cityDropdown" class="form-label">City</label>
+            <select id="cityDropdown" name="cityId" class="form-select" required>
+                <option value="" disabled selected>Select a city</option>
+            </select>
+            <div class="invalid-feedback">Please select a city.</div>
+        </div>
+
 
         <!-- Event Description -->
         <div class="mb-3">
@@ -58,6 +80,38 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('countryDropdown').addEventListener('change', function () {
+        const countryId = this.value;
+        const cityDropdown = document.getElementById('cityDropdown');
+
+        cityDropdown.innerHTML = '<option value="" disabled selected>Loading...</option>';
+
+        fetch(`/events/cities?countryId=${countryId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch cities');
+                }
+                return response.json();
+            })
+            .then(cities => {
+                console.log(cities.length);
+                cityDropdown.innerHTML = '<option value="" disabled selected>Select a city</option>';
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.id;
+                    option.textContent = city.name;
+                    cityDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching cities:', error);
+                cityDropdown.innerHTML = '<option value="" disabled selected>Error loading cities</option>';
+            });
+    });
+</script>
+
 
 <script>
     // JavaScript for Bootstrap form validation
