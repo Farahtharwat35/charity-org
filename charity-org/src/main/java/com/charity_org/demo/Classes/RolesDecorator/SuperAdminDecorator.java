@@ -8,13 +8,14 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 @Component
-public class SuperAdminDecorator implements IRole {
+public class SuperAdminDecorator extends RolesDecoratorr {
     private IRole decoratedRole;
 
     RoleService roleService;
     UserRoleService userRoleService;
 
     public SuperAdminDecorator(IRole decoratedRole ,  RoleService roleService , UserRoleService userRoleService) {
+        super(decoratedRole);
         this.decoratedRole = decoratedRole;
         this.roleService = roleService;
         this.userRoleService = userRoleService;

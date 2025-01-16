@@ -21,9 +21,6 @@ public class SuperAdminService {
     private UserRepository userRepository;
 
     @Autowired
-    private AdminDecorator adminDecorator;
-
-    @Autowired
     private RoleService roleService;
 
     @Autowired
@@ -34,11 +31,6 @@ public class SuperAdminService {
         adminDecorator.applyRole();
         return user;
 
-    }
-    public User createSuperAdmin(User user){
-        SuperAdminDecorator superAdminDecorator = new SuperAdminDecorator(user, roleService, userRoleService);
-        superAdminDecorator.applyRole();
-        return user;
     }
     public User createCourier(User user) {
         CourierDecorator courierDecorator = new CourierDecorator(user, roleService, userRoleService);
