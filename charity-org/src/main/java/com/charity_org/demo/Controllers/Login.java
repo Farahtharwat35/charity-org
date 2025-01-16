@@ -5,6 +5,7 @@ import com.charity_org.demo.Classes.StrategyComponents.LoginStrategyInterface;
 import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Models.Service.UserService;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,7 +69,7 @@ public class Login {
 
         if (isAuthenticated != null) {
             model.addAttribute("error", isAuthenticated);
-            return "login";
+            return "Login";
         }
 
         User user = (User) result.get("user");
@@ -86,7 +87,7 @@ public class Login {
         logger.info("Session cookie set successfully for user: {}", loginRequest.getEmail());
 
         model.addAttribute("success", "Authenticated with " + provider + " successfully.");
-        return "HomePage";
+        return "redirect:/home/";
 
     }
 
@@ -95,7 +96,17 @@ public class Login {
         // Delete session cookie
         cookieHandler.removeCookie("SESSION_ID", request, response);
 
+        // Optionally invalidate the session if needed
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();  // Invalidate session to clear session attributes
+        }
+
+        // Add a message to the model (optional, can be displayed on the login page)
         model.addAttribute("message", "You have been logged out successfully.");
-        return "login"; // Redirect to login page
+
+        // Redirect to the login page after successful logout
+        return "redirect:/auth/login"; // Ensure the user is redirected to the login page
     }
+
 }
