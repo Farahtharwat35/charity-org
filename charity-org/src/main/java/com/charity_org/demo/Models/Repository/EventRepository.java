@@ -13,6 +13,6 @@ public interface EventRepository extends JpaRepository<Event,Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Event a SET a.isDeleted = true WHERE a.id = :id")
-    boolean deleteEventById(@Param("id") Long id);
+    @Query("UPDATE Event a SET a.isDeleted = true , a.status = 'CANCELLED' WHERE a.id = :id")
+    int deleteEventById(@Param("id") Long id);
 }

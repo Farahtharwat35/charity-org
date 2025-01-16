@@ -76,7 +76,7 @@ public class EventController {
     // Delete event endpoint
     @DeleteMapping("/delete/{id}")
     public boolean deleteEvent(@RequestHeader("X-Forwarded-For") String clientIp, @PathVariable Long id) {
-        return eventService.deleteById(clientIp, id);
+        return eventService.deleteEvent(clientIp, id);
     }
 
     @GetMapping("/search")

@@ -101,7 +101,10 @@ public class EventServiceProxy implements IEventService {
             logger.warn("Attempt to delete event with blocked IP: {}", clientIp);
             throw new SecurityException("Your IP is blocked.");
         }
-        return target.deleteEvent(clientIp, id);
+        String subject = "Event Deleted";
+        String content = "Event with Name " + getEvent(id).getEventName() + " has been deleted." + "So your registration has been canceled.";
+        Invoker invoker = new Invoker(new CancelEventCommand((IEventSubject) target,subject,content , (EventService) target, getEvent(id),clientIp));
+        return invoker.executeCommand();
     }
 
     @Override
