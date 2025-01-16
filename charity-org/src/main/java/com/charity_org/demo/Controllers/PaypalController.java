@@ -1,7 +1,7 @@
 package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.Models.Model.Paypal;
-import com.charity_org.demo.Models.Service.PaypalService;
+import com.charity_org.demo.Classes.TemplateComponents.PaypalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,11 @@ public class PaypalController {
 
     // POST Request to handle form submission
     @PostMapping("/save")
-    public String processPayment(@ModelAttribute Paypal paypal, Model model) {
+    public String processPayment(@ModelAttribute Paypal paypal, Model model,@RequestHeader(value = "Referer", required = false) String referer) {
+        String path = referer.replace("http://localhost:8080/", "");
+        // Get the first segment of the path
+        String firstPath = path.split("/")[0];
+
         boolean result = paypalService.processPayment(paypal);
 
         if (result) {
@@ -32,6 +36,6 @@ public class PaypalController {
             model.addAttribute("message", "Payment processing failed. Please try again.");
         }
 
-        return "Confirmation"; // Render the same view with the message
+        return "redirect:/" + firstPath + "/submitPaymentSuccessful"; // Render the same view with the message
     }
 }

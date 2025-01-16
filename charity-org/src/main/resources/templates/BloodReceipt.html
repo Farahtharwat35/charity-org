@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blood Donation Receipt</title>
+</head>
+<body>
+<h1>Blood Donation Receipt</h1>
+
+<p><strong>Donator Age:</strong> <span th:text="${bloodDonnation.donatorAge}">30</span></p>
+<p><strong>Blood Type:</strong> <span th:text="${bloodDonnation.bloodType}">O_POSITIVE</span></p>
+<p><strong>Amount Donated (in Liters):</strong> <span th:text="${bloodDonnation.bloodAmount}">0.5</span></p>
+
+<hr>
+
+<div class="total">
+    <p><strong>Total Blood Donated:</strong> <span th:text="${bloodDonnation.bloodAmount}">0.5</span> Liters</p>
+</div>
+
+<!-- Optional: Show additional details or thank you note -->
+
+<div>
+    <p><strong>Thank you for your generous donation!</strong></p>
+    <button type="button" onclick="window.location.href='/donation-types/'" class="btn btn-primary">
+        Back
+    </button>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.charity_org.demo.Models.Service;
+package com.charity_org.demo.Classes.TemplateComponents;
 
 import com.charity_org.demo.Classes.StrategyComponents.IPaymentMethod;
 

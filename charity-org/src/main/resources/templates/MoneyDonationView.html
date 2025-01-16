@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Donation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn-paypal {
+            background-color: #ffc107;
+            border: none;
+            color: black;
+        }
+
+        .btn-paypal:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-visa {
+            background-color: #007bff;
+            border: none;
+            color: white;
+        }
+
+        .btn-visa:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-cash {
+            background-color: #28a745;
+            border: none;
+            color: white;
+        }
+
+        .btn-cash:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h3>Money Donation</h3>
+        <p>Please fill out the form below to donate money.</p>
+    </div>
+    <form th:object="${moneyDonation}" method="post" action="/money-type/submitDonation">
+        <!-- Donation Amount -->
+        <div class="form-group">
+            <label for="cost">Donation Amount:</label>
+            <input id="cost" th:field="*{cost}" type="number" min="0" required class="form-control">
+        </div>
+
+        <!-- Currency -->
+        <div class="form-group">
+            <label for="currency">Currency:</label>
+            <select id="currency" th:field="*{currency}" class="form-control" required>
+                <option value="" disabled selected>Select Currency</option>
+                <option th:each="currency : ${currencies}" th:value="${currency.name()}" th:text="${currency.name()}"></option>
+            </select>
+        </div>
+
+        <!-- Hidden input for payment method -->
+        <input type="hidden" name="paymentMethod" id="paymentMethod" value="">
+
+        <!-- Payment Buttons -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-paypal" onclick="setPaymentMethod('PayPalView')">Pay with PayPal</button>
+            <button type="submit" class="btn btn-visa" onclick="setPaymentMethod('VisaView')">Pay with Visa</button>
+            <button type="submit" class="btn btn-cash" onclick="setPaymentMethod('Cash')">Pay with Cash</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function setPaymentMethod(method) {
+        // Set the value of the hidden input to the selected payment method
+        document.getElementById('paymentMethod').value = method;
+    }
+</script>
+</body>
+</html>
