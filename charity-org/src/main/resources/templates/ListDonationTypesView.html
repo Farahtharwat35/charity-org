@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Options</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            width: 250px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .card h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Furniture Donation Card -->
+    <div class="card" onclick="window.location.href='/furniture-type'">
+        <img src="/images/furniture.jpg" alt="Furniture Donation" class="card-img">
+        <div class="card-content">
+            <h3>Furniture Donation</h3>
+            <p>Donate your used furniture to help those in need. Build homes with second chances.</p>
+        </div>
+    </div>
+
+    <!-- Money Donation Card -->
+    <div class="card" onclick="window.location.href='/money-type'">
+        <img src="/images/money.jpg" alt="Money Donation" class="card-img">
+        <div class="card-content">
+            <h3>Money Donation</h3>
+            <p>Support various causes by donating money. Your generosity can change lives.</p>
+        </div>
+    </div>
+
+    <!-- Clothes Donation Card -->
+    <div class="card" onclick="window.location.href='/clothes-type'">
+        <img src="/images/clothes.jpg" alt="Clothes Donation" class="card-img">
+        <div class="card-content">
+            <h3>Clothes Donation</h3>
+            <p>Donate gently used clothing to support people in need. Every piece makes a difference.</p>
+        </div>
+    </div>
+
+    <!-- Blood Donation Card -->
+    <div class="card" onclick="window.location.href='/blood-type'">
+        <img src="/images/blood.png" alt="Blood Donation" class="card-img">
+        <div class="card-content">
+            <h3>Blood Donation</h3>
+            <p>Your blood can save lives. Donate blood and help those in need.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
