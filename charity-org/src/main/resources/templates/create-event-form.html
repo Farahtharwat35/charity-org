@@ -24,10 +24,9 @@
             <div class="invalid-feedback">Please provide a valid event name.</div>
         </div>
 
-        <!-- Event Date -->
         <div class="mb-3">
             <label for="eventDate" class="form-label">Event Date</label>
-            <input type="date" id="eventDate"  name="eventDate" class="form-control" th:field="*{eventDate}" required>
+            <input type="date" id="eventDate" name="eventDate" class="form-control" th:field="*{eventDate}" required>
             <div class="invalid-feedback">Please provide a valid event date.</div>
         </div>
 
@@ -110,10 +109,19 @@
                 cityDropdown.innerHTML = '<option value="" disabled selected>Error loading cities</option>';
             });
     });
-</script>
+    // Set the minimum date for the eventDate input to today's date
+    const eventDateInput = document.getElementById('eventDate');
+    const today = new Date().toISOString().split('T')[0];
+    eventDateInput.setAttribute('min', today);
 
-
-<script>
+    // Validate the date on input
+    eventDateInput.addEventListener('input', function () {
+        if (this.value < today) {
+            this.setCustomValidity('The event date cannot be in the past.');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
     // JavaScript for Bootstrap form validation
     (function () {
         'use strict';
@@ -129,6 +137,7 @@
         });
     })();
 </script>
+
 </body>
 
 </html>

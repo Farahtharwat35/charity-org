@@ -42,7 +42,7 @@
 <div class="container mt-4">
     <!-- Flash Messages -->
     <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
-
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
     <!-- Buttons -->
     <div class="button-container d-flex justify-content-end">
         <!-- Show Create Admin button only if title is Admins -->
