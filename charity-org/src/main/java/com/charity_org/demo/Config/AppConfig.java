@@ -1,6 +1,4 @@
 package com.charity_org.demo.Config;
-
-import com.charity_org.demo.Classes.AdapterComponents.AddressAdaptee;
 import com.charity_org.demo.Classes.Proxy.EventServiceProxy;
 import com.charity_org.demo.Classes.Proxy.IEventService;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;

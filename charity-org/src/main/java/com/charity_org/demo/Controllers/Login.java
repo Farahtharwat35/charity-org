@@ -1,6 +1,5 @@
 package com.charity_org.demo.Controllers;
 
-import com.charity_org.demo.Classes.AdapterComponents.AddressAdapter;
 import com.charity_org.demo.DTO.LoginRequest;
 import com.charity_org.demo.Classes.StrategyComponents.LoginStrategyInterface;
 import com.charity_org.demo.Models.Model.User;
