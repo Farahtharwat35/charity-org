@@ -5,11 +5,9 @@ import com.charity_org.demo.Classes.CommandComponents.CreateEventCommand;
 import com.charity_org.demo.Classes.CommandComponents.Invoker;
 import com.charity_org.demo.Classes.IteratorComponents.EventIterator;
 import com.charity_org.demo.Classes.ObserverComponents.IEventSubject;
-import com.charity_org.demo.Enums.EventStatus;
+import com.charity_org.demo.Classes.Singleton.SingletonLogger;
 import com.charity_org.demo.Models.Model.Event;
 import com.charity_org.demo.Models.Service.EventService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.List;
@@ -38,11 +36,11 @@ public class EventServiceProxy implements IEventService {
     );
 
     private static final Pattern XSS_PATTERN = Pattern.compile("<script>(.*?)</script>|%3Cscript%3E(.*?)%3C/script%3E", Pattern.CASE_INSENSITIVE);
-    private static final Logger logger = LoggerFactory.getLogger(EventServiceProxy.class);
+    private SingletonLogger logger = SingletonLogger.getInstance(SingletonLogger.FileFormat.PLAIN_TEXT);
 
     public EventServiceProxy(IEventService target) {
         this.target = target;
-        logger.info("EventServiceProxy created");
+        logger.log(SingletonLogger.LogLevel.INFO, "EventServiceProxy created");
     }
 
     private boolean isMalicious(String input) {
@@ -54,18 +52,18 @@ public class EventServiceProxy implements IEventService {
 
     private void blockIp(String ip) {
         blockedIps.add(ip);
-        logger.warn("IP {} has been blocked.", ip);
+        logger.log(SingletonLogger.LogLevel.WARN, "IP" + ip + "has been blocked.");
     }
 
     @Override
     public boolean createEvent(String clientIp, String eventName, Date eventDate, long eventLocationId, String description) {
-        logger.info("Creating event with IP: {}", clientIp);
+        logger.log(SingletonLogger.LogLevel.INFO, "Creating event with IP: {}", clientIp);
         if (blockedIps.contains(clientIp)) {
-            logger.warn("Attempt to create event with blocked IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Blocked IP: {}", clientIp);
             throw new SecurityException("Your IP is blocked.");
         }
         if (isMalicious(eventName) || isMalicious(description)) {
-            logger.warn("Malicious content detected in event creation. IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Malicious content detected in event creation. IP: {}", clientIp);
             blockIp(clientIp);
             throw new SecurityException("Malicious content detected. Your IP has been blocked.");
         }
@@ -76,13 +74,13 @@ public class EventServiceProxy implements IEventService {
 
     @Override
     public boolean updateEvent(String clientIp, long id, Event event) {
-        logger.info("Updating event with IP: {}", clientIp);
+        logger.log(SingletonLogger.LogLevel.INFO, "Updating event with ID: {} and clientIp {}", id, clientIp);
         if (blockedIps.contains(clientIp)) {
-            logger.warn("Attempt to update event with blocked IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Attempt to update event with blocked IP: {}", clientIp);
             throw new SecurityException("Your IP is blocked.");
         }
         if (isMalicious(event.getEventName()) || isMalicious(event.getDescription())) {
-            logger.warn("Attempt to update event with malicious content. IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Attempt to update event with malicious content. IP: {}", clientIp);
             blockIp(clientIp);
             throw new SecurityException("Malicious content detected. Your IP has been blocked.");
         }
@@ -96,9 +94,9 @@ public class EventServiceProxy implements IEventService {
 
     @Override
     public boolean deleteEvent(String clientIp, long id) {
-        logger.info("Deleting event with IP: {}", clientIp);
+        logger.log(SingletonLogger.LogLevel.INFO, "Deleting event with ID: {} and client IP: {}", id, clientIp);
         if (blockedIps.contains(clientIp)) {
-            logger.warn("Attempt to delete event with blocked IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Attempt to delete event with blocked IP: {}", clientIp);
             throw new SecurityException("Your IP is blocked.");
         }
         String subject = "Event Deleted";
@@ -109,13 +107,14 @@ public class EventServiceProxy implements IEventService {
 
     @Override
     public List<Event> getAllEvents(String clientIp, String queryString) {
-        logger.info("Getting all events with IP: {}", clientIp);
+
+        logger.log(SingletonLogger.LogLevel.INFO, "Getting all events with IP: {}", clientIp);
         if (blockedIps.contains(clientIp)) {
-            logger.warn("Attempt to get all events with blocked IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Attempt to get all events with blocked IP: {}", clientIp);
             throw new SecurityException("Your IP is blocked.");
         }
         if (isMalicious(queryString)) {
-            logger.warn("Attempt to get all events with malicious content. IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Attempt to get all events with blocked IP: {}", clientIp);
             blockIp(clientIp);
             throw new SecurityException("Malicious content detected in query string. Your IP has been blocked.");
         }
@@ -124,13 +123,13 @@ public class EventServiceProxy implements IEventService {
 
     @Override
     public List<Event> listAllUnDeletedEvents(String clientIp, String queryString) {
-        logger.info("Listing all events with IP: {}", clientIp);
+        logger.log(SingletonLogger.LogLevel.INFO, "Listing all events with IP: {}", clientIp);
         if (blockedIps.contains(clientIp)) {
-            logger.warn("Attempt to list all events with blocked IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Attempt to list all events with blocked IP: {}", clientIp);
             throw new SecurityException("Your IP is blocked.");
         }
         if (isMalicious(queryString)) {
-            logger.warn("Attempt to list all events with malicious content. IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Attempt to list all events with malicious content. IP: {}", clientIp);
             blockIp(clientIp);
             throw new SecurityException("Malicious content detected in query string. Your IP has been blocked.");
         }
@@ -139,9 +138,9 @@ public class EventServiceProxy implements IEventService {
 
     @Override
     public boolean deleteById(String clientIp, Long id) {
-        logger.info("Deleting event with IP: {}", clientIp);
+        logger.log(SingletonLogger.LogLevel.INFO, "Deleting event with ID: {} and client IP: {}", id, clientIp);
         if (blockedIps.contains(clientIp)) {
-            logger.warn("Attempt to delete event with blocked IP: {}", clientIp);
+            logger.log(SingletonLogger.LogLevel.WARN, "Attempt to delete event with blocked IP: {}", clientIp);
             throw new SecurityException("Your IP is blocked.");
         }
         String subject = "Event Deleted";

@@ -1,6 +1,5 @@
 package com.charity_org.demo.Controllers;
-
-import com.charity_org.demo.Classes.AdapterComponents.AddressAdapter;
+import com.charity_org.demo.Classes.Singleton.SingletonLogger;
 import com.charity_org.demo.DTO.LoginRequest;
 import com.charity_org.demo.Classes.StrategyComponents.LoginStrategyInterface;
 import com.charity_org.demo.Models.Model.User;
@@ -18,9 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 @Controller
 @RequestMapping("/auth")
@@ -30,6 +26,7 @@ public class Login {
 
     private final Map<String, LoginStrategyInterface> loginStrategies;
     private final CookieHandler cookieHandler;
+    private SingletonLogger logger = SingletonLogger.getInstance(SingletonLogger.FileFormat.PLAIN_TEXT);
 
     @Autowired
     public Login(Map<String, LoginStrategyInterface> loginStrategies, CookieHandler cookieHandler) {
@@ -51,20 +48,19 @@ public class Login {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        Logger logger = LoggerFactory.getLogger(this.getClass());
 
-        logger.info("Login attempt started with provider: {}", provider);
+        logger.log(SingletonLogger.LogLevel.INFO, "Login attempt started with provider: {}", provider);
 
 
         LoginStrategyInterface loginStrategy = loginStrategies.get(provider.toLowerCase());
 
         if (loginStrategy == null) {
-            logger.info("No login strategy found for provider: {}", provider);
+            logger.log(SingletonLogger.LogLevel.INFO, "No login strategy found for provider: {}", provider);
             model.addAttribute("error", "Unsupported provider.");
             return "login";
         }
 
-        logger.info("Login strategy found for provider: {}", provider);
+        logger.log(SingletonLogger.LogLevel.INFO, "Attempting to login using provider: {}", provider);
 
         Map<String, Object> result = loginStrategy.login(loginRequest);
         String isAuthenticated = (String) result.get("error");
@@ -76,18 +72,18 @@ public class Login {
 
         User user = (User) result.get("user");
 
-        logger.info("User found with email: {}", loginRequest.getEmail());
+
+        logger.log(SingletonLogger.LogLevel.INFO, "User found with email: {}", loginRequest.getEmail());
 
 
-        logger.info("Password verification successful for user: {}", loginRequest.getEmail());
+        logger.log(SingletonLogger.LogLevel.INFO, "Password verification successful for user: {}", loginRequest.getEmail());
 
         String sessionId = UUID.randomUUID().toString();
-        logger.info("Authentication successful. Generated session ID: {}", sessionId);
+        logger.log(SingletonLogger.LogLevel.INFO, "Authentication successful. Generated session ID: {}", sessionId);
 
         // Set the session cookie
         cookieHandler.setCookie("SESSION_ID", sessionId, 3600, response, request, "/", user.getId());
-        logger.info("Session cookie set successfully for user: {}", loginRequest.getEmail());
-
+        logger.log(SingletonLogger.LogLevel.INFO, "Session cookie set successfully for user: {}", loginRequest.getEmail());
         model.addAttribute("success", "Authenticated with " + provider + " successfully.");
         return "redirect:/home/";
 
