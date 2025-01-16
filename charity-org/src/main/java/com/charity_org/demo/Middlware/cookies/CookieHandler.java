@@ -27,7 +27,7 @@ public class CookieHandler {
         logger.info("Fetching Cookie value...");
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            logger.debug("cookies length: {}", cookies.length);
+            logger.info("cookies length: {}", cookies.length);
             return Arrays.stream(cookies)
                     .filter(cookie -> cookie.getName().equals(cookieName))
                     .map(Cookie::getValue)
@@ -38,11 +38,10 @@ public class CookieHandler {
     }
 
     public User getUserFromSession(HttpServletRequest request) {
-        String sessionId = getCookieValue("sessionId" , request);
+        String sessionId = getCookieValue("SESSION_ID" , request);
         Logger logger = LoggerFactory.getLogger(CookieHandler.class);
+        logger.info("Session Value while fetching user :" + sessionId);
         logger.info("Attempting to retrieve user for sessionId: {}", sessionId);
-
-
         Session session = sessionRepository.findBySessionId(sessionId);
 
         if (session != null) {
@@ -87,18 +86,31 @@ public class CookieHandler {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
+                // Check if cookie name matches
                 if (cookie.getName().equals(cookieName)) {
+                    String sessionId = cookie.getValue();  // Save session ID before modifying the cookie
+
+                    // Clear the cookie's value and set the max age to 0 to expire it
                     cookie.setValue("");
                     cookie.setMaxAge(0);
+                    cookie.setPath("/");  // Ensure it matches the path where the cookie was set
+                    cookie.setDomain(request.getServerName());  // Optionally, set the domain as needed
+
+                    // Add the expired cookie to the response
                     response.addCookie(cookie);
-                    Session session = sessionRepository.findBySessionId(cookie.getValue());
+
+                    // Now handle the session deletion if needed
+                    Session session = sessionRepository.findBySessionId(sessionId);
                     if (session != null) {
-                        sessionRepository.delete(session);
+                        sessionRepository.delete(session);  // Remove the session from the repository
                     }
+
+                    break;  // No need to continue after the cookie is found
                 }
             }
         }
     }
+
 
     public boolean cookieExists(String cookieName, HttpServletRequest request) {
         return getCookieValue(cookieName, request) != null;
