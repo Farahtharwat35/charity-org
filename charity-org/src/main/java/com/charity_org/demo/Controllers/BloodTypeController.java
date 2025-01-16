@@ -3,7 +3,15 @@ package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.Enums.BloodType;
 
+import com.charity_org.demo.Enums.DonationStatus;
+import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Models.Model.BloodDonnation;
+import com.charity_org.demo.Models.Model.Donation;
+import com.charity_org.demo.Models.Model.DonationDetails;
+import com.charity_org.demo.Models.Model.User;
+import com.charity_org.demo.Models.Service.*;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +22,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/blood-type")
 public class BloodTypeController {
+    @Autowired
+    DonationDetailsService donationDetailsService;
+
+    @Autowired
+    DonationTypeService donationTypeService;
+
+    @Autowired
+    CookieHandler cookieHandler;
+
+    @Autowired
+    DonationService donationService;
+
+    DonationDetails newdonationDetails;
 
     @GetMapping({"/", ""})
     public String getBloodPage(Model model) {
@@ -25,14 +46,39 @@ public class BloodTypeController {
     }
 
     @PostMapping("/submitDonation")
-    public String submitDonation(@ModelAttribute("bloodDonnation") BloodDonnation bloodDonnation) {
-        // Log or process the submitted data
-        System.out.println("Blood Donation Details:");
-        System.out.println("Donator Age: " + bloodDonnation.getDonatorAge());
-        System.out.println("Blood Type: " + bloodDonnation.getBloodType());
-        System.out.println("Blood Amount: " + bloodDonnation.getBloodAmount());
+    public String submitDonation(@ModelAttribute("bloodDonnation") BloodDonnation bloodDonnation, HttpServletRequest request) {
+
+        bloodDonnation.setHasCost(false);
+        bloodDonnation.setCost(0);
+
+        newdonationDetails = new DonationDetails();
+        newdonationDetails.setDonationType(donationTypeService.saveDonationType(bloodDonnation));
+        newdonationDetails.setQuantity(1); // Blood donations often don't have quantities
+        ShippingFee shippingFee = new ShippingFee(donationDetailsService);
+        BloodDrawFees newBloodDrawFees = new BloodDrawFees(shippingFee);
+        newdonationDetails.setSubTotalPrice(newBloodDrawFees.calculate_price(newdonationDetails));
+        newdonationDetails.setDonation_invoice_Description(newBloodDrawFees.display_invoice_details(newdonationDetails));
+
+
+
+
         // Redirect or show success page
-        return "redirect:/blood-type/success";
+        return "PaypalView";
+    }
+
+    @GetMapping("/submitPaymentSuccessful")
+    public String confirmPayment( HttpServletRequest request){
+        if (newdonationDetails != null){//here put the condition
+            Donation donation = new Donation();
+            User currentUser = cookieHandler.getUserFromSession(request);
+            donation.setUser(currentUser);
+            donation.addTodonationDetials(donationDetailsService.saveDonationDetails(newdonationDetails));
+            newdonationDetails.setDonation(donation);
+            donation.setDonationTotalPrice(newdonationDetails.getSubTotalPrice());
+            donation.setStatus(DonationStatus.COMPLETED);
+            donationService.save(donation);
+        }
+        return "ListDonationTypesView";
     }
 }
 

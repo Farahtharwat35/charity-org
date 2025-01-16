@@ -57,13 +57,9 @@ public class MoneyTypeController {
     @PostMapping("/submitDonation")
     public String submitMoneyDonation(@ModelAttribute("moneyDonation") MoneyDonnation moneyDonation, Model model, HttpServletRequest request) {
         // Create MoneyDonation object
-        System.out.println("je;llllooo");
-        System.out.println(moneyDonation.getCost());
-
         newdonationDetails= new DonationDetails();
         newdonationDetails.setDonationType(donationTypeService.saveDonationType(moneyDonation));
-//        newdonationDetails.setSubTotalPrice(moneyDonation.getCost());
-//        newdonationDetails.setSubTotalPrice(50);
+
 
         Tax newTax = new Tax(donationDetailsService);
         newdonationDetails.setSubTotalPrice(newTax.calculate_price(newdonationDetails));
