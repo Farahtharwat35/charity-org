@@ -6,6 +6,7 @@ import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.Event;
 import com.charity_org.demo.Models.Repository.AddressRepository;
 import com.charity_org.demo.Models.Service.AddressService;
+import com.charity_org.demo.Models.Service.UserRoleService;
 import com.charity_org.demo.Patcher.Patcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/admin")
 public class AdminController {
+
     private final IEventService eventService;
     private final AddressService addressService;
     private final Patcher patcher;
@@ -33,7 +35,8 @@ public class AdminController {
         this.addressService = addressService;
         this.patcher = patcher;
     }
-
+    @Autowired
+    UserRoleService userRoleService;
     @GetMapping("/add_event")
     public String addEventForm(Model model) {
         List<Address> addresses = addressService.findAll();
@@ -67,10 +70,14 @@ public class AdminController {
         try {
             if (query == null) {
                 model.addAttribute("events", eventService.getAllEvents(clientIp, query));
+                String name =userRoleService.getRole(request);
+                model.addAttribute("role", name);
                 return "events";
             }
             String decodedFilter = URLDecoder.decode(query, StandardCharsets.UTF_8);
+
             model.addAttribute("events", eventService.getAllEvents(clientIp, decodedFilter));
+
             return "events";
         }
         catch (SecurityException e) {
