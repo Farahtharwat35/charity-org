@@ -17,10 +17,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/clothes-type")
@@ -53,7 +52,7 @@ public class ClothesTypeController {
     }
 
     @PostMapping("/submitDonation")
-    public String submitDonation(@ModelAttribute ClothesDonnation clothesDonnation) {
+    public String submitDonation(@ModelAttribute ClothesDonnation clothesDonnation, @RequestParam("paymentMethod") String paymentMethod, HttpServletRequest request) {
 
 
         clothesDonnation.setHasCost(false);
@@ -66,7 +65,11 @@ public class ClothesTypeController {
         newdonationDetails.setSubTotalPrice(shippingFee.calculate_price(newdonationDetails));
         newdonationDetails.setDonation_invoice_Description(shippingFee.display_invoice_details(newdonationDetails));
 
-        return "PaypalView" ;
+        if(Objects.equals(paymentMethod, "Cash")){
+            return confirmPayment(request);
+        }
+
+        return paymentMethod;
     }
     @GetMapping("/submitPaymentSuccessful")
     public String confirmPayment( HttpServletRequest request){

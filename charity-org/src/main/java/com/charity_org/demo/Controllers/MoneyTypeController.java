@@ -66,9 +66,8 @@ public class MoneyTypeController {
             return confirmPayment(request);
         }
 
-        return paymentMethod;  // Return the confirmation view
+        return paymentMethod;
     }
-
 
     @GetMapping("/submitPaymentSuccessful")
     public String confirmPayment( HttpServletRequest request){

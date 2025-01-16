@@ -43,6 +43,7 @@
         /* Button styling */
         button {
             width: 100%;
+            margin-bottom: 10px;
         }
 
         .btn-primary {
@@ -56,6 +57,17 @@
             background-color: #0056b3;
         }
 
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
         /* Ensuring the form content is vertically centered */
         .form-group input,
         .form-group select {
@@ -64,6 +76,40 @@
 
         .text-center {
             text-align: center;
+        }
+        button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn-paypal {
+            background-color: #ffc107;
+            border: none;
+            color: black;
+        }
+
+        .btn-paypal:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-visa {
+            background-color: #007bff;
+            border: none;
+            color: white;
+        }
+
+        .btn-visa:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-cash {
+            background-color: #28a745;
+            border: none;
+            color: white;
+        }
+
+        .btn-cash:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -100,11 +146,22 @@
             </select>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Hidden input for submission type -->
+        <input type="hidden" name="paymentMethod" id="paymentMethod" value="">
+
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-paypal" onclick="setPaymentMethod('PayPalView')">Pay with PayPal</button>
+            <button type="submit" class="btn btn-visa" onclick="setPaymentMethod('VisaView')">Pay with Visa</button>
+            <button type="submit" class="btn btn-cash" onclick="setPaymentMethod('Cash')">Pay with Cash</button>
         </div>
     </form>
 </div>
+
+<script>
+    function setPaymentMethod(type) {
+        // Set the value of the hidden input to the selected submission type
+        document.getElementById('paymentMethod').value = type;
+    }
+</script>
 </body>
 </html>

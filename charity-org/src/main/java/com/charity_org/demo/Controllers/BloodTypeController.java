@@ -14,10 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/blood-type")
@@ -46,7 +45,7 @@ public class BloodTypeController {
     }
 
     @PostMapping("/submitDonation")
-    public String submitDonation(@ModelAttribute("bloodDonnation") BloodDonnation bloodDonnation, HttpServletRequest request) {
+    public String submitDonation(@ModelAttribute("bloodDonnation") BloodDonnation bloodDonnation, @RequestParam("paymentMethod") String paymentMethod, HttpServletRequest request) {
 
         bloodDonnation.setHasCost(false);
         bloodDonnation.setCost(0);
@@ -59,11 +58,11 @@ public class BloodTypeController {
         newdonationDetails.setSubTotalPrice(newBloodDrawFees.calculate_price(newdonationDetails));
         newdonationDetails.setDonation_invoice_Description(newBloodDrawFees.display_invoice_details(newdonationDetails));
 
+        if(Objects.equals(paymentMethod, "Cash")){
+            return confirmPayment(request);
+        }
 
-
-
-        // Redirect or show success page
-        return "PaypalView";
+        return paymentMethod;
     }
 
     @GetMapping("/submitPaymentSuccessful")

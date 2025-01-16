@@ -16,13 +16,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/furniture-type")
@@ -58,7 +56,7 @@ public class FurnitureTypeController {
 
     // Handle the form submission for furniture donation
     @PostMapping("/submitDonation")
-    public String submitFurnitureDonation(@ModelAttribute("furnitureDonation") FurnitureDonnation furnitureDonation, Model model) {
+    public String submitFurnitureDonation(@ModelAttribute("furnitureDonation") FurnitureDonnation furnitureDonation, Model model, @RequestParam("paymentMethod") String paymentMethod, HttpServletRequest request) {
         // Process the form data (e.g., save the donation to a database or perform other actions)
 
         // For now, just adding the donation object to the model to display a confirmation
@@ -75,7 +73,11 @@ public class FurnitureTypeController {
         newdonationDetails.setSubTotalPrice(furnitureTruckFees.calculate_price(newdonationDetails));
         newdonationDetails.setDonation_invoice_Description(furnitureTruckFees.display_invoice_details(newdonationDetails));
         // Return a confirmation view (could be a new page or the same page with a success message)
-        return "PaypalView";  // Return the confirmation view
+        if(Objects.equals(paymentMethod, "Cash")){
+            return confirmPayment(request);
+        }
+
+        return paymentMethod;
     }
 
 
