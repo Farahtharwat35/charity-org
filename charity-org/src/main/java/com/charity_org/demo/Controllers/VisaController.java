@@ -1,6 +1,6 @@
 package com.charity_org.demo.Controllers;
 
-import com.charity_org.demo.Models.Service.VisaService;
+import com.charity_org.demo.Classes.TemplateComponents.VisaService;
 import com.charity_org.demo.Models.Model.Visa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
