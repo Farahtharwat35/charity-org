@@ -67,10 +67,21 @@
             <tr>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.email}"></td>
-                <td>
+
+                <!-- Show Delete Admin form only if title is Admins -->
+                <td th:if="${title == 'Admins'}">
                     <form th:action="@{/super_admin/deleteAdmin/{id}(id=${user.id})}" method="post">
-                        <button type="submit" class="btn btn-danger">Delete</button></form>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
+
+                <!-- Show Delete Courier form only if title is Couriers -->
+                <td th:if="${title == 'Couriers'}">
+                    <form th:action="@{/super_admin/deleteCourier/{id}(id=${user.id})}" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+
             </tr>
         </th:block>
         </tbody>
