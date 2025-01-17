@@ -35,7 +35,9 @@ INSERT INTO User_Role (is_Deleted,user_id,role_id) VALUES
                                                        (FALSE,2,2),
                                                        (FALSE,2,4),
                                                        (FALSE,1,1),
-                                                       (FALSE,1,2);
+                                                       (FALSE,1,2),
+                                                       (FALSE, 1, 3);
+
 
 
 
