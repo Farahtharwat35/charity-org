@@ -73,6 +73,7 @@
         <p><strong>Weight:</strong>
             <span th:text="${#numbers.formatDecimal(furnitureDonnation.weight, 0, 2)}">15.50</span> kg
         </p>
+        <p><strong>Invoice Description:</strong> <span th:text="${donationDetails.donation_invoice_Description}">Charitable Contribution</span></p>
     </div>
 
     <div class="total">
