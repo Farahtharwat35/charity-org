@@ -3,7 +3,6 @@ package com.charity_org.demo.Controllers;
 import com.charity_org.demo.Classes.State.CompletedDonation;
 import com.charity_org.demo.Classes.State.PendingDonation;
 import com.charity_org.demo.Enums.ClothesSize;
-import com.charity_org.demo.Enums.ClothesType;
 import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Enums.Season;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
@@ -11,10 +10,7 @@ import com.charity_org.demo.Models.Model.ClothesDonnation;
 import com.charity_org.demo.Models.Model.Donation;
 import com.charity_org.demo.Models.Model.DonationDetails;
 import com.charity_org.demo.Models.Model.User;
-import com.charity_org.demo.Models.Service.DonationDetailsService;
-import com.charity_org.demo.Models.Service.DonationService;
-import com.charity_org.demo.Models.Service.DonationTypeService;
-import com.charity_org.demo.Models.Service.ShippingFee;
+import com.charity_org.demo.Models.Service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +23,8 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/clothes-type")
 public class ClothesTypeController {
+    @Autowired
+    private ClothesTypeService clothesTypeService;
     @Autowired
     DonationDetailsService donationDetailsService;
 
@@ -52,7 +50,7 @@ public class ClothesTypeController {
         model.addAttribute("clothesDonnation", new ClothesDonnation());
         model.addAttribute("clothesSizes", ClothesSize.values());
         model.addAttribute("seasons", Season.values());
-        model.addAttribute("clothingTypes", ClothesType.values());
+        model.addAttribute("clothingTypes", clothesTypeService.getAllClothesTypes());
         return "ClothesDonationView";
     }
 

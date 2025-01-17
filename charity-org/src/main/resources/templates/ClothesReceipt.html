@@ -60,10 +60,21 @@
     </div>
 
     <div class="receipt-details">
-        <p><strong>Clothes Type:</strong> <span th:text="${clothesDonnation.clothingType}">T-Shirt</span></p>
-        <p><strong>Size:</strong> <span th:text="${clothesDonnation.size}">M</span></p>
-        <p><strong>Quantity:</strong> <span th:text="${clothesDonnation.quantity}">5</span></p>
-        <p><strong>Season:</strong> <span th:text="${clothesDonnation.season}">Winter</span></p>
+        <p><strong>Donor Name:</strong>
+            <span th:text="${user != null ? user.name : 'Anonymous Donor'}">John Doe</span>
+        </p>
+        <p><strong>Clothes Type:</strong>
+            <span th:text="${clothesDonnation.clothingType.name}">T-Shirt</span>
+        </p>
+        <p><strong>Size:</strong>
+            <span th:text="${clothesDonnation.size}">M</span>
+        </p>
+        <p><strong>Quantity:</strong>
+            <span th:text="${clothesDonnation.quantity}">5</span>
+        </p>
+        <p><strong>Season:</strong>
+            <span th:text="${clothesDonnation.season}">Winter</span>
+        </p>
     </div>
 
     <div class="total">

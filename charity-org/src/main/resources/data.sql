@@ -59,6 +59,25 @@ INSERT INTO furniture_types (name, description) VALUES
                                                     ('DRESSER', 'Bedroom dresser'),
                                                     ('COFFEE_TABLE', 'Living room coffee table'),
                                                     ('ARMCHAIR', 'Comfortable armchair');
+INSERT INTO clothes_types (name, description) VALUES
+                                                  ('SHIRT', 'Formal or casual shirt'),
+                                                  ('TSHIRT', 'Casual t-shirt'),
+                                                  ('PANTS', 'Regular pants'),
+                                                  ('JEANS', 'Denim jeans'),
+                                                  ('SHORTS', 'Short pants'),
+                                                  ('SKIRT', 'Women''s skirt'),
+                                                  ('DRESS', 'Women''s dress'),
+                                                  ('JACKET', 'Light outerwear'),
+                                                  ('COAT', 'Heavy outerwear'),
+                                                  ('SWEATER', 'Warm pullover'),
+                                                  ('HOODIE', 'Hooded sweatshirt'),
+                                                  ('SUIT', 'Formal suit'),
+                                                  ('TIE', 'Neck tie'),
+                                                  ('SOCKS', 'Foot wear'),
+                                                  ('SHOES', 'Footwear'),
+                                                  ('HAT', 'Head wear'),
+                                                  ('GLOVES', 'Hand wear'),
+                                                  ('SCARF', 'Neck wear');
 -- -- Insert Dummy Assignments
 -- INSERT INTO assigments (donation_id, courier_id) VALUES
 --                                                          (1, 3), -- Courier Mike is assigned to Donation 1
