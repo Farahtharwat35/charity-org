@@ -62,6 +62,8 @@ public class CourierController {
         Donation donation = donationService.getDonation(donationId);
         User courier = userService.getUser(1);
         if (donation != null && courier != null) {
+            donation.updateDonationStatus();
+            donationService.updateDonationStatus(donation.getId(),donation.getDonationStatusClassName());
             courierService.assignCourierToDonation(courier, donation);
             model.addAttribute("success", "Donation assigned successfully");
             return "redirect:/courier/dashboard";
@@ -74,8 +76,10 @@ public class CourierController {
     @PostMapping("/complete/{donationId}")
     public String completeDonation(Model model, @PathVariable long donationId) {
         Donation donation = donationService.getDonation(donationId);
+
         if (donation != null) {
-            donationService.updateDonationStatus(donationId, DonationStatus.COMPLETED);
+            donation.updateDonationStatus();
+            donationService.updateDonationStatus(donation.getId(),donation.getDonationStatusClassName());
         }
         return "redirect:/courier/dashboard";
     }

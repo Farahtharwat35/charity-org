@@ -21,9 +21,10 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Donation d SET d.status = :status WHERE d.id = :id")
-    int updateDonationStatusById(@Param("id") Long id, @Param("status")DonationStatus status);
+    @Query("UPDATE Donation d SET d.donationStatusClassName = :className WHERE d.id = :id")
+    int updateDonationStatusById(@Param("id") Long id, @Param("className") String className);
 
-    @Query("SELECT d FROM Donation d WHERE d.status = 'PENDING'")
+
+    @Query("SELECT d FROM Donation d WHERE d.donationStatusClassName = 'com.charity_org.demo.Classes.State.PendingDonation'")
     List<Donation> findAllPendingDonations();
 }

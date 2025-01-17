@@ -23,11 +23,11 @@ INSERT INTO users (name, email, password) VALUES
 
 
 -- Insert Dummy Donations
-INSERT INTO donation (user_id, date, time, status, donation_total_price) VALUES
-                                                                                 (1, '2024-11-17', '10:00:00', 'PENDING', 100.00),
-                                                                                 (2, '2024-11-16', '12:30:00', 'PENDING', 150.00),
-                                                                                 (1, '2024-11-15', '14:00:00', 'PENDING', 200.00),
-                                                                                 (2, '2024-11-14', '16:15:00', 'PENDING', 50.00);
+INSERT INTO donation (user_id, date, time, DONATION_STATUS_CLASS_NAME, donation_total_price) VALUES
+                                                                                 (1, '2024-11-17', '10:00:00', 'com.charity_org.demo.Classes.State.PendingDonation', 100.00),
+                                                                                 (2, '2024-11-16', '12:30:00', 'com.charity_org.demo.Classes.State.PendingDonation', 150.00),
+                                                                                 (1, '2024-11-15', '14:00:00', 'com.charity_org.demo.Classes.State.PendingDonation', 200.00),
+                                                                                 (2, '2024-11-14', '16:15:00', 'com.charity_org.demo.Classes.State.PendingDonation', 50.00);
 INSERT INTO Role (name) VALUES ('ROLE_USER'), ('ROLE_ADMIN'), ('ROLE_COURIER') ,('ROLE_SUPERADMIN') ;
 
 INSERT INTO User_Role (is_Deleted,user_id,role_id) VALUES

@@ -1,6 +1,8 @@
 package com.charity_org.demo.Controllers;
 
 
+import com.charity_org.demo.Classes.State.CompletedDonation;
+import com.charity_org.demo.Classes.State.PendingDonation;
 import com.charity_org.demo.Enums.BloodType;
 
 import com.charity_org.demo.Enums.DonationStatus;
@@ -75,12 +77,13 @@ public class BloodTypeController {
     public String confirmPayment(RedirectAttributes redirectAttributes, HttpServletRequest request){
         if (newdonationDetails != null){//here put the condition
             Donation donation = new Donation();
+            donation.setDonationStatus(new PendingDonation());
             User currentUser = cookieHandler.getUserFromSession(request);
             donation.setUser(currentUser);
             donation.addTodonationDetials(donationDetailsService.saveDonationDetails(newdonationDetails));
             newdonationDetails.setDonation(donation);
             donation.setDonationTotalPrice(newdonationDetails.getSubTotalPrice());
-            donation.setStatus(DonationStatus.COMPLETED);
+            donation.setDonationStatus(new CompletedDonation());
             donationService.save(donation);
             redirectAttributes.addFlashAttribute("donationDetails", newdonationDetails);
             redirectAttributes.addFlashAttribute("bloodDonnation", myBloodDonnation);
