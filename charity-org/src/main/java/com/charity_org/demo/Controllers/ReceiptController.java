@@ -34,6 +34,9 @@ public class ReceiptController {
                               @ModelAttribute("furnitureDonnation") FurnitureDonnation furnitureDonnation,
                               @ModelAttribute("bloodDonnation") BloodDonnation bloodDonnation,
                               @ModelAttribute("clothesDonnation") ClothesDonnation clothesDonnation){
+        if(referer == null){
+            return "redirect:/donation-types/";
+        }
         String path = referer.replace("http://localhost:8080/", "");
         // Get the first segment of the path
         String firstPath = path.split("/")[0];
