@@ -3,14 +3,11 @@ import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Models.Model.UserRole;
 import com.charity_org.demo.Models.Service.RoleService;
 import com.charity_org.demo.Models.Service.UserRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 import java.util.Set;
 
 
 
-public class SuperAdminDecorator implements IRole {
+public class SuperAdminDecorator extends RolesDecoratorr {
 
     private IRole decoratedRole;
 
