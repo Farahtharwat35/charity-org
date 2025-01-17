@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/courier")
 public class CourierController {
-
     @Autowired
     private DonationService donationService;
 
@@ -37,12 +37,17 @@ public class CourierController {
     private UserService userService;
 
     @GetMapping("/dashboard")
-    public String dashboard( HttpServletRequest request,Model model, User user) {
-
+    public String dashboard( HttpServletRequest request,Model model) {
+        User user = cookieHandler.getUserFromSession(request);
         List<Donation> allDonations = donationService.getAllPendingDonations();
 
         // Fetch donations assigned to the courier
         List<Assigments> assignedDonations = courierService.getMyAssigments(user);
+        List<Assigments> completedAssignments = assignedDonations.stream()
+                .filter(assignment -> assignment.getDonation().displayDonationStatus().equals("Completed"))
+                .collect(Collectors.toList());
+
+        assignedDonations.removeAll(completedAssignments);
 
         //remove donations which found in my assigment
         allDonations.removeIf(donation -> assignedDonations.stream().anyMatch(assigment -> assigment.getDonation().getId() == donation.getId()));
@@ -50,6 +55,7 @@ public class CourierController {
         // Add donations to the model
         model.addAttribute("allDonations", allDonations);
         model.addAttribute("assignedDonations", assignedDonations);
+        model.addAttribute("completedAssignments", completedAssignments);
         String name =userRoleService.getRole(request);
         model.addAttribute("role", name);
         model.addAttribute("userID", cookieHandler.getUserFromSession(request).getId());

@@ -40,6 +40,8 @@ public class UserController {
     SessionRepository sessionRepository;
     @Autowired
     private EventRegistrationService eventRegistrationService;
+    @Autowired
+    private DonationService donationService;
 
     private SingletonLogger logger=SingletonLogger.getInstance(SingletonLogger.FileFormat.PLAIN_TEXT);
 
@@ -111,42 +113,23 @@ public class UserController {
 
     @GetMapping("/donations/{id}")
     public String getDonations(@PathVariable Long id, Model model) {
-        DonationService donationService = new DonationService();
         User user = userService.getUser(id);
         if (user == null) {
             model.addAttribute("errorMessage", "User not found");
             return "error";
         }
-        // Mock data for donations
-
-        Donation donation1 = new Donation();
-        donation1.setUser(user);
-        donation1.setDate(new Date()); // Current date
-        donation1.setTime(new Time(System.currentTimeMillis()));
-        donation1.setStatus(DonationStatus.COMPLETED);
-        donation1.setDonationTotalPrice(250.00);
-
-        // Donation 2
-        Donation donation2 = new Donation();
-        donation2.setUser(user);
-        donation2.setDate(new Date(System.currentTimeMillis() - 86400000L)); // Yesterday
-        donation2.setTime(new Time(System.currentTimeMillis() - 86400000L));
-        donation2.setStatus(DonationStatus.PENDING);
-        donation2.setDonationTotalPrice(500.00);
-        // Donation 3
-        Donation donation3 = new Donation();
-        donation3.setUser(user);
-        donation3.setDate(new Date(System.currentTimeMillis() - 2 * 86400000L)); // Two days ago
-        donation3.setTime(new Time(System.currentTimeMillis() - 2 * 86400000L));
-        donation3.setStatus(DonationStatus.CANCELLED);
-        donation3.setDonationTotalPrice(100.00);
-        List<Donation> donations = new ArrayList<>() {{
-            add(donation1);
-            add(donation2);
-            add(donation3);
-        }};
+        List<Donation> donations = donationService.getDonationsByUserId(id);
         model.addAttribute("donations", donations);
         return "donations-list";
+    }
+
+    @PostMapping("/donations/cancel/{id}")
+    public String cancelDonation(@PathVariable Long id, Model model, HttpServletRequest request) {
+        Donation donation = donationService.getDonation(id);
+        donation.cancelDonation();
+        donationService.updateDonationStatus(id,donation.getDonationStatusClassName());
+        User user= cookieHandler.getUserFromSession(request);
+        return "redirect:/user/donations/" + user.getId();
     }
 
 //    @PostMapping("/register/{eventID}")

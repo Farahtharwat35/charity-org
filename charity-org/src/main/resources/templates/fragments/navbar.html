@@ -57,7 +57,7 @@
                         <a th:href="@{/courier/dashboard}" class="btn btn-primary me-3">Courier Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/user/donations/{id}(id=1)}" class="btn btn-primary me-3">My Donations</a>
+                        <a th:href="@{/user/donations/{id}(id=${userID})}" class="btn btn-primary me-3">My Donations</a>
                     </li>
                     <li class="nav-item">
                         <a th:href="@{/user/events/{id}(id=${userID})}" class="btn btn-primary me-3">My Events</a>

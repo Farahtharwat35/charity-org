@@ -20,6 +20,6 @@ public class CourierService {
     }
 
     public List<Assigments> getMyAssigments(User user) {
-        return assigmentRepository.getAllByCourier(1);
+        return assigmentRepository.getAllByCourier(user.getId());
     }
 }

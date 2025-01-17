@@ -66,6 +66,7 @@ public class Donation extends BaseEntity {
 
  public void addTodonationDetials (DonationDetails d){
   this.donationDetails.add(d);
+  this.donationTotalPrice += d.getSubTotalPrice();
  }
  public Donation(){
   this.donationDetails = new ArrayList<DonationDetails>();
