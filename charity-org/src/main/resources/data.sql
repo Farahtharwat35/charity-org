@@ -39,7 +39,15 @@ INSERT INTO User_Role (is_Deleted,user_id,role_id) VALUES
                                                        (FALSE, 1, 3);
 
 
-
+INSERT INTO currencies (code, name) VALUES
+                                        ('EGP', 'Egyptian Pound'),
+                                        ('USD', 'US Dollar'),
+                                        ('EUR', 'Euro'),
+                                        ('GBP', 'British Pound'),
+                                        ('JPY', 'Japanese Yen'),
+                                        ('CNY', 'Chinese Yuan'),
+                                        ('SAR', 'Saudi Riyal'),
+                                        ('AED', 'UAE Dirham');
 
 -- -- Insert Dummy Assignments
 -- INSERT INTO assigments (donation_id, courier_id) VALUES

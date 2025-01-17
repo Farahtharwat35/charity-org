@@ -70,7 +70,7 @@ public class DonationTypesController {
 
         // Create MoneyDonation object
         MoneyDonnation moneyDonnation = new MoneyDonnation();
-        moneyDonnation.setCurrency(currency);
+//        moneyDonnation.setCurrency(currency);
         moneyDonnation.setContact_info(contactInfo);
         moneyDonnation.setSpecial_instructions(specialInstructions);
         moneyDonnation.setHasCost(true);
