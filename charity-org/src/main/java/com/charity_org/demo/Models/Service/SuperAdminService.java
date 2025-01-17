@@ -32,8 +32,6 @@ public class SuperAdminService {
         return user;
 
     }
-<<<<<<< Updated upstream
-=======
 
     public User createSuperAdmin(User user){
         SuperAdminDecorator superAdminDecorator = new SuperAdminDecorator(user, roleService, userRoleService);
@@ -41,7 +39,6 @@ public class SuperAdminService {
         return user;
     }
 
->>>>>>> Stashed changes
     public User createCourier(User user) {
         CourierDecorator courierDecorator = new CourierDecorator(user, roleService, userRoleService);
         courierDecorator.applyRole();
