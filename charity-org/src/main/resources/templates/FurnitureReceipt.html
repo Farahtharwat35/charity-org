@@ -1,57 +1,83 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Furniture Donation Receipt</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Donation Receipt</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            background-color: #e9ecef;
+            padding: 30px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #f9f9f9;
             max-width: 600px;
+            margin: auto;
         }
-        h1 {
+
+        .header {
             text-align: center;
-            color: #333;
+            margin-bottom: 30px;
         }
-        p {
-            font-size: 16px;
-            line-height: 1.5;
-            margin: 10px 0;
+
+        .header h3 {
+            color: #007bff;
         }
-        .highlight {
+
+        .receipt-details {
+            line-height: 1.6;
+        }
+
+        .total {
+            font-size: 18px;
             font-weight: bold;
-            color: #555;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            color: #666;
         }
     </style>
 </head>
 <body>
-<center>
-<h1>Furniture Donation Receipt</h1>
+<div class="container">
+    <div class="header">
+        <h3>Furniture Donation Receipt</h3>
+        <p>Thank you for your generous contribution!</p>
+    </div>
 
-<p><strong>Donor Name:</strong> <span th:text="${user.name}">John Doe</span></p>
-<p><strong>Email:</strong> <span th:text="${user.email}">johndoe@example.com</span></p>
+    <div class="receipt-details">
+        <p><strong>Donor Name:</strong> <span th:text="${user.name}">John Doe</span></p>
+        <p><strong>Donation Type:</strong> <span> Furniture</span></p>
+        <p><strong>Type:</strong> <span th:text="${furnitureDonnation.FurnitureType}"></span></p>
+        <p><strong>Condition:</strong> <span th:text="${furnitureDonnation.condition}">Good</span></p>
+        <p><strong>Weight:</strong> <span th:text="${#numbers.formatDecimal(furnitureDonnation.weight, 0, 2)}">15.50</span> kg</p>
+    </div>
 
-<hr>
+    <div class="total">
+        <p>Total Amount: <span th:text="${#numbers.formatDecimal(donationDetails.subTotalPrice, 0, 2)}">100</span></p>
+    </div>
 
-<p><strong>Donation Date:</strong> <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">2025-01-16</span></p>
+    <div class="footer">
+        <p>This receipt is generated for your record. Please keep it safe.</p>
+    </div>
 
-<h2>Furniture Details</h2>
-<p><strong>Type:</strong> <span th:text="${furnitureDonnation.FurnitureType}">Chair</span></p>
-<p><strong>Condition:</strong> <span th:text="${furnitureDonnation.condition}">Good</span></p>
-<p><strong>Weight:</strong> <span th:text="${#numbers.formatDecimal(furnitureDonnation.weight, 0, 2)}">15.50</span> kg</p>
-
-<h2>Additional Information</h2>
-<p><strong>Total Value:</strong> <span th:text="${#numbers.formatDecimal(donationDetails.subTotalPrice, 0, 2)}">100.00</span> USD</p>
-<p>Thank you for your generous donation! Your contribution helps us support those in need.</p>
-
-<hr>
-<p style="text-align: center;">Charity Organization © 2025</p>
     <button type="button" onclick="window.location.href='/donation-types/'" class="btn btn-primary">
         Back
     </button>
-</center>
+</div>
 </body>
 </html>

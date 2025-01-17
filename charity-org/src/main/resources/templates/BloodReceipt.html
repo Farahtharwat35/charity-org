@@ -1,25 +1,78 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Blood Donation Receipt</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Donation Receipt</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9ecef;
+            padding: 30px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h3 {
+            color: #007bff;
+        }
+
+        .receipt-details {
+            line-height: 1.6;
+        }
+
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-<h1>Blood Donation Receipt</h1>
+<div class="container">
+    <div class="header">
+        <h3>Blood Donation Receipt</h3>
+        <p>Thank you for your generous contribution!</p>
+    </div>
 
-<p><strong>Donator Age:</strong> <span th:text="${bloodDonnation.donatorAge}">30</span></p>
-<p><strong>Blood Type:</strong> <span th:text="${bloodDonnation.bloodType}">O_POSITIVE</span></p>
-<p><strong>Amount Donated (in Liters):</strong> <span th:text="${bloodDonnation.bloodAmount}">0.5</span></p>
+    <div class="receipt-details">
+        <p><strong>Donator Age:</strong> <span th:text="${bloodDonnation.donatorAge}">30</span></p>
+        <p><strong>Blood Type:</strong> <span th:text="${bloodDonnation.bloodType}">O_POSITIVE</span></p>
+        <p><strong>Amount Donated (in Liters):</strong> <span th:text="${bloodDonnation.bloodAmount}">0.5</span></p>
+    </div>
 
-<hr>
+    <div class="total">
+        <p><strong>Total Blood Donated:</strong> <span th:text="${bloodDonnation.bloodAmount}">0.5</span> Liters</p>
+    </div>
 
-<div class="total">
-    <p><strong>Total Blood Donated:</strong> <span th:text="${bloodDonnation.bloodAmount}">0.5</span> Liters</p>
-</div>
+    <div class="footer">
+        <p>This receipt is generated for your record. Please keep it safe.</p>
+    </div>
 
-<!-- Optional: Show additional details or thank you note -->
-
-<div>
-    <p><strong>Thank you for your generous donation!</strong></p>
     <button type="button" onclick="window.location.href='/donation-types/'" class="btn btn-primary">
         Back
     </button>
