@@ -1,16 +1,24 @@
 package com.charity_org.demo.Models.Service;
-import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Models.Model.Address;
+import com.charity_org.demo.Models.Model.Role;
 import com.charity_org.demo.Models.Model.User;
+import com.charity_org.demo.Models.Model.UserRole;
 import com.charity_org.demo.Models.Repository.AddressRepository;
 import com.charity_org.demo.Models.Repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
@@ -18,11 +26,24 @@ public class UserService {
     private AddressService addressService;
 
     public User save(String name, String email, String password, Address fullAddress, int age) {
-        // Save the address and get the saved Address object
         Address address = addressService.save(fullAddress);
         User user = userRepository.save(new User(name, email, password, age, address));
-//        user.applyRoles();
         return user;
+    }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.getUserByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
+        return new org.springframework.security.core.userdetails.User(
+                user.getName(), user.getPassword(), getAuthorities(user.getRoles()));
+    }
+
+    private Set<GrantedAuthority> getAuthorities(Set<UserRole> roles) {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole().getName()))
+                .collect(Collectors.toSet());
     }
 
     public User getUser(long id) {
@@ -33,15 +54,11 @@ public class UserService {
         return userRepository.getUserByEmail(email);
     }
 
-    public User getUserByEmailAndPassword(String email, String password) {
-        return userRepository.getUserByEmailAndPassword(email, password);
-    }
-
-    public void updateUserdata(User user) {
-        userRepository.updateUserData(user.getId(), user);
-        userRepository.save(user);
+    public boolean updateUserdata(User user) {
+        return userRepository.updateUserData(user.getId(), user) == 1;
     }
 
     public boolean deleteUser(long id) {
         return userRepository.deleteUser(id) > 0 ;
-    }}
+    }
+}

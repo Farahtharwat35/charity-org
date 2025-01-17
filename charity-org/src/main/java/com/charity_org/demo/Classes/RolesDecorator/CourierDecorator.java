@@ -20,7 +20,7 @@ public class CourierDecorator extends RolesDecoratorr{
     public Set<UserRole> applyRole() {
         User user = (User) this.decoratedRole;
         Set<UserRole> roles = user.getRoles();
-        UserRole role = userRoleService.createUserRole(user,roleService.getRoleByName("ROLE_COURIER"));
+        UserRole role = userRoleService.createUserRole(user,roleService.getRoleByName("COURIER"));
         roles.add(role);
         return roles;
     }

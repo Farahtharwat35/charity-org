@@ -32,12 +32,23 @@ public class SuperAdminService {
         return user;
 
     }
+<<<<<<< Updated upstream
+=======
+
+    public User createSuperAdmin(User user){
+        SuperAdminDecorator superAdminDecorator = new SuperAdminDecorator(user, roleService, userRoleService);
+        superAdminDecorator.applyRole();
+        return user;
+    }
+
+>>>>>>> Stashed changes
     public User createCourier(User user) {
         CourierDecorator courierDecorator = new CourierDecorator(user, roleService, userRoleService);
         courierDecorator.applyRole();
         return user;
 
     }
+
     public List<User> getAdmins() {
         Role adminRole = roleService.getRoleByName("ROLE_ADMIN");
         List<UserRole> admins = userRoleService.getUsersByRole(adminRole);

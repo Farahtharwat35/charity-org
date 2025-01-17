@@ -28,8 +28,10 @@ public class SuperAdmin {
     private UserService userService;
     @Autowired
     CookieHandler cookieHandler;
+
     @Autowired
     UserRoleService userRoleService;
+
     @GetMapping("/dashboard")
     public String showDashboard(HttpServletRequest request,Model model) {
         model.addAttribute("user", new User()); // Add User object for form binding
@@ -41,12 +43,6 @@ public class SuperAdmin {
         model.addAttribute("userID", user.getId());
         return "superadmin_dashboard"; // Main dashboard view
     }
-
-//    @GetMapping("/createAdminUser")
-//    public String createAdminView(Model model) {
-//        model.addAttribute("user", new User());
-//        return "createAdminView"; // Admin creation form view
-//    }
 
     @PostMapping("/createAdminUser")
     public String createAdminUser(

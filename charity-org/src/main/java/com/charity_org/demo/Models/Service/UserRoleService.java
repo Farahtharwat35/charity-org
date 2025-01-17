@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.charity_org.demo.Models.Model.User;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -23,6 +24,7 @@ public class UserRoleService {
     public UserRoleRepository userRoleRepository;
 
     public UserRole createUserRole(User user, Role role){
+
        return userRoleRepository.save(new UserRole(user, role));
     }
 
@@ -35,16 +37,17 @@ public class UserRoleService {
     }
 
     int deleteAdmin(long adminId){
-        return userRoleRepository.deleteUserRoleByUserIdAndRole(adminId, "ROLE_ADMIN");
+        return userRoleRepository.deleteUserRoleByUserIdAndRole(adminId, "ADMIN");
     }
 
     int deleteCourier(long courierId){
-        return userRoleRepository.deleteUserRoleByUserIdAndRole(courierId, "ROLE_COURIER");
+        return userRoleRepository.deleteUserRoleByUserIdAndRole(courierId, "COURIER");
     }
 
     public String getRole(HttpServletRequest request){
         User user= cookieHandler.getUserFromSession(request);
         Long roleID= getHighestRoleByUser(user);
-        return roleService.getRoleById(roleID);}
+        return roleService.getRoleById(roleID);
+    }
 
 }
