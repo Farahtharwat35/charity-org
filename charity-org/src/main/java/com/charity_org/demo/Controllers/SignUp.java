@@ -3,6 +3,7 @@ import com.charity_org.demo.DTO.SignUpRequest;
 import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Models.Model.UserRole;
+import com.charity_org.demo.Models.Repository.UserRepository;
 import com.charity_org.demo.Models.Service.AddressService;
 import com.charity_org.demo.Models.Service.RoleService;
 import com.charity_org.demo.Models.Service.UserRoleService;
@@ -35,6 +36,8 @@ public class SignUp {
 
     @Autowired
     UserRoleService userRoleService;
+    @Autowired
+    private UserRepository userRepository;
 
     // Serve the signup form
     @GetMapping("/signup")
@@ -84,9 +87,9 @@ public class SignUp {
         );
 
         Set<UserRole> userRoles  = new HashSet<>();
-        userRoles.add(userRoleService.createUserRole(user, roleService.getRoleByName("ROLE_USER")));
-        user.setRoles(userRoles);
-
+        userRoles.add(userRoleService.createUserRole(user, roleService.getRoleByName("USER")));
+        user.getRoles().addAll(userRoles);
+        userRepository.save(user);
         redirectAttributes.addFlashAttribute("signupRequest", signupRequest);
         return "redirect:/auth/login";
     }

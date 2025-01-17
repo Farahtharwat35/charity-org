@@ -81,10 +81,12 @@ public class Login {
         String sessionId = UUID.randomUUID().toString();
         logger.log(SingletonLogger.LogLevel.INFO, "Authentication successful. Generated session ID: {}", sessionId);
 
-        // Set the session cookie
         cookieHandler.setCookie("SESSION_ID", sessionId, 3600, response, request, "/", user.getId());
         logger.log(SingletonLogger.LogLevel.INFO, "Session cookie set successfully for user: {}", loginRequest.getEmail());
         model.addAttribute("success", "Authenticated with " + provider + " successfully.");
+
+        userService.loadUserByUsername(loginRequest.getEmail());
+
         return "redirect:/home/";
 
     }

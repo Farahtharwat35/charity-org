@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
-@Component
+
 public class AdminDecorator extends RolesDecoratorr {
 
     private RoleService roleService;
@@ -24,7 +24,7 @@ public class AdminDecorator extends RolesDecoratorr {
     public Set<UserRole> applyRole() {
         User user = (User) this.decoratedRole;
         Set<UserRole> roles = user.getRoles();
-        UserRole role = userRoleService.createUserRole(user,roleService.getRoleByName("ROLE_ADMIN"));
+        UserRole role = userRoleService.createUserRole(user,roleService.getRoleByName("ADMIN"));
         roles.add(role);
         return roles;
     }

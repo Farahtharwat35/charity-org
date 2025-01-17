@@ -3,12 +3,12 @@ import com.charity_org.demo.Models.Model.User;
 import com.charity_org.demo.Models.Model.UserRole;
 import com.charity_org.demo.Models.Service.RoleService;
 import com.charity_org.demo.Models.Service.UserRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import java.util.Set;
 
-@Component
+
+
 public class SuperAdminDecorator extends RolesDecoratorr {
+
     private IRole decoratedRole;
 
     RoleService roleService;
@@ -25,7 +25,7 @@ public class SuperAdminDecorator extends RolesDecoratorr {
     public Set<UserRole> applyRole() {
         User user = (User) this.decoratedRole;
         Set<UserRole> roles = user.getRoles();
-        UserRole superAdminRole = userRoleService.createUserRole(user,roleService.getRoleByName("ROLE_SUPERADMIN"));
+        UserRole superAdminRole = userRoleService.createUserRole(user,roleService.getRoleByName("SUPERADMIN"));
         roles.add(superAdminRole);
         return roles;
     }

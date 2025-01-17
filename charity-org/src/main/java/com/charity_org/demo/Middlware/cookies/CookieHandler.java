@@ -5,7 +5,9 @@ import com.charity_org.demo.Models.Model.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Arrays;
@@ -60,6 +62,7 @@ public class CookieHandler {
     }
 
 
+    @Transactional
     public void setCookie(String cookieName, String cookieValue, int maxAge, HttpServletResponse response, HttpServletRequest request, String url, Long userId) {
         if (url.isEmpty()) {
             url = request.getRequestURL().toString();
@@ -80,6 +83,7 @@ public class CookieHandler {
                 .build());
     }
 
+    @Transactional
     public void removeCookie(String cookieName, HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
