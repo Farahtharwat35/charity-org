@@ -1,6 +1,7 @@
 package com.charity_org.demo.Controllers;
 
 import com.charity_org.demo.Enums.*;
+import com.charity_org.demo.Enums.FurnitureType;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Middlware.cookies.SessionRepository;
 import com.charity_org.demo.Models.Model.*;
@@ -196,7 +197,7 @@ public class DonationTypesController {
             HttpServletRequest request) {
 
         FurnitureDonnation furnitureDonation = new FurnitureDonnation();
-        furnitureDonation.setFurnitureType(furnitureType);
+//        furnitureDonation.setFurnitureType(furnitureType);
         furnitureDonation.setWeight(weight);
         furnitureDonation.setCondition(condition);
         furnitureDonation.setContact_info(contactInfo);

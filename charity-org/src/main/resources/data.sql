@@ -48,7 +48,17 @@ INSERT INTO currencies (code, name) VALUES
                                         ('CNY', 'Chinese Yuan'),
                                         ('SAR', 'Saudi Riyal'),
                                         ('AED', 'UAE Dirham');
-
+INSERT INTO furniture_types (name, description) VALUES
+                                                    ('CHAIR', 'Standard chair'),
+                                                    ('TABLE', 'Dining or work table'),
+                                                    ('SOFA', 'Living room sofa'),
+                                                    ('BED', 'Bedroom bed'),
+                                                    ('DESK', 'Work desk'),
+                                                    ('CABINET', 'Storage cabinet'),
+                                                    ('SHELF', 'Wall shelf'),
+                                                    ('DRESSER', 'Bedroom dresser'),
+                                                    ('COFFEE_TABLE', 'Living room coffee table'),
+                                                    ('ARMCHAIR', 'Comfortable armchair');
 -- -- Insert Dummy Assignments
 -- INSERT INTO assigments (donation_id, courier_id) VALUES
 --                                                          (1, 3), -- Courier Mike is assigned to Donation 1

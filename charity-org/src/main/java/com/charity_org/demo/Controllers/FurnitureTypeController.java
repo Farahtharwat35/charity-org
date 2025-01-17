@@ -4,16 +4,13 @@ import com.charity_org.demo.Classes.State.CompletedDonation;
 import com.charity_org.demo.Classes.State.PendingDonation;
 import com.charity_org.demo.Enums.DonationStatus;
 import com.charity_org.demo.Enums.FurnitureCondition;
-import com.charity_org.demo.Enums.FurnitureType;
+import com.charity_org.demo.Models.Model.FurnitureType;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import com.charity_org.demo.Models.Model.Donation;
 import com.charity_org.demo.Models.Model.DonationDetails;
 import com.charity_org.demo.Models.Model.FurnitureDonnation;
 import com.charity_org.demo.Models.Model.User;
-import com.charity_org.demo.Models.Service.DonationDetailsService;
-import com.charity_org.demo.Models.Service.DonationService;
-import com.charity_org.demo.Models.Service.DonationTypeService;
-import com.charity_org.demo.Models.Service.FurnitureTruckFees;
+import com.charity_org.demo.Models.Service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,22 +37,23 @@ public class FurnitureTypeController {
     @Autowired
     DonationService donationService;
 
+    @Autowired
+    private FurnitureTypeService furnitureTypeService;
     FurnitureDonnation myFurnitureDonation;
     DonationDetails newdonationDetails;
     // Mapping for showing the furniture donation form
     @GetMapping({"", "/"})
     public String showFurnitureDonationForm(Model model) {
-        // Create a new FurnitureDonation object to bind to the form
         model.addAttribute("furnitureDonation", new FurnitureDonnation());
 
-        // Add the enums to the model so Thymeleaf can render them in the dropdowns
-        List<FurnitureType> furnitureTypes = Arrays.asList(FurnitureType.values());
+        // Get furniture types from database
+        List<FurnitureType> furnitureTypes = furnitureTypeService.getAllFurnitureTypes();
         List<FurnitureCondition> furnitureConditions = Arrays.asList(FurnitureCondition.values());
 
         model.addAttribute("furnitureTypes", furnitureTypes);
         model.addAttribute("furnitureConditions", furnitureConditions);
 
-        return "FurnitureDonationView";  // Return the view name (furnitureDonationForm.html)
+        return "FurnitureDonationView";
     }
 
     // Handle the form submission for furniture donation
