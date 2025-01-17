@@ -8,13 +8,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import java.util.Set;
 
-<<<<<<< Updated upstream
-@Component
-public class SuperAdminDecorator extends RolesDecoratorr {
-=======
+
 
 public class SuperAdminDecorator implements IRole {
->>>>>>> Stashed changes
+
     private IRole decoratedRole;
 
     RoleService roleService;
