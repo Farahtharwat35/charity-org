@@ -60,11 +60,19 @@
     </div>
 
     <div class="receipt-details">
-        <p><strong>Donor Name:</strong> <span th:text="${user.name}">John Doe</span></p>
-        <p><strong>Donation Type:</strong> <span> Furniture</span></p>
-        <p><strong>Type:</strong> <span th:text="${furnitureDonnation.FurnitureType}"></span></p>
-        <p><strong>Condition:</strong> <span th:text="${furnitureDonnation.condition}">Good</span></p>
-        <p><strong>Weight:</strong> <span th:text="${#numbers.formatDecimal(furnitureDonnation.weight, 0, 2)}">15.50</span> kg</p>
+        <p><strong>Donor Name:</strong>
+            <span th:text="${user != null ? user.name : 'Anonymous Donor'}">John Doe</span>
+        </p>
+        <p><strong>Donation Type:</strong> <span>Furniture</span></p>
+        <p><strong>Type:</strong>
+            <span th:text="${furnitureDonnation.furnitureType.name}"></span>
+        </p>
+        <p><strong>Condition:</strong>
+            <span th:text="${furnitureDonnation.condition}">Good</span>
+        </p>
+        <p><strong>Weight:</strong>
+            <span th:text="${#numbers.formatDecimal(furnitureDonnation.weight, 0, 2)}">15.50</span> kg
+        </p>
     </div>
 
     <div class="total">

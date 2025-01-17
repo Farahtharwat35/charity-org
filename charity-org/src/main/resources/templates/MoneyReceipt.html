@@ -60,15 +60,24 @@
   </div>
 
   <div class="receipt-details">
-    <p><strong>Donor Name:</strong> <span th:text="${user.name}">John Doe</span></p>
-    <p><strong>Donation Type:</strong> <span> Money</span></p>
+    <!-- Only show user section if user exists -->
+    <p><strong>Donor Name:</strong>
+      <span th:text="${user != null ? user.name : 'Anonymous Donor'}">John Doe</span>
+    </p>
+    <p><strong>Donation Type:</strong> <span>Money</span></p>
     <p><strong>Amount Donated:</strong> <span th:text="${donationDetails.donationType.cost}">100</span></p>
+    <p><strong>Currency:</strong>
+      <span th:text="${donationDetails.donationType.currency.code}">USD</span>
+    </p>
     <p><strong>Donation Date:</strong> <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">2025-01-16</span></p>
     <p><strong>Invoice Description:</strong> <span th:text="${donationDetails.donation_invoice_Description}">Charitable Contribution</span></p>
   </div>
 
   <div class="total">
-    <p>Total Amount: <span th:text="${#numbers.formatDecimal(donationDetails.subTotalPrice, 0, 2)}">100</span> <span th:text="${donationDetails.donationType.currency}">USD</span></p>
+    <p>Total Amount:
+      <span th:text="${#numbers.formatDecimal(donationDetails.subTotalPrice, 0, 2)}">100</span>
+      <span th:text="${donationDetails.donationType.currency.code}">USD</span>
+    </p>
   </div>
 
   <div class="footer">

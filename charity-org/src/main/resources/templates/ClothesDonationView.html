@@ -114,8 +114,10 @@
             <label for="clothingType">Clothing Type:</label>
             <select id="clothingType" th:field="*{clothingType}" class="form-control" required>
                 <option value="" disabled selected>Select Clothing Type</option>
-                <!-- Loop over ClothingType enum values and display them -->
-                <option th:each="type : ${clothingTypes}" th:value="${type.name()}" th:text="${type.name()}"></option>
+                <option th:each="type : ${clothingTypes}"
+                        th:value="${type.id}"
+                        th:text="${type.name}">
+                </option>
             </select>
         </div>
 

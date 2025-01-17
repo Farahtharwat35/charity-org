@@ -125,8 +125,10 @@
             <label for="furnitureType">Furniture Type:</label>
             <select id="furnitureType" th:field="*{furnitureType}" class="form-control" required>
                 <option value="" disabled selected>Select Furniture Type</option>
-                <!-- Loop over FurnitureType enum values and display them -->
-                <option th:each="type : ${furnitureTypes}" th:value="${type.name()}" th:text="${type.name()}"></option>
+                <option th:each="type : ${furnitureTypes}"
+                        th:value="${type.id}"
+                        th:text="${type.name}">
+                </option>
             </select>
         </div>
 
