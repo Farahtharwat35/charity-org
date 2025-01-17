@@ -8,6 +8,9 @@ import com.charity_org.demo.Models.Service.UserService;
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,9 +51,7 @@ public class Login {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-
         logger.log(SingletonLogger.LogLevel.INFO, "Login attempt started with provider: {}", provider);
-
 
         LoginStrategyInterface loginStrategy = loginStrategies.get(provider.toLowerCase());
 
@@ -72,23 +73,26 @@ public class Login {
 
         User user = (User) result.get("user");
 
-
         logger.log(SingletonLogger.LogLevel.INFO, "User found with email: {}", loginRequest.getEmail());
-
 
         logger.log(SingletonLogger.LogLevel.INFO, "Password verification successful for user: {}", loginRequest.getEmail());
 
+        // Create session ID
         String sessionId = UUID.randomUUID().toString();
         logger.log(SingletonLogger.LogLevel.INFO, "Authentication successful. Generated session ID: {}", sessionId);
 
+        // Set session cookie
         cookieHandler.setCookie("SESSION_ID", sessionId, 3600, response, request, "/", user.getId());
         logger.log(SingletonLogger.LogLevel.INFO, "Session cookie set successfully for user: {}", loginRequest.getEmail());
-        model.addAttribute("success", "Authenticated with " + provider + " successfully.");
 
         userService.loadUserByUsername(loginRequest.getEmail());
+        // Authenticate user and set SecurityContext
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, userService.getAuthorities(user.getRoles()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        model.addAttribute("success", "Authenticated with " + provider + " successfully.");
 
         return "redirect:/home/";
-
     }
 
     @GetMapping("/logout")

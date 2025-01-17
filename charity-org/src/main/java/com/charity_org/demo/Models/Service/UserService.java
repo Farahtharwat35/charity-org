@@ -1,4 +1,5 @@
 package com.charity_org.demo.Models.Service;
+import com.charity_org.demo.Config.SecurityConfig;
 import com.charity_org.demo.Models.Model.Address;
 import com.charity_org.demo.Models.Model.Role;
 import com.charity_org.demo.Models.Model.User;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
@@ -24,6 +26,7 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private AddressService addressService;
+
 
     public User save(String name, String email, String password, Address fullAddress, int age) {
         Address address = addressService.save(fullAddress);
@@ -36,11 +39,13 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
+        Logger logger = Logger.getLogger(SecurityConfig.class.getName());
+        logger.info("Granted Authorities: {}" + getAuthorities(user.getRoles()));
         return new org.springframework.security.core.userdetails.User(
                 user.getName(), user.getPassword(), getAuthorities(user.getRoles()));
     }
 
-    private Set<GrantedAuthority> getAuthorities(Set<UserRole> roles) {
+    public Set<GrantedAuthority> getAuthorities(Set<UserRole> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole().getName()))
                 .collect(Collectors.toSet());

@@ -57,6 +57,11 @@
                                 <div class="invalid-feedback">Please enter a valid email.</div>
                             </div>
                             <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" id="username" name="username" class="form-control" required>
+                                <div class="invalid-feedback">Please enter your username.</div>
+                            </div>
+                            <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" id="password" name="password" class="form-control"
                                        th:value="${loginRequest.password}" required>

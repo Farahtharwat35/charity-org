@@ -20,7 +20,7 @@ public class Address extends BaseEntity {
     @JsonBackReference // Prevents serialization of the parent
     private Address parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent" , fetch = FetchType.EAGER)
     @JsonManagedReference // Serializes only the children
     private List<Address> children;
 }
