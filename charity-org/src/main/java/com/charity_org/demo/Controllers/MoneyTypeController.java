@@ -1,6 +1,7 @@
 package com.charity_org.demo.Controllers;
 
 
+import com.charity_org.demo.Classes.State.PendingDonation;
 import com.charity_org.demo.Enums.Currencies;
 
 import com.charity_org.demo.Middlware.cookies.CookieHandler;
@@ -78,6 +79,7 @@ public class MoneyTypeController {
         if(newdonationDetails != null) {
             //here put the condition
             Donation donation = new Donation();
+            donation.setDonationStatus(new PendingDonation());
             User currentUser = cookieHandler.getUserFromSession(request);
             donation.setUser(currentUser);
             donation.addTodonationDetials(donationDetailsService.saveDonationDetails(newdonationDetails));

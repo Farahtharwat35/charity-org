@@ -26,9 +26,9 @@ public class DonationService {
     public List<Donation> getDonationsByUserId(long userId){
         return donationRepository.getDonationsByUserId(userId);
     }
-
-    public void updateDonationStatus(Long id, DonationStatus status) {
-        donationRepository.updateDonationStatusById(id, status);
+//
+    public void updateDonationStatus(Long id, String donationStatusClassName) {
+        donationRepository.updateDonationStatusById(id, donationStatusClassName);
     }
 
     public List<Donation> getAllPendingDonations() {

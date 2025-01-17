@@ -43,6 +43,7 @@
         <p><strong>Time:</strong> <span th:text="${donation.time}"></span></p>
         <p><strong>Status:</strong> <span th:text="${donation.status}"></span></p>
         <p><strong>Total Price:</strong> <span th:text="${donation.donationTotalPrice}"></span></p>
+        <p><strong>Total Price:</strong> <span th:text="${donation.displayDonationStatus()}"></span></p>
     </div>
 
     <div class="btn-container text-center">
